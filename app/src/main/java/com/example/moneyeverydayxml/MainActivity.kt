@@ -58,8 +58,9 @@ class MainActivity : AppCompatActivity() {
         monthSummary.text = sumCalculate.toString()
 
         val sharedPrefSavings = getSharedPreferences(SAVINGS_CLASS_SAVE_KEY, MODE_PRIVATE)
-        savings = readSavingsBySharedPref(sharedPrefSavings)
-
+        if (readSavingsBySharedPref(sharedPrefSavings) != null) {
+            savings = readSavingsBySharedPref(sharedPrefSavings)
+        }
         increaseButton.setOnClickListener {
             val inputToInt = inputField.text.toString().toInt()
             sumCalculate += inputToInt
