@@ -1,15 +1,21 @@
 package com.example.moneyeverydayxml.history
 
 import android.content.SharedPreferences
+import android.icu.util.Calendar
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.moneyeverydayxml.SAVINGS_CLASS_SAVE_KEY
 import com.example.moneyeverydayxml.lastInput
 import com.google.gson.Gson
+import java.util.Date
 
 class Savings {
-    var operationsDates = mutableListOf(5, 5, 5, 5, 5)
+    var operationsDates = mutableListOf("", "", "", "", "")
+    var operationsCounts = mutableListOf("", "", "", "", "")
 
     fun saveOperation() {
-        operationsDates.add(0, lastInput)
+        operationsDates.add(0, Date(Calendar.getInstance().timeInMillis).toString())
+        operationsCounts.add(0, lastInput.toString())
     }
 }
 
