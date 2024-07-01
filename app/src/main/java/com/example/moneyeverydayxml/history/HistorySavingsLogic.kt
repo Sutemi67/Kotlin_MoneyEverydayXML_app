@@ -1,13 +1,26 @@
 package com.example.moneyeverydayxml.history
 
-class Savings {
-    private var index: Int = 0
-    private var operations: Array<Int> = arrayOf(5, 5, 5, 5, 5)
+import android.content.SharedPreferences
+import com.example.moneyeverydayxml.SAVINGS_CLASS_SAVE_KEY
+import com.example.moneyeverydayxml.lastInput
+import com.google.gson.Gson
 
-    fun saveOperation(input: Int) {
-        operations[index] = input
-        index++
+class Savings {
+    var operationsDates = mutableListOf(5, 5, 5, 5, 5)
+
+    fun saveOperation() {
+        operationsDates.add(0, lastInput)
     }
 }
 
+fun saveSavingsBySharedPref(savings: Savings, sharedPreferences: SharedPreferences) {
+    val json = Gson().toJson(savings)
+    sharedPreferences.edit()
+        .putString(SAVINGS_CLASS_SAVE_KEY, json)
+        .apply()
+}
 
+fun readSavingsBySharedPref(sharedPreferences: SharedPreferences): Savings {
+    val json = sharedPreferences.getString(SAVINGS_CLASS_SAVE_KEY, null)
+    return Gson().fromJson(json, Savings::class.java)
+}

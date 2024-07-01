@@ -11,11 +11,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.moneyeverydayxml.history.HistoryActivity
 import com.example.moneyeverydayxml.history.Savings
+import com.example.moneyeverydayxml.history.readSavingsBySharedPref
+import com.example.moneyeverydayxml.history.saveSavingsBySharedPref
 
 const val MONTH_SUMMARY_PREF_KEY = "month_summ_key"
-const val INDEX_SAVE_KEY = "index_save_key"
-var input: Int = 0
-val savings = Savings()
+const val SAVINGS_CLASS_SAVE_KEY = "savings_save_key"
+var lastInput: Int = 0
+
+//var date:Date = TODO()
+var savings = Savings()
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,25 +48,31 @@ class MainActivity : AppCompatActivity() {
         sumCalculate = sharedPrefSum.getInt(MONTH_SUMMARY_PREF_KEY, 0)
         monthSummary.text = sumCalculate.toString()
 
-        val sharedPrefIndex = getSharedPreferences(INDEX_SAVE_KEY, MODE_PRIVATE)
+        val sharedPrefSavings = getSharedPreferences(SAVINGS_CLASS_SAVE_KEY, MODE_PRIVATE)
+        savings = readSavingsBySharedPref(sharedPrefSavings)
 
         increaseButton.setOnClickListener {
-            sumCalculate += inputField.text.toString().toInt()
+            val inputToInt = inputField.text.toString().toInt()
+            sumCalculate += inputToInt
             monthSummary.text = sumCalculate.toString()
-            input = inputField.text.toString().toInt()
-            inputField.setText("")
-            savings.saveOperation(input)
+            lastInput = inputToInt
+            savings.saveOperation()
             sharedPrefSum.edit()
                 .putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate)
                 .apply()
+            saveSavingsBySharedPref(savings, sharedPrefSavings)
+            inputField.setText("")
         }
         decreaseButton.setOnClickListener {
-            sumCalculate -= inputField.text.toString().toInt()
+            val inputToInt = inputField.text.toString().toInt()
+            sumCalculate -= inputToInt
             monthSummary.text = sumCalculate.toString()
-            inputField.setText("0")
+            lastInput = inputToInt
+            savings.saveOperation()
             sharedPrefSum.edit()
                 .putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate)
                 .apply()
+            inputField.setText("0")
         }
         clearButton.setOnClickListener {
             sumCalculate = 0

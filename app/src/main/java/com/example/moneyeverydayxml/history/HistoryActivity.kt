@@ -2,6 +2,7 @@ package com.example.moneyeverydayxml.history
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,6 +25,10 @@ class HistoryActivity : AppCompatActivity() {
         val backButton = findViewById<Button>(R.id.backbutton)
         backButton.setOnClickListener { finish() }
 
+        val date1 = findViewById<TextView>(R.id.date1)
+        date1.text= savings.operationsDates[0].toString()
+        val date2 = findViewById<TextView>(R.id.date2)
+        date2.text= savings.operationsDates[1].toString()
 
     }
 }
