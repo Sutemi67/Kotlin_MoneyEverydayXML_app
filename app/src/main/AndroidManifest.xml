@@ -12,7 +12,7 @@
         android:theme="@style/Theme.MoneyEverydayXML"
         tools:targetApi="31">
         <activity
-            android:name=".HistoryActivity"
+            android:name=".history.HistoryActivity"
             android:exported="false">
         </activity>
         <activity

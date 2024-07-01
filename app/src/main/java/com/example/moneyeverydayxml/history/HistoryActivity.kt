@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml
+package com.example.moneyeverydayxml.history
 
 import android.os.Bundle
 import android.widget.Button
@@ -6,6 +6,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.moneyeverydayxml.R
+import com.example.moneyeverydayxml.savings
 
 class HistoryActivity : AppCompatActivity() {
 
@@ -21,5 +23,7 @@ class HistoryActivity : AppCompatActivity() {
 
         val backButton = findViewById<Button>(R.id.backbutton)
         backButton.setOnClickListener { finish() }
+
+
     }
 }

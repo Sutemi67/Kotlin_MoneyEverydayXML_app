@@ -9,8 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.moneyeverydayxml.history.HistoryActivity
+import com.example.moneyeverydayxml.history.Savings
 
 const val MONTH_SUMMARY_PREF_KEY = "month_summ_key"
+const val INDEX_SAVE_KEY = "index_save_key"
+var input: Int = 0
+val savings = Savings()
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,17 +37,21 @@ class MainActivity : AppCompatActivity() {
         val monthSummary = findViewById<TextView>(R.id.monthSummary)
         var sumCalculate: Int
         var monthByDay: Int
-        var dayFromClear:Int
+        var dayFromClear: Int
+
 
         val sharedPrefSum = getSharedPreferences(MONTH_SUMMARY_PREF_KEY, MODE_PRIVATE)
         sumCalculate = sharedPrefSum.getInt(MONTH_SUMMARY_PREF_KEY, 0)
         monthSummary.text = sumCalculate.toString()
 
+        val sharedPrefIndex = getSharedPreferences(INDEX_SAVE_KEY, MODE_PRIVATE)
 
         increaseButton.setOnClickListener {
             sumCalculate += inputField.text.toString().toInt()
             monthSummary.text = sumCalculate.toString()
+            input = inputField.text.toString().toInt()
             inputField.setText("")
+            savings.saveOperation(input)
             sharedPrefSum.edit()
                 .putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate)
                 .apply()
@@ -65,6 +74,5 @@ class MainActivity : AppCompatActivity() {
         historyButton.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
-
     }
 }
