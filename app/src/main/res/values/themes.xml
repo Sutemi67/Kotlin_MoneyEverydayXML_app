@@ -10,5 +10,17 @@
         <item name="android:gravity">end</item>
     </style>
 
+    <style name="regularTextStyle2">
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="headerTextStyle">
+        <item name="android:textSize">25sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Theme.MoneyEverydayXML" parent="Base.Theme.MoneyEverydayXML" />
 </resources>

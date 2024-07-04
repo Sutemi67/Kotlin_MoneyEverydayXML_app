@@ -13,14 +13,18 @@ import com.example.moneyeverydayxml.history.HistoryActivity
 import com.example.moneyeverydayxml.history.Savings
 import com.example.moneyeverydayxml.history.readSavingsBySharedPref
 import com.example.moneyeverydayxml.history.saveSavingsBySharedPref
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 const val MONTH_SUMMARY_PREF_KEY = "month_summ_key"
+const val DAY_OD_CLEAR_PREF_KEY = "day_of_clear__key"
 const val SAVINGS_CLASS_SAVE_KEY = "savings_save_key"
 var lastInput: Int = 0
 var savings = Savings()
+val current = Calendar.getInstance().timeInMillis
+val formatter = SimpleDateFormat("dd MMMM yyyy: HH mm")
+var dateOfClear: Long = 0
 
-//val current = Calendar.getInstance().timeInMillis
-//val formatter = SimpleDateFormat("dd MMMM yyyy")
 //val daysPass = ((current - setDateOfClear.value) / (1000 * 60 * 60 * 24)) + 1
 
 class MainActivity : AppCompatActivity() {
@@ -41,10 +45,14 @@ class MainActivity : AppCompatActivity() {
         val historyButton = findViewById<Button>(R.id.historyButton)
         val inputField = findViewById<EditText>(R.id.inputCount)
         val monthSummary = findViewById<TextView>(R.id.monthSummary)
+        val today = findViewById<TextView>(R.id.today)
+        val perDay = findViewById<TextView>(R.id.perDay)
+        val daysPassed = findViewById<TextView>(R.id.daysPassed)
         var sumCalculate: Int
         var monthByDay: Int
-        var dayFromClear: Int
 
+        val dateOfClearSave = getSharedPreferences(DAY_OD_CLEAR_PREF_KEY, MODE_PRIVATE)
+        dateOfClear = dateOfClearSave.getInt(DAY_OD_CLEAR_PREF_KEY, 0).toLong()
 
         val sharedPrefSum = getSharedPreferences(MONTH_SUMMARY_PREF_KEY, MODE_PRIVATE)
         sumCalculate = sharedPrefSum.getInt(MONTH_SUMMARY_PREF_KEY, 0)
@@ -54,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         if (sharedPrefSavings != null) {
             savings = readSavingsBySharedPref(sharedPrefSavings)
         }
+
+        today.text = formatter.format(current)
+        val dayFromClear: Int = (((current - dateOfClear) / (1000 * 60 * 60 * 24)) + 1).toInt()
+        daysPassed.text = (dayFromClear).toString()
+
         increaseButton.setOnClickListener {
             val inputToInt = inputField.text.toString().toInt()
             sumCalculate += inputToInt
@@ -76,8 +89,14 @@ class MainActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             sumCalculate = 0
             monthSummary.text = "0"
-            sharedPrefSum.edit().putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate).apply()
+            dateOfClear = current
+            sharedPrefSum.edit()
+                .putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate)
+                .putLong(DAY_OD_CLEAR_PREF_KEY, dateOfClear)
+                .apply()
+
         }
+
         historyButton.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
