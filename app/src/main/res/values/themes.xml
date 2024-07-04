@@ -5,5 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="regularTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">end</item>
+    </style>
+
     <style name="Theme.MoneyEverydayXML" parent="Base.Theme.MoneyEverydayXML" />
 </resources>

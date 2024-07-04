@@ -1,15 +1,11 @@
 package com.example.moneyeverydayxml
 
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
-import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,9 +13,6 @@ import com.example.moneyeverydayxml.history.HistoryActivity
 import com.example.moneyeverydayxml.history.Savings
 import com.example.moneyeverydayxml.history.readSavingsBySharedPref
 import com.example.moneyeverydayxml.history.saveSavingsBySharedPref
-import com.google.type.Date
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 const val MONTH_SUMMARY_PREF_KEY = "month_summ_key"
 const val SAVINGS_CLASS_SAVE_KEY = "savings_save_key"
@@ -58,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         monthSummary.text = sumCalculate.toString()
 
         val sharedPrefSavings = getSharedPreferences(SAVINGS_CLASS_SAVE_KEY, MODE_PRIVATE)
-        if (readSavingsBySharedPref(sharedPrefSavings) != null) {
+        if (sharedPrefSavings != null) {
             savings = readSavingsBySharedPref(sharedPrefSavings)
         }
         increaseButton.setOnClickListener {

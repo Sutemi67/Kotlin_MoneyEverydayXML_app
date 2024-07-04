@@ -2,8 +2,6 @@ package com.example.moneyeverydayxml.history
 
 import android.content.SharedPreferences
 import android.icu.util.Calendar
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.moneyeverydayxml.SAVINGS_CLASS_SAVE_KEY
 import com.example.moneyeverydayxml.lastInput
 import com.google.gson.Gson
@@ -27,6 +25,6 @@ fun saveSavingsBySharedPref(savings: Savings, sharedPreferences: SharedPreferenc
 }
 
 fun readSavingsBySharedPref(sharedPreferences: SharedPreferences): Savings {
-    val json = sharedPreferences.getString(SAVINGS_CLASS_SAVE_KEY, null)
+    val json = sharedPreferences.getString(SAVINGS_CLASS_SAVE_KEY, null) ?: return Savings()
     return Gson().fromJson(json, Savings::class.java)
 }

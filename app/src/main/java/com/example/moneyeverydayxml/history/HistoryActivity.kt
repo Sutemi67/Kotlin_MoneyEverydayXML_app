@@ -31,11 +31,11 @@ class HistoryActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.date4).text = savings.operationsDates[3]
         findViewById<TextView>(R.id.date5).text = savings.operationsDates[4]
 
-        findViewById<TextView>(R.id.count1).text = savings.operationsCounts[0].toString()
-        findViewById<TextView>(R.id.count2).text = savings.operationsCounts[1].toString()
-        findViewById<TextView>(R.id.count3).text = savings.operationsCounts[2].toString()
-        findViewById<TextView>(R.id.count4).text = savings.operationsCounts[3].toString()
-        findViewById<TextView>(R.id.count5).text = savings.operationsCounts[4].toString()
+        findViewById<TextView>(R.id.count1).text = savings.operationsCounts[0]
+        findViewById<TextView>(R.id.count2).text = savings.operationsCounts[1]
+        findViewById<TextView>(R.id.count3).text = savings.operationsCounts[2]
+        findViewById<TextView>(R.id.count4).text = savings.operationsCounts[3]
+        findViewById<TextView>(R.id.count5).text = savings.operationsCounts[4]
 
     }
 }
