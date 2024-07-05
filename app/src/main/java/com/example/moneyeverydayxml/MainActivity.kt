@@ -27,11 +27,10 @@ var savings = Savings()
 val current = Calendar.getInstance().timeInMillis
 val formatter = SimpleDateFormat("dd MMMM yyyy: HH mm")
 var dateOfClear: Long = 0
+var monthByDay: Int = 0
 
 //val d = getDateInstance()
 //val v = getDateTimeInstance()
-var monthByDay: Int = 0
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -115,5 +114,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
     }
-
 }
