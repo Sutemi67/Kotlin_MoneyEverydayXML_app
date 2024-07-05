@@ -42,4 +42,13 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="days_pass">Дней прошло</string>
+    <string name="clear_button">Сброс</string>
+    <string name="minus">вычесть как расходы</string>
+    <string name="history">история операций</string>
+    <string name="plus">прибавить доход</string>
+    <string name="today_is">Сегодня:</string>
+    <string name="result">Результат с даты сброса</string>
+    <string name="per_day">В день:</string>
+    <string name="input_count">введите номинал</string>
 </resources>

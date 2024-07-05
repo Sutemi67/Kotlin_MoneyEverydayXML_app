@@ -13,6 +13,8 @@ import com.example.moneyeverydayxml.history.HistoryActivity
 import com.example.moneyeverydayxml.history.Savings
 import com.example.moneyeverydayxml.history.readSavingsBySharedPref
 import com.example.moneyeverydayxml.history.saveSavingsBySharedPref
+import java.text.DateFormat.getDateInstance
+import java.text.DateFormat.getDateTimeInstance
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -25,6 +27,9 @@ var savings = Savings()
 val current = Calendar.getInstance().timeInMillis
 val formatter = SimpleDateFormat("dd MMMM yyyy: HH mm")
 var dateOfClear: Long = 0
+
+//val d = getDateInstance()
+//val v = getDateTimeInstance()
 var monthByDay: Int = 0
 
 
@@ -50,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         val perDay = findViewById<TextView>(R.id.perDay)
         val daysPassed = findViewById<TextView>(R.id.daysPassed)
         var sumCalculate: Int
-        val dayFromClear: Int
 
 
         val dateOfClearSave = getSharedPreferences(DAY_OF_CLEAR_PREF_KEY, MODE_PRIVATE)
@@ -66,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         today.text = formatter.format(current)
-        dayFromClear = (((current - dateOfClear) / (1000 * 60 * 60 * 24)) + 1).toInt()
+        val dayFromClear: Int = (((current - dateOfClear) / (1000 * 60 * 60 * 24)) + 1).toInt()
         daysPassed.text = (dayFromClear).toString()
 
         monthByDay = sumCalculate / dayFromClear
@@ -104,12 +108,12 @@ class MainActivity : AppCompatActivity() {
             perDay.text = monthByDay.toString()
             summarySave.edit()
                 .putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate)
-                .putLong(DAY_OF_CLEAR_PREF_KEY, dateOfClear)
                 .apply()
-
+            dateOfClearSave.edit().putLong(DAY_OF_CLEAR_PREF_KEY, dateOfClear).apply()
         }
         historyButton.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
     }
+
 }
