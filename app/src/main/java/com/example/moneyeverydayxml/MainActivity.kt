@@ -14,8 +14,6 @@ import com.example.moneyeverydayxml.history.HistoryActivity
 import com.example.moneyeverydayxml.history.Savings
 import com.example.moneyeverydayxml.history.readSavingsBySharedPref
 import com.example.moneyeverydayxml.history.saveSavingsBySharedPref
-import java.text.DateFormat.getDateInstance
-import java.text.DateFormat.getDateTimeInstance
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -35,10 +33,10 @@ var monthByDay: Int = 0
 
 class MainActivity : AppCompatActivity() {
     private lateinit var inputField: EditText
-    private lateinit var monthSummary: TextView
-    private lateinit var perDay: TextView
-    private lateinit var today: TextView
-    private lateinit var daysPassed: TextView
+    private lateinit var monthSummaryView: TextView
+    private lateinit var perDayView: TextView
+    private lateinit var todayView: TextView
+    private lateinit var daysPassedView: TextView
     private lateinit var increaseButton: Button
     private lateinit var decreaseButton: Button
     private lateinit var clearButton: Button
@@ -64,10 +62,10 @@ class MainActivity : AppCompatActivity() {
         clearButton = findViewById(R.id.clearButton)
         historyButton = findViewById(R.id.historyButton)
         inputField = findViewById(R.id.inputCount)
-        monthSummary = findViewById(R.id.monthSummary)
-        today = findViewById(R.id.today)
-        perDay = findViewById(R.id.perDay)
-        daysPassed = findViewById(R.id.daysPassed)
+        monthSummaryView = findViewById(R.id.monthSummary)
+        todayView = findViewById(R.id.today)
+        perDayView = findViewById(R.id.perDay)
+        daysPassedView = findViewById(R.id.daysPassed)
 //        var sumCalculate: Int
 
 
@@ -76,17 +74,17 @@ class MainActivity : AppCompatActivity() {
 
         summarySave = getSharedPreferences(MONTH_SUMMARY_PREF_KEY, MODE_PRIVATE)
         sumCalculate = summarySave.getInt(MONTH_SUMMARY_PREF_KEY, 0)
-        monthSummary.text = sumCalculate.toString()
+        monthSummaryView.text = sumCalculate.toString()
 
         savingsClassSave = getSharedPreferences(SAVINGS_CLASS_SAVE_KEY, MODE_PRIVATE)
         savings = readSavingsBySharedPref(savingsClassSave)
 
-        today.text = formatter.format(current)
+        todayView.text = formatter.format(current)
         dayFromClear = (((current - dateOfClear) / (1000 * 60 * 60 * 24)) + 1).toInt()
-        daysPassed.text = (dayFromClear).toString()
+        daysPassedView.text = (dayFromClear).toString()
 
         monthByDay = sumCalculate / dayFromClear
-        perDay.text = monthByDay.toString()
+        perDayView.text = monthByDay.toString()
 
         increaseButton.setOnClickListener {
             increaseAction()
@@ -96,10 +94,10 @@ class MainActivity : AppCompatActivity() {
         }
         clearButton.setOnClickListener {
             sumCalculate = 0
-            monthSummary.text = "0"
+            monthSummaryView.text = "0"
             dateOfClear = current
             monthByDay = sumCalculate / dayFromClear
-            perDay.text = monthByDay.toString()
+            perDayView.text = monthByDay.toString()
             summarySave.edit().putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate).apply()
             dateOfClearSave.edit().putLong(DAY_OF_CLEAR_PREF_KEY, dateOfClear).apply()
         }
@@ -111,11 +109,11 @@ class MainActivity : AppCompatActivity() {
     private fun decreaseAction() {
         inputToInt = inputField.text.toString().toInt()
         sumCalculate -= inputToInt
-        monthSummary.text = sumCalculate.toString()
+        monthSummaryView.text = sumCalculate.toString()
         lastInput = -inputToInt
         savings.saveOperation()
         monthByDay = sumCalculate / dayFromClear
-        perDay.text = monthByDay.toString()
+        perDayView.text = monthByDay.toString()
         summarySave.edit().putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate).apply()
         saveSavingsBySharedPref(savings, savingsClassSave)
         inputField.setText("")
@@ -124,11 +122,11 @@ class MainActivity : AppCompatActivity() {
     private fun increaseAction() {
         inputToInt = inputField.text.toString().toInt()
         sumCalculate += inputToInt
-        monthSummary.text = sumCalculate.toString()
+        monthSummaryView.text = sumCalculate.toString()
         lastInput = inputToInt
         savings.saveOperation()
         monthByDay = sumCalculate / dayFromClear
-        perDay.text = monthByDay.toString()
+        perDayView.text = monthByDay.toString()
         summarySave.edit().putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate).apply()
         saveSavingsBySharedPref(savings, savingsClassSave)
         inputField.setText("")
