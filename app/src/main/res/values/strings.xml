@@ -51,4 +51,6 @@
     <string name="result">Результат с даты сброса</string>
     <string name="per_day">В день:</string>
     <string name="input_count">введите номинал</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

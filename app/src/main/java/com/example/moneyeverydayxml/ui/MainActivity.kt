@@ -1,28 +1,25 @@
-package com.example.moneyeverydayxml
+package com.example.moneyeverydayxml.ui
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.moneyeverydayxml.data.Repository
 import com.example.moneyeverydayxml.databinding.ActivityMainBinding
-import com.example.moneyeverydayxml.history.HistoryActivity
-import com.example.moneyeverydayxml.history.Savings
-import com.example.moneyeverydayxml.history.readSavingsBySharedPref
-import com.example.moneyeverydayxml.history.saveSavingsBySharedPref
+import com.example.moneyeverydayxml.util.DAY_OF_CLEAR_PREF_KEY
+import com.example.moneyeverydayxml.util.MONTH_SUMMARY_PREF_KEY
+import com.example.moneyeverydayxml.util.SAVINGS_CLASS_SAVE_KEY
+import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
 import java.util.Calendar
-
-const val MONTH_SUMMARY_PREF_KEY = "month_summ_key"
-const val DAY_OF_CLEAR_PREF_KEY = "day_of_clear__key"
-const val SAVINGS_CLASS_SAVE_KEY = "savings_save_key"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var summarySave: SharedPreferences
     private lateinit var savingsClassSave: SharedPreferences
+    private lateinit var tabLayoutMediator: TabLayoutMediator
 
     private var sumCalculate: Int = 0
     private var dayFromClear: Int = 0
@@ -44,6 +41,14 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        binding.pagerLayout.adapter = FragmentAdapter(supportFragmentManager, lifecycle)
+        tabLayoutMediator =
+            TabLayoutMediator(binding.tabLayout, binding.pagerLayout) { tab, position ->
+                when (position) {
+                    0 -> tab.text = "Calculator"
+                    else -> tab.text = "History"
+                }
+            }
 
         val dateOfClearSave = getSharedPreferences(DAY_OF_CLEAR_PREF_KEY, MODE_PRIVATE)
         dateOfClear = dateOfClearSave.getLong(DAY_OF_CLEAR_PREF_KEY, current)
@@ -80,9 +85,6 @@ class MainActivity : AppCompatActivity() {
             binding.perDay.text = monthByDay.toString()
             summarySave.edit().putInt(MONTH_SUMMARY_PREF_KEY, sumCalculate).apply()
             dateOfClearSave.edit().putLong(DAY_OF_CLEAR_PREF_KEY, dateOfClear).apply()
-        }
-        binding.historyButton.setOnClickListener {
-            startActivity(Intent(this, HistoryActivity::class.java))
         }
     }
 
