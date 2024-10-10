@@ -1,10 +1,12 @@
 package com.example.moneyeverydayxml.ui
 
+import android.content.Context
 import android.os.Bundle
-import android.text.InputType
+import android.text.InputType.TYPE_CLASS_NUMBER
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.example.moneyeverydayxml.databinding.FragmentCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,11 +26,9 @@ class FragmentCalculator : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
 
-        binding.today.text = vm.getTodayAndData()
-        binding.daysPassed.text = vm.getDaysFromClear()
-        binding.inputCount.setInputType(InputType.TYPE_CLASS_NUMBER)
+        binding.today.text = vm.getTodayDate()
+        binding.inputCount.setInputType(TYPE_CLASS_NUMBER)
 
         vm.sumAmount.observe(viewLifecycleOwner) { sum ->
             binding.monthSummary.text = sum
@@ -39,6 +39,7 @@ class FragmentCalculator : Fragment() {
         vm.daysFromClearPassedLiveData.observe(viewLifecycleOwner) { date ->
             binding.daysPassed.text = date
         }
+        setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
@@ -46,19 +47,29 @@ class FragmentCalculator : Fragment() {
             if (!binding.inputCount.text.isNullOrEmpty()) {
                 val input = binding.inputCount.text.toString().toInt()
                 vm.increaseAction(input)
+                hideKeyboard()
+                binding.inputCount.setText("")
             }
         }
         binding.decreaseButton.setOnClickListener {
             if (!binding.inputCount.text.isNullOrEmpty()) {
                 val input = binding.inputCount.text.toString().toInt()
                 vm.decreaseAction(input)
+                hideKeyboard()
+                binding.inputCount.setText("")
+
             }
         }
         binding.clearButton.setOnClickListener {
             vm.clearAction()
         }
+
     }
 
+    private fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.inputCount.windowToken, 0)
+    }
 
     companion object {
 
