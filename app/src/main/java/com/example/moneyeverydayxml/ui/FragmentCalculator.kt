@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FragmentCalculator : Fragment() {
 
     private lateinit var binding: FragmentCalculatorBinding
-    private val vm by viewModel<CalculatorViewModel>()
+    private val vm: CalculatorViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
