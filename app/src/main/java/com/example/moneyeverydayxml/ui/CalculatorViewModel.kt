@@ -65,11 +65,12 @@ class CalculatorViewModel(
 
     fun clearAction() {
         summaryAmount = 0
+        _sumAmount.postValue("0")
+//        interactor.saveData(su)s
         dateOfClear = currentDate
         summaryPerDayResult = 0
         _daysFromClearPassedLiveData.postValue("1")
         interactor.saveClearDate(dateOfClear)
     }
-
 
 }
