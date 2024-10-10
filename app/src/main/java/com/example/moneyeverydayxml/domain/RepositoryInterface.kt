@@ -1,6 +1,7 @@
 package com.example.moneyeverydayxml.domain
 
 interface RepositoryInterface {
-    fun saveData()
-    fun getData()
+    fun saveData(amount: String, date: String, clearDate: Long)
+    fun getData():Long
+
 }

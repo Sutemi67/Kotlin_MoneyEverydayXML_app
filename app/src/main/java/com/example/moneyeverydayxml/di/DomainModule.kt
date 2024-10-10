@@ -5,5 +5,5 @@ import com.example.moneyeverydayxml.domain.InteractorInterface
 import org.koin.dsl.module
 
 val domainModule = module {
-    single<InteractorInterface> { Interactor() }
+    single<InteractorInterface> { Interactor(get()) }
 }
