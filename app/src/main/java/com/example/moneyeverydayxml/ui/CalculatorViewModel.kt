@@ -14,7 +14,7 @@ class CalculatorViewModel(
 
     private var summaryAmount: Int = getSumFromMemory().toInt()
     private var daysFromClearPassed: Int = getDaysFromClear().toInt()
-    private var summaryPerDayResult: Int = summaryAmount / daysFromClearPassed
+    private var summaryPerDayResult: Float = summaryAmount.toFloat() / daysFromClearPassed
 
     private val currentDate = Calendar.getInstance().timeInMillis
     private val formatter = SimpleDateFormat("dd MMM yyyy, EE", Locale.ENGLISH)
@@ -49,7 +49,7 @@ class CalculatorViewModel(
 
     fun decreaseAction(input: Int) {
         summaryAmount -= input
-        summaryPerDayResult = summaryAmount / daysFromClearPassed
+        summaryPerDayResult = summaryAmount.toFloat() / daysFromClearPassed
         _sumAmount.postValue(summaryAmount.toString())
         _byDayAmount.postValue(summaryPerDayResult.toString())
         interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
@@ -57,7 +57,7 @@ class CalculatorViewModel(
 
     fun increaseAction(input: Int) {
         summaryAmount += input
-        summaryPerDayResult = summaryAmount / daysFromClearPassed
+        summaryPerDayResult = summaryAmount.toFloat() / daysFromClearPassed
         _sumAmount.postValue(summaryAmount.toString())
         _byDayAmount.postValue(summaryPerDayResult.toString())
         interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
@@ -68,7 +68,7 @@ class CalculatorViewModel(
         _sumAmount.postValue("0")
 //        interactor.saveData(su)s
         dateOfClear = currentDate
-        summaryPerDayResult = 0
+        summaryPerDayResult = 0F
         _daysFromClearPassedLiveData.postValue("1")
         interactor.saveClearDate(dateOfClear)
     }
