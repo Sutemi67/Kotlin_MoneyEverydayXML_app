@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import com.example.moneyeverydayxml.R
 import com.example.moneyeverydayxml.databinding.FragmentCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -57,7 +58,6 @@ class FragmentCalculator : Fragment() {
                 vm.decreaseAction(input)
                 hideKeyboard()
                 binding.inputCount.setText("")
-
             }
         }
         binding.clearButton.setOnClickListener {

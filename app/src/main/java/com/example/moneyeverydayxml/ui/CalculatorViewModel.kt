@@ -12,21 +12,23 @@ class CalculatorViewModel(
     private val interactor: InteractorInterface
 ) : ViewModel() {
 
-    private var summaryPerDayResult: Int = 0
-    private var summaryAmount: Int = 0
-    private var daysFromClearPassed: Int = 1
+    private var summaryAmount: Int = getSumFromMemory().toInt()
+    private var daysFromClearPassed: Int = getDaysFromClear().toInt()
+    private var summaryPerDayResult: Int = summaryAmount / daysFromClearPassed
+
     private val currentDate = Calendar.getInstance().timeInMillis
     private val formatter = SimpleDateFormat("dd MMM yyyy, EE", Locale.ENGLISH)
     private var dateOfClear: Long = currentDate
 
-    private val _sumAmount: MutableLiveData<String> = MutableLiveData("")
+    private val _sumAmount: MutableLiveData<String> =
+        MutableLiveData(getSumFromMemory())
     val sumAmount: LiveData<String> = _sumAmount
-    private val _byDayAmount: MutableLiveData<String> = MutableLiveData("")
+    private val _byDayAmount: MutableLiveData<String> =
+        MutableLiveData(summaryPerDayResult.toString())
     val byDay: LiveData<String> = _byDayAmount
     private val _daysFromClearPassedLiveData: MutableLiveData<String> =
         MutableLiveData(getDaysFromClear())
     val daysFromClearPassedLiveData: LiveData<String> = _daysFromClearPassedLiveData
-
 
     private fun getDaysFromClear(): String {
         val clearDateFromPrefs = interactor.getClearDate()
@@ -39,12 +41,18 @@ class CalculatorViewModel(
         }
     }
 
+    private fun getSumFromMemory(): String = interactor.getSumFromMemory()
+
+    fun getTodayDate(): String {
+        return formatter.format(currentDate)
+    }
+
     fun decreaseAction(input: Int) {
         summaryAmount -= input
         summaryPerDayResult = summaryAmount / daysFromClearPassed
         _sumAmount.postValue(summaryAmount.toString())
         _byDayAmount.postValue(summaryPerDayResult.toString())
-        interactor.saveData(input.toString(), getTodayDate())
+        interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
     }
 
     fun increaseAction(input: Int) {
@@ -52,7 +60,7 @@ class CalculatorViewModel(
         summaryPerDayResult = summaryAmount / daysFromClearPassed
         _sumAmount.postValue(summaryAmount.toString())
         _byDayAmount.postValue(summaryPerDayResult.toString())
-        interactor.saveData(input.toString(), getTodayDate())
+        interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
     }
 
     fun clearAction() {
@@ -63,7 +71,5 @@ class CalculatorViewModel(
         interactor.saveClearDate(dateOfClear)
     }
 
-    fun getTodayDate(): String {
-        return formatter.format(currentDate)
-    }
+
 }
