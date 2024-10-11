@@ -12,32 +12,44 @@ class CalculatorViewModel(
     private val interactor: InteractorInterface
 ) : ViewModel() {
 
-    private var summaryAmount: Int = getSumFromMemory().toInt()
-    private var daysFromClearPassed: Int = getDaysFromClear().toInt()
-    private var summaryPerDayResult: Float = summaryAmount.toFloat() / daysFromClearPassed
-
-    private val currentDate = Calendar.getInstance().timeInMillis
-    private val formatter = SimpleDateFormat("dd MMM yyyy, EE", Locale.ENGLISH)
-    private var dateOfClear: Long = currentDate
-
     private val _sumAmount: MutableLiveData<String> =
         MutableLiveData(getSumFromMemory())
     val sumAmount: LiveData<String> = _sumAmount
-    private val _byDayAmount: MutableLiveData<String> =
-        MutableLiveData(summaryPerDayResult.toString())
-    val byDay: LiveData<String> = _byDayAmount
+
     private val _daysFromClearPassedLiveData: MutableLiveData<String> =
-        MutableLiveData(getDaysFromClear())
+        MutableLiveData("хуй")
     val daysFromClearPassedLiveData: LiveData<String> = _daysFromClearPassedLiveData
 
-    private fun getDaysFromClear(): String {
-        val clearDateFromPrefs = interactor.getClearDate()
+    private val _byDayAmount: MutableLiveData<String> =
+        MutableLiveData("хуй")
+    val byDay: LiveData<String> = _byDayAmount
+
+    private var summaryAmount: Int = getSumFromMemory().toInt()
+    private var daysFromClearPassed: Int = getDaysFromClear()
+    private var summaryPerDayResult: Int = perDayCalculate()
+
+
+    private val currentDate = Calendar.getInstance().timeInMillis
+    private val formatter = SimpleDateFormat("dd MMM yyyy, EE", Locale.ENGLISH)
+    private var dateOfClear: Long = interactor.getClearDate()
+
+    private fun perDayCalculate(): Int {
+        val r = summaryAmount / daysFromClearPassed
+        _byDayAmount.postValue(r.toString())
+        return r
+    }
+
+    fun getDaysFromClear(): Int {
+        val clearDateFromPrefs = dateOfClear
         if (clearDateFromPrefs == 0L) {
-            return "Сброса не было"
+            _daysFromClearPassedLiveData.postValue("Сброса не было")
+            return 1
+
         } else {
             daysFromClearPassed =
                 (((currentDate - clearDateFromPrefs) / (1000 * 60 * 60 * 24)) + 1).toInt()
-            return daysFromClearPassed.toString()
+            _daysFromClearPassedLiveData.postValue(daysFromClearPassed.toString())
+            return daysFromClearPassed
         }
     }
 
@@ -49,7 +61,7 @@ class CalculatorViewModel(
 
     fun decreaseAction(input: Int) {
         summaryAmount -= input
-        summaryPerDayResult = summaryAmount.toFloat() / daysFromClearPassed
+        summaryPerDayResult = perDayCalculate()
         _sumAmount.postValue(summaryAmount.toString())
         _byDayAmount.postValue(summaryPerDayResult.toString())
         interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
@@ -57,7 +69,7 @@ class CalculatorViewModel(
 
     fun increaseAction(input: Int) {
         summaryAmount += input
-        summaryPerDayResult = summaryAmount.toFloat() / daysFromClearPassed
+        summaryPerDayResult = perDayCalculate()
         _sumAmount.postValue(summaryAmount.toString())
         _byDayAmount.postValue(summaryPerDayResult.toString())
         interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
@@ -66,9 +78,9 @@ class CalculatorViewModel(
     fun clearAction() {
         summaryAmount = 0
         _sumAmount.postValue("0")
-//        interactor.saveData(su)s
         dateOfClear = currentDate
-        summaryPerDayResult = 0F
+        summaryPerDayResult = 0
+        _byDayAmount.postValue("0")
         _daysFromClearPassedLiveData.postValue("1")
         interactor.saveClearDate(dateOfClear)
     }
