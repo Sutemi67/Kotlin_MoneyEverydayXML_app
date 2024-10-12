@@ -89,25 +89,17 @@
         app:layout_constraintTop_toBottomOf="@+id/decreaseButton" />
 
     <Button
-        android:id="@+id/historyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/history"
-        app:layout_constraintEnd_toEndOf="@+id/increaseButton"
-        app:layout_constraintStart_toStartOf="@+id/increaseButton"
-        app:layout_constraintTop_toBottomOf="@+id/increaseButton" />
-
-    <Button
         android:id="@+id/clearButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="36dp"
         android:backgroundTint="#AFBAD5"
         android:text="@string/clear_button"
         android:textColor="#5D4037"
-        app:layout_constraintEnd_toEndOf="@+id/historyButton"
-        app:layout_constraintStart_toStartOf="@+id/historyButton"
-        app:layout_constraintTop_toBottomOf="@+id/historyButton" />
+        app:layout_constraintEnd_toEndOf="@+id/increaseButton"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="@+id/increaseButton"
+        app:layout_constraintTop_toBottomOf="@+id/increaseButton" />
 
     <TextView
         android:id="@+id/textView3"
