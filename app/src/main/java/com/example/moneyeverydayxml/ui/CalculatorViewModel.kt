@@ -30,7 +30,7 @@ class CalculatorViewModel(
 
 
     private val currentDate = Calendar.getInstance().timeInMillis
-    private val formatter = SimpleDateFormat("dd MMM yyyy, EE", Locale.ENGLISH)
+    private val formatter = SimpleDateFormat("dd MMM, EEEE, hh:mm", Locale.ENGLISH)
     private var dateOfClear: Long = interactor.getClearDate()
 
     private fun perDayCalculate(): Int {
@@ -80,6 +80,7 @@ class CalculatorViewModel(
         _byDayAmount.postValue("0")
         _daysFromClearPassedLiveData.postValue("1")
         interactor.saveClearDate(dateOfClear)
+        interactor.saveData("Обнуление данных", getTodayDate(), summaryAmount)
     }
 
 }

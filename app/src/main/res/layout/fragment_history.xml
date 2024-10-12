@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/history"
@@ -8,141 +8,123 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:text="История операций"
-        android:textSize="22sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/date1"
-                style="@style/regularTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                tools:text="дата последней операции" />
-
-            <TextView
-                android:id="@+id/count1"
-                style="@style/regularTextStyle2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="234" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/date2"
-                style="@style/regularTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                tools:text="дата последней операции" />
-
-            <TextView
-                android:id="@+id/count2"
-                style="@style/regularTextStyle2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="234" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/date3"
-                style="@style/regularTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                tools:text="@string/last_date" />
-
-            <TextView
-                android:id="@+id/count3"
-                style="@style/regularTextStyle2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="234" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/date4"
-                style="@style/regularTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                tools:text="дата последней операции" />
-
-            <TextView
-                android:id="@+id/count4"
-                style="@style/regularTextStyle2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="234" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/date5"
-                style="@style/regularTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                tools:text="дата последней операции" />
-
-            <TextView
-                android:id="@+id/count5"
-                style="@style/regularTextStyle2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="234" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/backbutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.522" />
-</LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/date1"
+        style="@style/regularTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:text="дата последней операции" />
+
+    <TextView
+        android:id="@+id/count1"
+        style="@style/regularTextStyle2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/date1"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="234" />
+
+    <TextView
+        android:id="@+id/date2"
+        style="@style/regularTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        app:layout_constraintStart_toStartOf="@+id/date1"
+        app:layout_constraintTop_toBottomOf="@+id/date1"
+        tools:text="дата последней операции" />
+
+
+    <TextView
+        android:id="@+id/count2"
+        style="@style/regularTextStyle2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/date2"
+        app:layout_constraintEnd_toEndOf="@+id/count1"
+        tools:text="234" />
+
+    <TextView
+        android:id="@+id/date3"
+        style="@style/regularTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        app:layout_constraintStart_toStartOf="@+id/date2"
+        app:layout_constraintTop_toBottomOf="@+id/date2"
+        tools:text="@string/last_date" />
+
+    <TextView
+        android:id="@+id/count3"
+        style="@style/regularTextStyle2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/date3"
+        app:layout_constraintEnd_toEndOf="@+id/count2"
+        tools:text="234" />
+
+
+    <TextView
+        android:id="@+id/date4"
+        style="@style/regularTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        app:layout_constraintStart_toStartOf="@+id/date3"
+        app:layout_constraintTop_toBottomOf="@+id/date3"
+        tools:text="дата последней операции" />
+
+    <TextView
+        android:id="@+id/count4"
+        style="@style/regularTextStyle2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/date4"
+        app:layout_constraintEnd_toEndOf="@+id/count3"
+        tools:text="234" />
+
+    <TextView
+        android:id="@+id/date5"
+        style="@style/regularTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        app:layout_constraintStart_toStartOf="@+id/date4"
+        app:layout_constraintTop_toBottomOf="@+id/date4"
+        tools:text="дата последней операции" />
+
+    <TextView
+        android:id="@+id/count5"
+        style="@style/regularTextStyle2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/date5"
+        app:layout_constraintEnd_toEndOf="@+id/count4"
+        tools:text="234" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
