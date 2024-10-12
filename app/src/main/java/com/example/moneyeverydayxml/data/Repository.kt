@@ -15,7 +15,7 @@ class Repository(
     private var operationsDates = mutableListOf("", "", "", "", "")
     private var operationsCounts = mutableListOf("", "", "", "", "")
 
-    override fun saveData(amount: String, date: String, summary:Int) {
+    override fun saveData(amount: String, date: String, summary: Int) {
         operationsDates.add(0, date)
         operationsCounts.add(0, amount)
         val jsonCounts = Gson().toJson(operationsCounts)
@@ -27,13 +27,12 @@ class Repository(
             .putString(OPERATION_DATES_SAVE_KEY, jsonDates)
             .apply()
         preferences.edit()
-            .putInt(SUMMARY_SAVE_KEY,summary)
+            .putInt(SUMMARY_SAVE_KEY, summary)
             .apply()
     }
 
-    override fun getDatesList(): List<String> {
-        return operationsDates
-    }
+    override fun getDatesList(): List<String> = operationsDates
+    override fun getClearDate(): Long = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
 
     override fun getSumFromMemory(): String {
         return preferences.getInt(SUMMARY_SAVE_KEY, 0).toString()
@@ -63,8 +62,5 @@ class Repository(
             .apply()
     }
 
-    override fun getClearDate(): Long {
-        val clearDate: Long = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
-        return clearDate
-    }
+
 }

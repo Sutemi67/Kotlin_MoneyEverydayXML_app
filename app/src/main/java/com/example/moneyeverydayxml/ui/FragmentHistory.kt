@@ -38,7 +38,6 @@ class FragmentHistory : Fragment() {
             binding.count4.text = dates[0]
             binding.count5.text = dates[0]
         }
-
     }
 
     companion object {

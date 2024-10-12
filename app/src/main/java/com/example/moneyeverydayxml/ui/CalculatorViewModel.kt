@@ -39,6 +39,8 @@ class CalculatorViewModel(
         return r
     }
 
+    private fun getSumFromMemory(): String = interactor.getSumFromMemory()
+
     fun getDaysFromClear(): Int {
         val clearDateFromPrefs = dateOfClear
         if (clearDateFromPrefs == 0L) {
@@ -52,8 +54,6 @@ class CalculatorViewModel(
             return daysFromClearPassed
         }
     }
-
-    private fun getSumFromMemory(): String = interactor.getSumFromMemory()
 
     fun getTodayDate(): String {
         return formatter.format(currentDate)
