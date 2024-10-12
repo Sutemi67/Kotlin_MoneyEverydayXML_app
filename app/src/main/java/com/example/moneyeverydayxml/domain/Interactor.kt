@@ -7,27 +7,11 @@ class Interactor(
         repository.saveData(amount, date, summary)
     }
 
-    override fun saveClearDate(clearDate: Long) {
-        repository.saveClearDate(clearDate)
-    }
+    override fun saveClearDate(clearDate: Long) = repository.saveClearDate(clearDate)
+    override fun loadData() = repository.loadData()
+    override fun getClearDate(): Long = repository.getClearDate()
+    override fun getDatesList(): List<String> = repository.getDatesList()
+    override fun getCountsList(): List<String> = repository.getCountsList()
+    override fun getSumFromMemory(): String = repository.getSumFromMemory()
 
-    override fun loadData() {
-        repository.loadData()
-    }
-
-    override fun getClearDate(): Long {
-        return repository.getClearDate()
-    }
-
-    override fun getDatesList(): List<String> {
-        return repository.getDatesList()
-    }
-
-    override fun getDatesFromMemory(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSumFromMemory(): String {
-        return repository.getSumFromMemory()
-    }
 }

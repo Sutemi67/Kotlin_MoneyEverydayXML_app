@@ -23,7 +23,6 @@ class FragmentHistory : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.loadDates()
 
         vm.dates.observe(viewLifecycleOwner) { dates ->
             binding.date1.text = dates[0]
@@ -31,13 +30,25 @@ class FragmentHistory : Fragment() {
             binding.date3.text = dates[2]
             binding.date4.text = dates[3]
             binding.date5.text = dates[4]
-
-            binding.count1.text = dates[0]
-            binding.count2.text = dates[0]
-            binding.count3.text = dates[0]
-            binding.count4.text = dates[0]
-            binding.count5.text = dates[0]
         }
+        vm.counts.observe(viewLifecycleOwner) { counts ->
+
+            binding.count1.text = counts[0]
+            binding.count2.text = counts[1]
+            binding.count3.text = counts[2]
+            binding.count4.text = counts[3]
+            binding.count5.text = counts[4]
+        }
+        vm.loadData()
+        vm.loadDates()
+        vm.loadCounts()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        vm.loadData()
+        vm.loadDates()
+        vm.loadCounts()
     }
 
     companion object {

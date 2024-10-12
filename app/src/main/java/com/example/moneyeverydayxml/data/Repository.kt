@@ -32,11 +32,9 @@ class Repository(
     }
 
     override fun getDatesList(): List<String> = operationsDates
+    override fun getCountsList(): List<String> = operationsCounts
     override fun getClearDate(): Long = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
-
-    override fun getSumFromMemory(): String {
-        return preferences.getInt(SUMMARY_SAVE_KEY, 0).toString()
-    }
+    override fun getSumFromMemory(): String = preferences.getInt(SUMMARY_SAVE_KEY, 0).toString()
 
     override fun loadData() {
         val jsonCounts =

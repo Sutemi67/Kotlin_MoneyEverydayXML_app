@@ -7,4 +7,5 @@ interface RepositoryInterface {
     fun getClearDate(): Long
     fun getDatesList(): List<String>
     fun getSumFromMemory(): String
+    fun getCountsList(): List<String>
 }
