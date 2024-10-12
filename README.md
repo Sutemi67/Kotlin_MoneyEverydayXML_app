@@ -1,1 +1,3 @@
-Readme
+# Readme
+
+### Simple app for your budget
