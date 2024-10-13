@@ -19,4 +19,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="last_date">дата последней операции</string>
     <string name="empty_string"></string>
+    <string name="historyText">История операций</string>
+    <string name="calculatorHeader">Калькулятор</string>
+    <string name="historyHeader">История операций</string>
 </resources>

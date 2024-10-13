@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         tabLayoutMediator =
             TabLayoutMediator(binding.tabLayout, binding.pagerLayout) { tab, position ->
                 when (position) {
-                    0 -> tab.text = "Calculator"
-                    else -> tab.text = "History"
+                    0 -> tab.text = "Калькулятор"
+                    else -> tab.text = "История операций"
                 }
             }
         tabLayoutMediator.attach()
