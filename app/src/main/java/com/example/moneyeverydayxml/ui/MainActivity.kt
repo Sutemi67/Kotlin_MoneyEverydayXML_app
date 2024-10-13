@@ -9,6 +9,7 @@ import com.example.moneyeverydayxml.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var tabLayoutMediator: TabLayoutMediator
 

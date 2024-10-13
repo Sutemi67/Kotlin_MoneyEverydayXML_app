@@ -51,6 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        app:layout_constraintEnd_toEndOf="@+id/date1"
         app:layout_constraintStart_toStartOf="@+id/date1"
         app:layout_constraintTop_toBottomOf="@+id/date1"
         tools:text="дата последней операции" />
@@ -72,6 +73,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        app:layout_constraintEnd_toEndOf="@+id/date2"
         app:layout_constraintStart_toStartOf="@+id/date2"
         app:layout_constraintTop_toBottomOf="@+id/date2"
         tools:text="@string/last_date" />
@@ -93,6 +95,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        app:layout_constraintEnd_toEndOf="@+id/date3"
         app:layout_constraintStart_toStartOf="@+id/date3"
         app:layout_constraintTop_toBottomOf="@+id/date3"
         tools:text="дата последней операции" />
@@ -113,6 +116,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        app:layout_constraintEnd_toEndOf="@+id/date4"
         app:layout_constraintStart_toStartOf="@+id/date4"
         app:layout_constraintTop_toBottomOf="@+id/date4"
         tools:text="дата последней операции" />
