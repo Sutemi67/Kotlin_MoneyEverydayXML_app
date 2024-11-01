@@ -25,7 +25,7 @@ class FragmentCalculator : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.inputCount.filters = arrayOf(DecimalDigitsInputFilter(2))
         binding.today.text = vm.getTodayDate()
 
         vm.sumAmount.observe(viewLifecycleOwner) { sum ->

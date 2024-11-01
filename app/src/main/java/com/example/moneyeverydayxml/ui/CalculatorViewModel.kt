@@ -62,7 +62,7 @@ class CalculatorViewModel(
         summaryPerDayResult = perDayCalculate()
         _sumAmount.postValue(summaryAmount.setScale(2, RoundingMode.DOWN).toString())
         _byDayAmount.postValue(summaryPerDayResult.setScale(2, RoundingMode.DOWN).toString())
-        interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
+        interactor.saveData("- $input", getTodayDate(), summaryAmount)
     }
 
     fun increaseAction(input: BigDecimal) {
@@ -70,7 +70,7 @@ class CalculatorViewModel(
         summaryPerDayResult = perDayCalculate()
         _sumAmount.postValue(summaryAmount.setScale(2, RoundingMode.DOWN).toString())
         _byDayAmount.postValue(summaryPerDayResult.setScale(2, RoundingMode.DOWN).toString())
-        interactor.saveData(input.toString(), getTodayDate(), summaryAmount)
+        interactor.saveData("+ $input", getTodayDate(), summaryAmount)
     }
 
     fun clearAction() {
