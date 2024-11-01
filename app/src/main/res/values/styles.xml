@@ -7,7 +7,7 @@
     </style>
 
     <style name="regularTextStyle2">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:gravity">end</item>
     </style>
 
