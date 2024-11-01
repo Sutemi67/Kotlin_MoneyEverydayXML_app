@@ -2,7 +2,6 @@ package com.example.moneyeverydayxml.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType.TYPE_CLASS_NUMBER
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,6 @@ class FragmentCalculator : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.today.text = vm.getTodayDate()
-        binding.inputCount.setInputType(TYPE_CLASS_NUMBER)
 
         vm.sumAmount.observe(viewLifecycleOwner) { sum ->
             binding.monthSummary.text = sum
@@ -46,7 +44,7 @@ class FragmentCalculator : Fragment() {
     private fun setOnClickListeners() {
         binding.increaseButton.setOnClickListener {
             if (!binding.inputCount.text.isNullOrEmpty()) {
-                val input = binding.inputCount.text.toString().toInt()
+                val input = binding.inputCount.text.toString().toBigDecimal()
                 vm.increaseAction(input)
                 hideKeyboard()
                 binding.inputCount.setText("")
@@ -54,7 +52,7 @@ class FragmentCalculator : Fragment() {
         }
         binding.decreaseButton.setOnClickListener {
             if (!binding.inputCount.text.isNullOrEmpty()) {
-                val input = binding.inputCount.text.toString().toInt()
+                val input = binding.inputCount.text.toString().toBigDecimal()
                 vm.decreaseAction(input)
                 hideKeyboard()
                 binding.inputCount.setText("")

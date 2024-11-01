@@ -8,6 +8,8 @@ import com.example.moneyeverydayxml.util.OPERATION_DATES_SAVE_KEY
 import com.example.moneyeverydayxml.util.SUMMARY_SAVE_KEY
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class Repository(
     private val preferences: SharedPreferences
@@ -15,7 +17,7 @@ class Repository(
     private var operationsDates = mutableListOf("", "", "", "", "")
     private var operationsCounts = mutableListOf("", "", "", "", "")
 
-    override fun saveData(amount: String, date: String, summary: Int) {
+    override fun saveData(amount: String, date: String, summary: BigDecimal) {
         operationsDates.add(0, date)
         operationsCounts.add(0, amount)
         val jsonCounts = Gson().toJson(operationsCounts)
@@ -27,14 +29,14 @@ class Repository(
             .putString(OPERATION_DATES_SAVE_KEY, jsonDates)
             .apply()
         preferences.edit()
-            .putInt(SUMMARY_SAVE_KEY, summary)
+            .putString(SUMMARY_SAVE_KEY, summary.setScale(2, RoundingMode.DOWN).toString())
             .apply()
     }
 
     override fun getDatesList(): List<String> = operationsDates
     override fun getCountsList(): List<String> = operationsCounts
     override fun getClearDate(): Long = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
-    override fun getSumFromMemory(): String = preferences.getInt(SUMMARY_SAVE_KEY, 0).toString()
+    override fun getSumFromMemory(): String = preferences.getString(SUMMARY_SAVE_KEY, "0") ?: "0"
 
     override fun loadData() {
         val jsonCounts =

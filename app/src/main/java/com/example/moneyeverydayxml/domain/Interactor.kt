@@ -1,9 +1,11 @@
 package com.example.moneyeverydayxml.domain
 
+import java.math.BigDecimal
+
 class Interactor(
     private val repository: RepositoryInterface
 ) : InteractorInterface {
-    override fun saveData(amount: String, date: String, summary: Int) {
+    override fun saveData(amount: String, date: String, summary: BigDecimal) {
         repository.saveData(amount, date, summary)
     }
 
