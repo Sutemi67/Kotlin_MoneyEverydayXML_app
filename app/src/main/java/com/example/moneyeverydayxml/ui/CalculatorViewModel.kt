@@ -31,7 +31,7 @@ class CalculatorViewModel(
     private var summaryPerDayResult: BigDecimal = perDayCalculate()
 
     private val currentDate = Calendar.getInstance().timeInMillis
-    private val formatter = SimpleDateFormat("dd MMM, EEEE, hh:mm", Locale.ENGLISH)
+    private val formatter = SimpleDateFormat("dd MMM, EEEE, HH:mm", Locale.ENGLISH)
     private var dateOfClear: Long = interactor.getClearDate()
 
     private fun perDayCalculate(): BigDecimal {
