@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.moneyeverydayxml.domain.InteractorInterface
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class CalculatorViewModel(
@@ -31,7 +33,7 @@ class CalculatorViewModel(
     private var summaryPerDayResult: BigDecimal = perDayCalculate()
 
     private val currentDate = Calendar.getInstance().timeInMillis
-    private val formatter = SimpleDateFormat("dd MMM, EEEE, HH:mm", Locale.ENGLISH)
+    private val formatter = SimpleDateFormat("dd MMM, EEEE, HH:mm", Locale("ru"))
     private var dateOfClear: Long = interactor.getClearDate()
 
     private fun perDayCalculate(): BigDecimal {
@@ -41,6 +43,7 @@ class CalculatorViewModel(
     }
 
     private fun getSumFromMemory(): String = interactor.getSumFromMemory()
+
     fun getTodayDate(): String = formatter.format(currentDate)
 
     fun getDaysFromClear(): Long {

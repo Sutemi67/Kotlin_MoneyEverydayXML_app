@@ -5,16 +5,22 @@
     android:id="@+id/history"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+    <View
+        style="@style/header_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:translationZ="-1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:text="@string/historyText"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,22 +31,20 @@
     <TextView
         android:id="@+id/date1"
         style="@style/regularTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:layout_weight="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:text="дата последней операции" />
+        tools:text="02 Nov, Saturday, 00:34" />
 
     <TextView
         android:id="@+id/count1"
         style="@style/regularTextStyle2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="@+id/date1"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="234" />
@@ -48,10 +52,8 @@
     <TextView
         android:id="@+id/date2"
         style="@style/regularTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        app:layout_constraintEnd_toEndOf="@+id/date1"
         app:layout_constraintStart_toStartOf="@+id/date1"
         app:layout_constraintTop_toBottomOf="@+id/date1"
         tools:text="дата последней операции" />
@@ -60,20 +62,17 @@
     <TextView
         android:id="@+id/count2"
         style="@style/regularTextStyle2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="@+id/date2"
         app:layout_constraintEnd_toEndOf="@+id/count1"
-        tools:text="234" />
+        tools:text="- 234" />
 
     <TextView
         android:id="@+id/date3"
         style="@style/regularTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        app:layout_constraintEnd_toEndOf="@+id/date2"
         app:layout_constraintStart_toStartOf="@+id/date2"
         app:layout_constraintTop_toBottomOf="@+id/date2"
         tools:text="@string/last_date" />
@@ -81,21 +80,17 @@
     <TextView
         android:id="@+id/count3"
         style="@style/regularTextStyle2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="@+id/date3"
         app:layout_constraintEnd_toEndOf="@+id/count2"
         tools:text="234" />
 
-
     <TextView
         android:id="@+id/date4"
         style="@style/regularTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        app:layout_constraintEnd_toEndOf="@+id/date3"
         app:layout_constraintStart_toStartOf="@+id/date3"
         app:layout_constraintTop_toBottomOf="@+id/date3"
         tools:text="дата последней операции" />
@@ -103,9 +98,8 @@
     <TextView
         android:id="@+id/count4"
         style="@style/regularTextStyle2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="@+id/date4"
         app:layout_constraintEnd_toEndOf="@+id/count3"
         tools:text="234" />
@@ -113,20 +107,18 @@
     <TextView
         android:id="@+id/date5"
         style="@style/regularTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        app:layout_constraintEnd_toEndOf="@+id/date4"
+        android:gravity="start"
         app:layout_constraintStart_toStartOf="@+id/date4"
         app:layout_constraintTop_toBottomOf="@+id/date4"
-        tools:text="дата последней операции" />
+        tools:text="01 Nov, Friday, 22:32" />
 
     <TextView
         android:id="@+id/count5"
         style="@style/regularTextStyle2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="@+id/date5"
         app:layout_constraintEnd_toEndOf="@+id/count4"
         tools:text="234" />

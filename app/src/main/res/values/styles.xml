@@ -4,29 +4,44 @@
     <style name="regularTextStyle">
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
+        <item name="android:shadowColor">#46000000</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:shadowDx">5</item>
+        <item name="android:shadowDy">5</item>
     </style>
 
     <style name="regularTextStyle2">
         <item name="android:textSize">22sp</item>
         <item name="android:gravity">end</item>
+        <item name="android:shadowColor">#46000000</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:shadowDx">5</item>
+        <item name="android:shadowDy">5</item>
     </style>
 
     <style name="buttonTextStyle">
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
-
     </style>
 
     <style name="headerTextStyle">
-        <item name="android:textSize">21sp</item>
+        <item name="android:textSize">19sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#7C000000</item>
+        <item name="android:shadowRadius">5</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
     </style>
 
     <style name="tabBuilder">
         <item name="tabIndicatorColor">@color/black</item>
         <item name="tabTextColor">@color/black</item>
+    </style>
+
+    <style name="header_shadow">
+        <item name="android:background">@drawable/shadow_of_header_light</item>
     </style>
 </resources>
