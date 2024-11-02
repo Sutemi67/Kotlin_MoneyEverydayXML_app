@@ -76,12 +76,13 @@
 
     <Button
         android:id="@+id/decreaseButton"
-        style="@style/buttonTextStyle"
+        style="@style/buttonStyle"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:backgroundTint="@android:color/holo_red_dark"
+        android:backgroundTint="#F44336"
         android:text="@string/minus"
+        android:textAppearance="@style/buttonTextStyle"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,22 +91,24 @@
 
     <Button
         android:id="@+id/increaseButton"
-        style="@style/buttonTextStyle"
+        style="@style/buttonStyle"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#3D7814"
+        android:backgroundTint="#4CAF50"
         android:text="@string/plus"
+        android:textAppearance="@style/buttonTextStyle"
         app:layout_constraintEnd_toEndOf="@+id/decreaseButton"
         app:layout_constraintStart_toStartOf="@+id/decreaseButton"
         app:layout_constraintTop_toBottomOf="@+id/decreaseButton" />
 
     <Button
         android:id="@+id/clearButton"
-        style="@style/buttonTextStyle"
+        style="@style/buttonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:backgroundTint="#6895B9"
+        android:textAppearance="@style/buttonTextStyle"
+        android:backgroundTint="#2196F3"
         android:text="@string/clear_button"
         app:layout_constraintEnd_toEndOf="@+id/increaseButton"
         app:layout_constraintStart_toStartOf="@+id/increaseButton"
