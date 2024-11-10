@@ -35,7 +35,7 @@
     </style>
 
     <style name="headerTextStyle">
-        <item name="android:textSize">19sp</item>
+        <item name="android:textSize">@dimen/header_big_text_size</item>
         <item name="android:gravity">center</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
