@@ -84,7 +84,7 @@ class CalculatorViewModel(
         _byDayAmount.postValue("0")
         _daysFromClearPassedLiveData.postValue("1")
         interactor.saveClearDate(dateOfClear)
-        interactor.saveData("Дата сброса", getTodayDate(), summaryAmount)
+        interactor.saveData("Сброс", getTodayDate(), summaryAmount)
     }
 
 }
