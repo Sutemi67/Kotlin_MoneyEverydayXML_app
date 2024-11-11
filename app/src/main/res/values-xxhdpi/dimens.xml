@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="header_big_text_size">19sp</dimen>
-    <dimen name="header_regular_text_size">17sp</dimen>
+
 </resources>

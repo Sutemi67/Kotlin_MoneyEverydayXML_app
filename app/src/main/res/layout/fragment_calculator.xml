@@ -9,15 +9,14 @@
     <TextView
         android:id="@+id/textView2"
         style="@style/headerTextStyle"
+        android:textSize="@dimen/header_big_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/today_is"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/today"
@@ -32,10 +31,12 @@
         tools:text="28 окт, воскресенье, 13.21" />
 
     <View
+        android:id="@+id/view"
         style="@style/header_shadow"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:translationZ="-1dp"
+        android:translationZ="-10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -120,8 +121,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/days_pass"
-        app:layout_constraintBottom_toTopOf="@+id/inputCount"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.0" />
