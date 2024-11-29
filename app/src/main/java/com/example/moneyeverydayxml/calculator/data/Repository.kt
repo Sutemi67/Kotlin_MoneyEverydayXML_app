@@ -1,64 +1,39 @@
 package com.example.moneyeverydayxml.calculator.data
 
 import android.content.SharedPreferences
-import com.example.moneyeverydayxml.calculator.domain.RepositoryInterface
 import com.example.moneyeverydayxml.app.DAY_OF_CLEAR_PREF_KEY
-import com.example.moneyeverydayxml.app.OPERATIONS_AMOUNTS_PREF_KEY
-import com.example.moneyeverydayxml.app.OPERATION_DATES_SAVE_KEY
 import com.example.moneyeverydayxml.app.SUMMARY_SAVE_KEY
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.moneyeverydayxml.calculator.domain.RepositoryInterface
+import com.example.moneyeverydayxml.history.data.Database
+import com.example.moneyeverydayxml.history.data.TransactionConverter
+import com.example.moneyeverydayxml.history.domain.model.Transaction
 import java.math.BigDecimal
-import java.math.RoundingMode
 
 class Repository(
-    private val preferences: SharedPreferences
+    private val preferences: SharedPreferences,
+    private val database: Database,
+    private val converter: TransactionConverter
 ) : RepositoryInterface {
-    private var operationsDates = mutableListOf("", "", "", "", "")
-    private var operationsCounts = mutableListOf("", "", "", "", "")
 
-    override fun saveData(amount: String, date: String, summary: BigDecimal) {
-        operationsDates.add(0, date)
-        operationsCounts.add(0, amount)
-        val jsonCounts = Gson().toJson(operationsCounts)
-        val jsonDates = Gson().toJson(operationsDates)
-        preferences.edit()
-            .putString(OPERATIONS_AMOUNTS_PREF_KEY, jsonCounts)
-            .apply()
-        preferences.edit()
-            .putString(OPERATION_DATES_SAVE_KEY, jsonDates)
-            .apply()
-        preferences.edit()
-            .putString(SUMMARY_SAVE_KEY, summary.setScale(2, RoundingMode.DOWN).toString())
-            .apply()
+    override suspend fun saveTransaction(amount: String, date: String, summary: BigDecimal) {
+        val transaction = Transaction(date = date, count = summary.toString())
+        val entities = converter.mapToEntities(listOf(transaction))
+        val saveInDatabase = database.databaseDao().insertOperation(entities.first())
     }
 
-    override fun getDatesList(): List<String> = operationsDates
-    override fun getCountsList(): List<String> = operationsCounts
     override fun getClearDate(): Long = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
-    override fun getSumFromMemory(): String = preferences.getString(SUMMARY_SAVE_KEY, "0.00") ?: "0.00"
+    override fun getSumFromMemory(): String =
+        preferences.getString(SUMMARY_SAVE_KEY, "0.00") ?: "0.00"
 
     override fun loadData() {
-        val jsonCounts =
-            preferences.getString(OPERATIONS_AMOUNTS_PREF_KEY, null)
-        val jsonDates =
-            preferences.getString(OPERATION_DATES_SAVE_KEY, null)
-        val itemType = object : TypeToken<MutableList<String>>() {}.type
-        operationsCounts = if (jsonCounts != null) {
-            Gson().fromJson(jsonCounts, itemType)
-        } else {
-            mutableListOf("", "", "", "", "")
-        }
-        operationsDates = if (jsonDates != null) {
-            Gson().fromJson(jsonDates, itemType)
-        } else {
-            mutableListOf("", "", "", "", "")
-        }
+        val a = database.databaseDao().getTransactionsList()
+        val d = converter.mapToTransactions(a)
     }
 
     override fun saveClearDate(clearDate: Long) {
         preferences.edit()
             .putLong(DAY_OF_CLEAR_PREF_KEY, clearDate)
+            .putLong(SUMMARY_SAVE_KEY)
             .apply()
     }
 

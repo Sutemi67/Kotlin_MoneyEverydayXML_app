@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.moneyeverydayxml.calculator.ui.CalculatorFragment
 import com.example.moneyeverydayxml.databinding.FragmentHistoryBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,4 +29,15 @@ class HistoryFragment : Fragment() {
         vm.loadCounts()
     }
 
+
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance() =
+            HistoryFragment().apply {
+                arguments = Bundle().apply {
+                }
+            }
+    }
 }

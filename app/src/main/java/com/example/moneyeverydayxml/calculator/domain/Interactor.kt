@@ -6,7 +6,7 @@ class Interactor(
     private val repository: RepositoryInterface
 ) : InteractorInterface {
     override fun saveData(amount: String, date: String, summary: BigDecimal) {
-        repository.saveData(amount, date, summary)
+        repository.saveTransaction(amount, date, summary)
     }
 
     override fun saveClearDate(clearDate: Long) = repository.saveClearDate(clearDate)

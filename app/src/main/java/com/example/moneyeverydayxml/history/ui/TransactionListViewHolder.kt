@@ -18,6 +18,5 @@ class TransactionListViewHolder(itemView: View): RecyclerView.ViewHolder(itemVie
     fun bind(model: Transaction){
         date.text = formatter.format(model.date)
         count.text = model.count.setScale(2, RoundingMode.DOWN).toString()
-
     }
 }

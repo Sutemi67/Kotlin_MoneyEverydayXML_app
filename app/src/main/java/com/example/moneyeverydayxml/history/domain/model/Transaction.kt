@@ -1,8 +1,7 @@
 package com.example.moneyeverydayxml.history.domain.model
 
-import java.math.BigDecimal
-
 data class Transaction(
-    val date : Long,
-    val count: BigDecimal
+    val id: Int? = null,
+    val date : String,
+    val count: String
 )
