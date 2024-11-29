@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.util
+package com.example.moneyeverydayxml.app
 
 
 const val OPERATIONS_AMOUNTS_PREF_KEY = "month_summ_key"

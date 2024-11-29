@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.di
+package com.example.moneyeverydayxml.app.di
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE

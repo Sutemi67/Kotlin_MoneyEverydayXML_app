@@ -2,10 +2,10 @@ package com.example.moneyeverydayxml.data
 
 import android.content.SharedPreferences
 import com.example.moneyeverydayxml.domain.RepositoryInterface
-import com.example.moneyeverydayxml.util.DAY_OF_CLEAR_PREF_KEY
-import com.example.moneyeverydayxml.util.OPERATIONS_AMOUNTS_PREF_KEY
-import com.example.moneyeverydayxml.util.OPERATION_DATES_SAVE_KEY
-import com.example.moneyeverydayxml.util.SUMMARY_SAVE_KEY
+import com.example.moneyeverydayxml.app.DAY_OF_CLEAR_PREF_KEY
+import com.example.moneyeverydayxml.app.OPERATIONS_AMOUNTS_PREF_KEY
+import com.example.moneyeverydayxml.app.OPERATION_DATES_SAVE_KEY
+import com.example.moneyeverydayxml.app.SUMMARY_SAVE_KEY
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.math.BigDecimal

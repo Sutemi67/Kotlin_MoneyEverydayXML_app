@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.di
+package com.example.moneyeverydayxml.app.di
 
 import com.example.moneyeverydayxml.ui.CalculatorViewModel
 import com.example.moneyeverydayxml.ui.HistoryViewModel

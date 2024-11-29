@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.di
+package com.example.moneyeverydayxml.app.di
 
 import com.example.moneyeverydayxml.domain.Interactor
 import com.example.moneyeverydayxml.domain.InteractorInterface
