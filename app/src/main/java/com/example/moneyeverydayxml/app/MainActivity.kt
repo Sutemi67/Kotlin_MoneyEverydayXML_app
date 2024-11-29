@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.ui
+package com.example.moneyeverydayxml.app
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        binding.pagerLayout.adapter = FragmentAdapter(supportFragmentManager, lifecycle)
+        binding.pagerLayout.adapter = AdapterFragment(supportFragmentManager, lifecycle)
         tabLayoutMediator =
             TabLayoutMediator(binding.tabLayout, binding.pagerLayout) { tab, position ->
                 when (position) {

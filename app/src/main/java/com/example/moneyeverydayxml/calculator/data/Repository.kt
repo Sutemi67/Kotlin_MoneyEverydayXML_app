@@ -1,7 +1,7 @@
-package com.example.moneyeverydayxml.data
+package com.example.moneyeverydayxml.calculator.data
 
 import android.content.SharedPreferences
-import com.example.moneyeverydayxml.domain.RepositoryInterface
+import com.example.moneyeverydayxml.calculator.domain.RepositoryInterface
 import com.example.moneyeverydayxml.app.DAY_OF_CLEAR_PREF_KEY
 import com.example.moneyeverydayxml.app.OPERATIONS_AMOUNTS_PREF_KEY
 import com.example.moneyeverydayxml.app.OPERATION_DATES_SAVE_KEY

@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.ui
+package com.example.moneyeverydayxml.calculator
 
 import android.text.InputFilter
 import android.text.Spanned

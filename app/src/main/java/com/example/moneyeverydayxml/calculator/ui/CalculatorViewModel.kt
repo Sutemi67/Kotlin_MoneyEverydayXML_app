@@ -1,15 +1,13 @@
-package com.example.moneyeverydayxml.ui
+package com.example.moneyeverydayxml.calculator.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.moneyeverydayxml.domain.InteractorInterface
+import com.example.moneyeverydayxml.calculator.domain.InteractorInterface
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class CalculatorViewModel(

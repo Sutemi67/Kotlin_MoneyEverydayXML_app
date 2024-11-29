@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.ui
+package com.example.moneyeverydayxml.calculator.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import com.example.moneyeverydayxml.calculator.DecimalDigitsInputFilter
 import com.example.moneyeverydayxml.databinding.FragmentCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FragmentCalculator : Fragment() {
+class CalculatorFragment : Fragment() {
 
     private lateinit var binding: FragmentCalculatorBinding
     private val vm: CalculatorViewModel by viewModel()
@@ -74,7 +75,7 @@ class FragmentCalculator : Fragment() {
 
         @JvmStatic
         fun newInstance() =
-            FragmentCalculator().apply {
+            CalculatorFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

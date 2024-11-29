@@ -1,4 +1,4 @@
-package com.example.moneyeverydayxml.domain
+package com.example.moneyeverydayxml.calculator.domain
 
 import java.math.BigDecimal
 

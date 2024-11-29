@@ -7,11 +7,11 @@ import com.example.moneyeverydayxml.app.di.domainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
-class AppMain : Application() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(this@AppMain)
+            androidContext(this@App)
             modules(dataModule, domainModule, appModule)
         }
     }

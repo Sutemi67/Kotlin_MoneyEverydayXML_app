@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
 }
 
 android {
     namespace = "com.example.moneyeverydayxml"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.moneyeverydayxml"
@@ -55,4 +56,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation (libs.gson)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

@@ -1,13 +1,13 @@
-package com.example.moneyeverydayxml.domain
+package com.example.moneyeverydayxml.calculator.domain
 
 import java.math.BigDecimal
 
-interface InteractorInterface {
+interface RepositoryInterface {
     fun saveData(amount: String, date: String, summary: BigDecimal)
     fun saveClearDate(clearDate: Long)
     fun loadData()
     fun getClearDate(): Long
     fun getDatesList(): List<String>
-    fun getCountsList(): List<String>
     fun getSumFromMemory(): String
+    fun getCountsList(): List<String>
 }

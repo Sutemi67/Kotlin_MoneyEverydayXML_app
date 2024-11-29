@@ -1,9 +1,9 @@
-package com.example.moneyeverydayxml.ui
+package com.example.moneyeverydayxml.history.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.moneyeverydayxml.domain.InteractorInterface
+import com.example.moneyeverydayxml.calculator.domain.InteractorInterface
 
 class HistoryViewModel(
     private val interactor: InteractorInterface
