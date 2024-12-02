@@ -6,8 +6,8 @@ import com.example.moneyeverydayxml.app.SUMMARY_SAVE_KEY
 import com.example.moneyeverydayxml.calculator.domain.RepositoryInterface
 import com.example.moneyeverydayxml.history.data.Database
 import com.example.moneyeverydayxml.history.data.TransactionConverter
+import com.example.moneyeverydayxml.history.domain.model.MainData
 import com.example.moneyeverydayxml.history.domain.model.Transaction
-import java.math.BigDecimal
 
 class Repository(
     private val preferences: SharedPreferences,
@@ -15,25 +15,28 @@ class Repository(
     private val converter: TransactionConverter
 ) : RepositoryInterface {
 
-    override suspend fun saveTransaction(amount: String, date: String) {
-        val transaction = Transaction(date = date, count = amount.toString())
+    override suspend fun saveTransaction(transaction: Transaction) {
         val entities = converter.mapToTransactionEntity(transaction)
         database.databaseDao().insertOperation(entities)
     }
 
-    override fun getClearDate(): Long = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
-    override fun getSumFromMemory(): String =
-        preferences.getString(SUMMARY_SAVE_KEY, "0.00") ?: "0.00"
-
-    override fun loadData() {
+    override suspend fun loadTransactions() {
         val a = database.databaseDao().getTransactionsList()
         val d = converter.mapToTransactionList(a)
     }
 
-    override fun saveMainData(clearDate: Long, summary: BigDecimal) {
+    override fun saveMainData(mainFile: MainData) {
         preferences.edit()
-            .putLong(DAY_OF_CLEAR_PREF_KEY, clearDate)
-            .putString(SUMMARY_SAVE_KEY, summary.toString())
+            .putLong(DAY_OF_CLEAR_PREF_KEY, mainFile.dateOfClear)
+            .putString(SUMMARY_SAVE_KEY, mainFile.summaryAmount.toString())
             .apply()
     }
+
+    override fun loadMainData(): MainData {
+        val dayOfClear = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
+        val summary = preferences.getString(SUMMARY_SAVE_KEY, "0.00") ?: "0.00"
+        return MainData(dayOfClear, summary.toBigDecimal())
+    }
+
+
 }

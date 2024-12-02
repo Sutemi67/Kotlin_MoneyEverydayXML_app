@@ -1,7 +1,5 @@
 package com.example.moneyeverydayxml.history.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.moneyeverydayxml.calculator.domain.InteractorInterface
 
@@ -16,6 +14,6 @@ class HistoryViewModel(
 //    val counts: LiveData<List<String>> = _counts
 
     fun loadData(){
-        interactor.loadData()
+        interactor.loadMainData()
     }
 }

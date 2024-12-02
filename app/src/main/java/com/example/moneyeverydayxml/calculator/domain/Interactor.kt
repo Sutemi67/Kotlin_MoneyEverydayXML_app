@@ -1,19 +1,17 @@
 package com.example.moneyeverydayxml.calculator.domain
 
-import java.math.BigDecimal
+import com.example.moneyeverydayxml.history.domain.model.MainData
+import com.example.moneyeverydayxml.history.domain.model.Transaction
 
 class Interactor(
     private val repository: RepositoryInterface
 ) : InteractorInterface {
-    override suspend fun saveTransaction(amount: String, date: String) {
-        repository.saveTransaction(amount, date)
+    override suspend fun saveTransaction(transaction: Transaction) {
+        repository.saveTransaction(transaction)
     }
 
-    override fun saveMainData(clearDate: Long, summary: BigDecimal) =
-        repository.saveMainData(clearDate, summary)
+    override fun saveMainData(mainData: MainData) =
+        repository.saveMainData(mainData)
 
-    override fun loadData() = repository.loadData()
-    override fun getClearDate(): Long = repository.getClearDate()
-    override fun getSumFromMemory(): String = repository.getSumFromMemory()
-
+    override fun loadMainData(): MainData = repository.loadMainData()
 }

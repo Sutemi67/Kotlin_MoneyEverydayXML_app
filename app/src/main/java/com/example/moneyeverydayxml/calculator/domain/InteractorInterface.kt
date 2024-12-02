@@ -1,11 +1,12 @@
 package com.example.moneyeverydayxml.calculator.domain
 
-import java.math.BigDecimal
+import com.example.moneyeverydayxml.history.domain.model.MainData
+import com.example.moneyeverydayxml.history.domain.model.Transaction
 
 interface InteractorInterface {
-    suspend fun saveTransaction(amount: String, date: String,)
-    fun saveMainData(clearDate: Long,summary: BigDecimal)
-    fun loadData()
-    fun getClearDate(): Long
-    fun getSumFromMemory(): String
+    suspend fun saveTransaction(transaction: Transaction)
+//    suspend fun loadTransactions()
+
+    fun saveMainData(mainFile: MainData)
+    fun loadMainData(): MainData
 }
