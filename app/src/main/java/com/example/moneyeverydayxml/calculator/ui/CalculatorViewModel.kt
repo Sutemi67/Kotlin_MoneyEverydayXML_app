@@ -3,7 +3,9 @@ package com.example.moneyeverydayxml.calculator.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.moneyeverydayxml.calculator.domain.InteractorInterface
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -63,7 +65,9 @@ class CalculatorViewModel(
         summaryPerDayResult = perDayCalculate()
         _sumAmount.postValue(summaryAmount.setScale(2, RoundingMode.DOWN).toString())
         _byDayAmount.postValue(summaryPerDayResult.setScale(2, RoundingMode.DOWN).toString())
-        interactor.saveData("- $input", getTodayDate(), summaryAmount)
+        viewModelScope.launch {
+            interactor.saveTransaction("- $input", getTodayDate())
+        }
     }
 
     fun increaseAction(input: BigDecimal) {
@@ -71,7 +75,9 @@ class CalculatorViewModel(
         summaryPerDayResult = perDayCalculate()
         _sumAmount.postValue(summaryAmount.setScale(2, RoundingMode.DOWN).toString())
         _byDayAmount.postValue(summaryPerDayResult.setScale(2, RoundingMode.DOWN).toString())
-        interactor.saveData("+ $input", getTodayDate(), summaryAmount)
+        viewModelScope.launch {
+            interactor.saveTransaction("+ $input", getTodayDate())
+        }
     }
 
     fun clearAction() {
@@ -81,8 +87,10 @@ class CalculatorViewModel(
         summaryPerDayResult = BigDecimal(0.0)
         _byDayAmount.postValue("0")
         _daysFromClearPassedLiveData.postValue("1")
-        interactor.saveClearDate(dateOfClear)
-        interactor.saveData("Сброс", getTodayDate(), summaryAmount)
+        interactor.saveMainData(dateOfClear, summaryAmount)
+        viewModelScope.launch {
+            interactor.saveTransaction("Сброс", getTodayDate())
+        }
     }
 
 }

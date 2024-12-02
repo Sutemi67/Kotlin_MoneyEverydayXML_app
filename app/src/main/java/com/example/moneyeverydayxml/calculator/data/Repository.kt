@@ -15,10 +15,10 @@ class Repository(
     private val converter: TransactionConverter
 ) : RepositoryInterface {
 
-    override suspend fun saveTransaction(amount: String, date: String, summary: BigDecimal) {
-        val transaction = Transaction(date = date, count = summary.toString())
-        val entities = converter.mapToEntities(listOf(transaction))
-        val saveInDatabase = database.databaseDao().insertOperation(entities.first())
+    override suspend fun saveTransaction(amount: String, date: String) {
+        val transaction = Transaction(date = date, count = amount.toString())
+        val entities = converter.mapToTransactionEntity(transaction)
+        database.databaseDao().insertOperation(entities)
     }
 
     override fun getClearDate(): Long = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
@@ -27,15 +27,13 @@ class Repository(
 
     override fun loadData() {
         val a = database.databaseDao().getTransactionsList()
-        val d = converter.mapToTransactions(a)
+        val d = converter.mapToTransactionList(a)
     }
 
-    override fun saveClearDate(clearDate: Long) {
+    override fun saveMainData(clearDate: Long, summary: BigDecimal) {
         preferences.edit()
             .putLong(DAY_OF_CLEAR_PREF_KEY, clearDate)
-            .putLong(SUMMARY_SAVE_KEY)
+            .putString(SUMMARY_SAVE_KEY, summary.toString())
             .apply()
     }
-
-
 }

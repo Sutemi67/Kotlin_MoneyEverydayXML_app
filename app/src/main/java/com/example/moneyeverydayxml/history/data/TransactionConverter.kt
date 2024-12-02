@@ -3,7 +3,7 @@ package com.example.moneyeverydayxml.history.data
 import com.example.moneyeverydayxml.history.domain.model.Transaction
 
 class TransactionConverter {
-    fun mapToTransactions(list: List<TransactionEntity>): List<Transaction> {
+    fun mapToTransactionList(list: List<TransactionEntity>): List<Transaction> {
         return list.map {
             Transaction(
                 it.id,
@@ -13,13 +13,11 @@ class TransactionConverter {
         }
     }
 
-    fun mapToEntities(list: List<Transaction>): List<TransactionEntity> {
-        return list.map {
-            TransactionEntity(
-                id = it.id ?: 0,
-                it.date,
-                it.count
-            )
-        }
+    fun mapToTransactionEntity(item: Transaction): TransactionEntity {
+        return TransactionEntity(
+            id = item.id ?: 0,
+            date = item.date,
+            count = item.count
+        )
     }
 }
