@@ -47,7 +47,7 @@ class CalculatorFragment : Fragment() {
             if (!binding.inputCount.text.isNullOrEmpty()) {
                 val input = binding.inputCount.text.toString().toBigDecimal()
                 vm.increaseAction(input)
-                hideKeyboard()
+//                hideKeyboard()
                 binding.inputCount.setText("")
             }
         }
@@ -55,7 +55,7 @@ class CalculatorFragment : Fragment() {
             if (!binding.inputCount.text.isNullOrEmpty()) {
                 val input = binding.inputCount.text.toString().toBigDecimal()
                 vm.decreaseAction(input)
-                hideKeyboard()
+//                hideKeyboard()
                 binding.inputCount.setText("")
             }
         }

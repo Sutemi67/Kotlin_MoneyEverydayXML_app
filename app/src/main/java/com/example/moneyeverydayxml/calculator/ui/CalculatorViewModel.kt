@@ -20,6 +20,7 @@ class CalculatorViewModel(
     private val mainData = getMainData()
     private var summary = mainData.summaryAmount
     private var clearDate = mainData.dateOfClear
+
     private val currentDate = Calendar.getInstance().timeInMillis
     private val formatter = SimpleDateFormat("dd MMM, EEEE, HH:mm", Locale("ru"))
 
@@ -27,15 +28,14 @@ class CalculatorViewModel(
         MutableLiveData(summary.setScale(2, RoundingMode.DOWN).toString())
     private val _daysFromClearPassedLiveData: MutableLiveData<String> = MutableLiveData("")
     private val _byDayAmount: MutableLiveData<String> = MutableLiveData("")
+    private var summaryPerDayResult = perDayCalculate()
+
     val byDay: LiveData<String> = _byDayAmount
     val sumAmount: LiveData<String> = _sumAmount
     val daysFromClearPassedLiveData: LiveData<String> = _daysFromClearPassedLiveData
 
-    private var daysFromClearPassed = getDaysFromClear()
-    private var summaryPerDayResult = perDayCalculate()
-
     private fun perDayCalculate(): BigDecimal {
-        val r = summary / daysFromClearPassed.toBigDecimal()
+        val r = summary / getDaysFromClear().toBigDecimal()
         _byDayAmount.postValue(r.setScale(2, RoundingMode.DOWN).toString())
         return r
     }
@@ -108,7 +108,6 @@ class CalculatorViewModel(
                 )
             )
             interactor.saveMainData(MainData(clearDate, summary))
-
         }
     }
 
