@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.moneyeverydayxml.R
 import com.example.moneyeverydayxml.calculator.DecimalDigitsInputFilter
 import com.example.moneyeverydayxml.databinding.FragmentCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.math.BigDecimal
 
 class CalculatorFragment : Fragment() {
 
@@ -24,6 +27,7 @@ class CalculatorFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.inputCount.filters = arrayOf(DecimalDigitsInputFilter(2))
@@ -31,9 +35,42 @@ class CalculatorFragment : Fragment() {
 
         vm.sumAmount.observe(viewLifecycleOwner) { sum ->
             binding.monthSummary.text = sum
+            val sumBigDecimal = sum.toBigDecimalOrNull() ?: BigDecimal.ZERO
+            if (sumBigDecimal < BigDecimal(0)) {
+                binding.monthSummary.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.summary_negative
+                    )
+                )
+            } else {
+                binding.monthSummary.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.summary_positive
+                    )
+                )
+            }
         }
+
         vm.byDay.observe(viewLifecycleOwner) { byDay ->
             binding.perDay.text = byDay
+            val sumBigDecimal = byDay.toBigDecimalOrNull() ?: BigDecimal.ZERO
+            if (sumBigDecimal < BigDecimal(0)) {
+                binding.perDay.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.summary_negative
+                    )
+                )
+            } else {
+                binding.perDay.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.summary_positive
+                    )
+                )
+            }
         }
         vm.daysFromClearPassedLiveData.observe(viewLifecycleOwner) { date ->
             binding.daysPassed.text = date

@@ -36,6 +36,7 @@ class CalculatorViewModel(
 
     private fun perDayCalculate(): BigDecimal {
         val r = summary / getDaysFromClear().toBigDecimal()
+        _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
         _byDayAmount.postValue(r.setScale(2, RoundingMode.DOWN).toString())
         return r
     }
@@ -64,7 +65,6 @@ class CalculatorViewModel(
     fun decreaseAction(input: BigDecimal) {
         summary -= input
         summaryPerDayResult = perDayCalculate()
-        _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
@@ -79,7 +79,6 @@ class CalculatorViewModel(
     fun increaseAction(input: BigDecimal) {
         summary += input
         summaryPerDayResult = perDayCalculate()
-        _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
@@ -88,18 +87,14 @@ class CalculatorViewModel(
                 )
             )
             interactor.saveMainData(MainData(clearDate, summary))
-
         }
     }
 
     fun clearAction() {
         summary = BigDecimal(0.0)
-        _sumAmount.postValue("0")
+        perDayCalculate()
         clearDate = currentDate
-        summaryPerDayResult = BigDecimal(0.0)
-        _byDayAmount.postValue("0")
-        _daysFromClearPassedLiveData.postValue("1")
-        interactor.saveMainData(MainData(clearDate, summary))
+        _daysFromClearPassedLiveData.postValue("День сброса сегодня")
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
