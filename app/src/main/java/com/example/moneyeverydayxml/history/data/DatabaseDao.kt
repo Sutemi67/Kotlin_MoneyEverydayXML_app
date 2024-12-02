@@ -10,6 +10,13 @@ interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOperation(transaction: TransactionEntity): Long
 
-    @Query("select*from transactions")
-    fun getTransactionsList(): List<TransactionEntity>
+    @Query("select*from transactions order by time desc")
+    suspend fun getTransactionsList(): List<TransactionEntity>
+
+    @Query("DELETE FROM transactions WHERE id = (SELECT id FROM transactions ORDER BY id ASC LIMIT 1)")
+    suspend fun deleteOldestTransaction()
+
+    @Query("SELECT COUNT(*) FROM transactions")
+    suspend fun getTransactionCount(): Int
+
 }

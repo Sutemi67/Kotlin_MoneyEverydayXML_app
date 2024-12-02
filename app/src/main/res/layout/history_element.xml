@@ -9,7 +9,7 @@
         android:layout_width="37dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/baseline_attach_money_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

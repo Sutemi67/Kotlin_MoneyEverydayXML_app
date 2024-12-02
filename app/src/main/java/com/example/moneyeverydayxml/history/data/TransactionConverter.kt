@@ -6,7 +6,7 @@ class TransactionConverter {
     fun mapToTransactionList(list: List<TransactionEntity>): List<Transaction> {
         return list.map {
             Transaction(
-                it.id,
+                it.time,
                 it.date,
                 it.count
             )
@@ -15,7 +15,7 @@ class TransactionConverter {
 
     fun mapToTransactionEntity(item: Transaction): TransactionEntity {
         return TransactionEntity(
-            id = item.id ?: 0,
+            time = item.time,
             date = item.date,
             count = item.count
         )

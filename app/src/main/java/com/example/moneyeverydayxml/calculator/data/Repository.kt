@@ -16,6 +16,10 @@ class Repository(
 ) : RepositoryInterface {
 
     override suspend fun saveTransaction(transaction: Transaction) {
+        val currentCount = database.databaseDao().getTransactionCount()
+        if (currentCount >= 50) {
+            database.databaseDao().deleteOldestTransaction()
+        }
         val entities = converter.mapToTransactionEntity(transaction)
         database.databaseDao().insertOperation(entities)
     }
