@@ -5,7 +5,7 @@ import com.example.moneyeverydayxml.history.domain.model.Transaction
 
 interface RepositoryInterface {
     suspend fun saveTransaction(transaction: Transaction)
-    suspend fun loadTransactions()
+    suspend fun loadTransactions():List<Transaction>
 
     fun saveMainData(mainFile: MainData)
     fun loadMainData(): MainData

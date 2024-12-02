@@ -68,7 +68,7 @@ class CalculatorViewModel(
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
-                    date = getTodayDate().toString(),
+                    date = getTodayDate(),
                     count = input.toString()
                 )
             )
@@ -82,7 +82,7 @@ class CalculatorViewModel(
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
-                    date = getTodayDate().toString(),
+                    date = getTodayDate(),
                     count = input.toString()
                 )
             )
@@ -98,7 +98,7 @@ class CalculatorViewModel(
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
-                    date = getTodayDate().toString(),
+                    date = getTodayDate(),
                     count = "Сброс"
                 )
             )

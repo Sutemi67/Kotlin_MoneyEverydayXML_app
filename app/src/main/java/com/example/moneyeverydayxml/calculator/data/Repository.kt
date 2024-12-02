@@ -20,10 +20,12 @@ class Repository(
         database.databaseDao().insertOperation(entities)
     }
 
-    override suspend fun loadTransactions() {
+    override suspend fun loadTransactions():List<Transaction> {
         val a = database.databaseDao().getTransactionsList()
         val d = converter.mapToTransactionList(a)
+        return d
     }
+
 
     override fun saveMainData(mainFile: MainData) {
         preferences.edit()

@@ -10,6 +10,10 @@ class Interactor(
         repository.saveTransaction(transaction)
     }
 
+    override suspend fun loadTransactions():List<Transaction> {
+        return repository.loadTransactions()
+    }
+
     override fun saveMainData(mainData: MainData) =
         repository.saveMainData(mainData)
 
