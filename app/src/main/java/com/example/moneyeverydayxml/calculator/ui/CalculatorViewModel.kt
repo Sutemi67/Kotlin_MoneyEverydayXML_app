@@ -21,7 +21,7 @@ class CalculatorViewModel(
     private var summary = mainData.summaryAmount
     private var clearDate = mainData.dateOfClear
 
-    private val currentDate = Calendar.getInstance().timeInMillis
+    private val currentDate = currentTimeInMillis()
     private val formatter = SimpleDateFormat("dd MMM, EEEE, HH:mm", Locale("ru"))
 
     private val _sumAmount: MutableLiveData<String> =
@@ -45,7 +45,11 @@ class CalculatorViewModel(
         return interactor.loadMainData()
     }
 
-    fun getTodayDate(): String {
+    private fun currentTimeInMillis(): Long{
+        return Calendar.getInstance().timeInMillis
+    }
+
+    fun currentTimeFormattedString(): String {
         return formatter.format(currentDate)
     }
 
@@ -68,9 +72,9 @@ class CalculatorViewModel(
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
-                    time = currentDate,
-                    date = getTodayDate(),
-                    count = input.toString()
+                    time = currentTimeInMillis(),
+                    date = currentTimeFormattedString(),
+                    count = "-$input"
                 )
             )
             interactor.saveMainData(MainData(clearDate, summary))
@@ -83,9 +87,9 @@ class CalculatorViewModel(
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
-                    time = currentDate,
-                    date = getTodayDate(),
-                    count = input.toString()
+                    time = currentTimeInMillis(),
+                    date = currentTimeFormattedString(),
+                    count = "$input"
                 )
             )
             interactor.saveMainData(MainData(clearDate, summary))
@@ -100,8 +104,8 @@ class CalculatorViewModel(
         viewModelScope.launch {
             interactor.saveTransaction(
                 Transaction(
-                    time = currentDate,
-                    date = getTodayDate(),
+                    time = currentTimeInMillis(),
+                    date = currentTimeFormattedString(),
                     count = "Сброс"
                 )
             )

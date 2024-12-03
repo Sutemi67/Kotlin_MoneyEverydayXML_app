@@ -31,7 +31,7 @@ class CalculatorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.inputCount.filters = arrayOf(DecimalDigitsInputFilter(2))
-        binding.today.text = vm.getTodayDate()
+        binding.today.text = vm.currentTimeFormattedString()
 
         vm.sumAmount.observe(viewLifecycleOwner) { sum ->
             binding.monthSummary.text = sum
