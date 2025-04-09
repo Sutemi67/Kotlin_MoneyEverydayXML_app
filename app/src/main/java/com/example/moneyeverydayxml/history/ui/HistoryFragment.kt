@@ -13,7 +13,6 @@ class HistoryFragment : Fragment() {
 
     private lateinit var binding: FragmentHistoryBinding
     private val vm: HistoryViewModel by viewModel()
-
     private val adapter = TransactionListAdapter()
 
     override fun onCreateView(
@@ -29,9 +28,7 @@ class HistoryFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        vm.transactions.observe(viewLifecycleOwner) {
-            adapter.setData(it)
-        }
+        vm.transactions.observe(viewLifecycleOwner) { adapter.setData(it) }
     }
 
     override fun onResume() {
@@ -40,12 +37,7 @@ class HistoryFragment : Fragment() {
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance() =
-            HistoryFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
+        fun newInstance() = HistoryFragment().apply { arguments = Bundle().apply {} }
     }
 }
