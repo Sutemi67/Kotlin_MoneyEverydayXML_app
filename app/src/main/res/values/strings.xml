@@ -20,4 +20,20 @@
     <string name="empty_string"></string>
     <string name="historyText">History</string>
     <string name="calculatorHeader">Calculator</string>
+    
+    <!-- Notification testing -->
+    <string name="test_notification_button">Тест уведомлений</string>
+    <string name="test_notification_success">Тесты уведомлений выполнены! Проверьте логи</string>
+    <string name="test_notification_error">Ошибка при выполнении тестов: %1$s</string>
+    <string name="notification_permission_required">Для автоматического добавления транзакций включите доступ к уведомлениям</string>
+    <string name="configure">Настроить</string>
+    <string name="transaction_added_auto">Автоматически добавлена транзакция: %1$s руб. - %2$s</string>
+    
+    <!-- Test transactions -->
+    <string name="view_test_results">Просмотреть</string>
+    <string name="test_transactions_saved">Тестовые транзакции сохранены в истории. Перейдите на вкладку \'История операций\' для просмотра.</string>
+    <string name="clear_test_transactions">Очистить тесты</string>
+    <string name="test_transactions_cleared">Тестовые транзакции помечены для удаления. Перезапустите приложение для применения изменений.</string>
+    <string name="calculator_data_updated">Данные калькулятора обновлены после тестовых транзакций</string>
+    <string name="test_transaction_tooltip">Длинное нажатие для просмотра полного описания тестовой транзакции</string>
 </resources>

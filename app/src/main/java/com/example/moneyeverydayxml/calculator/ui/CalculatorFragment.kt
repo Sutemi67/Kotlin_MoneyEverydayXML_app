@@ -107,6 +107,14 @@ class CalculatorFragment : Fragment() {
         imm.hideSoftInputFromWindow(binding.inputCount.windowToken, 0)
     }
 
+    /**
+     * Обновляет данные калькулятора
+     * Вызывается после сохранения транзакций из уведомлений
+     */
+    fun refreshCalculatorData() {
+        vm.refreshData()
+    }
+
     companion object {
 
         @JvmStatic

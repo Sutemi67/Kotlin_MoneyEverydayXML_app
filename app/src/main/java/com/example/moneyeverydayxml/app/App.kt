@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.moneyeverydayxml.app.di.appModule
 import com.example.moneyeverydayxml.app.di.dataModule
 import com.example.moneyeverydayxml.app.di.domainModule
+import com.example.moneyeverydayxml.app.di.notificationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -12,7 +13,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(dataModule, domainModule, appModule)
+            modules(dataModule, domainModule, appModule, notificationModule)
         }
     }
 }

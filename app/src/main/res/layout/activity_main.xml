@@ -8,12 +8,33 @@
     android:orientation="vertical"
     tools:context=".app.MainActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        style="@style/tabBuilder"
-        app:tabIndicatorFullWidth="true"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            style="@style/tabBuilder"
+            app:tabIndicatorFullWidth="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/testNotificationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="🧪"
+            android:textSize="16sp"
+            android:background="@drawable/test_button_background"
+            android:visibility="gone"
+            android:contentDescription="@string/test_notification_button"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pagerLayout"

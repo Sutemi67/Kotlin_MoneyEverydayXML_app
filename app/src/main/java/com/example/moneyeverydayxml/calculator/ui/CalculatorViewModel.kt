@@ -113,4 +113,24 @@ class CalculatorViewModel(
         }
     }
 
+    /**
+     * Принудительно обновляет данные калькулятора из базы данных
+     * Используется после сохранения транзакций из уведомлений
+     */
+    fun refreshData() {
+        viewModelScope.launch {
+            try {
+                val updatedMainData = interactor.loadMainData()
+                summary = updatedMainData.summaryAmount
+                clearDate = updatedMainData.dateOfClear
+                
+                // Обновляем UI
+                perDayCalculate()
+                getDaysFromClear()
+                
+            } catch (e: Exception) {
+                // Обработка ошибок
+            }
+        }
+    }
 }
