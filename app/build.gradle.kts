@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,18 +7,20 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+val localProperties = Properties()
+localProperties.load(rootProject.file("local.properties").inputStream())
+
 android {
     signingConfigs {
         create("release") {
             val keystorePath = when {
                 file("/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks").exists() -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
-                file("D:\\YandexDisk\\Develop\\Keys\\keys.jks").exists() -> "D:\\YandexDisk\\Develop\\Keys\\keys.jks"
                 else -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
             }
             storeFile = file(keystorePath)
-            storePassword = "Uxs5y7rb_"
-            keyAlias = "money_everyday_fragments"
-            keyPassword = "Uxs5y7rb_"
+            storePassword = localProperties.getProperty("storePassword")
+            keyAlias = localProperties.getProperty("keyAlias")
+            keyPassword = localProperties.getProperty("keyPassword")
         }
     }
     namespace = "com.example.moneyeverydayxml"
