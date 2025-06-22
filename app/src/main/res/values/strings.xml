@@ -1,25 +1,23 @@
 <resources>
-    <string name="app_name">Money Everyday XML</string>
+    <string name="app_name">Money Everyday</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
 
-    <string name="days_pass">Дней прошло</string>
-    <string name="clear_button">Сброс</string>
-    <string name="minus">вычесть как расходы</string>
-    <string name="history">история операций</string>
-    <string name="plus">прибавить доход</string>
-    <string name="today_is">Сегодня:</string>
-    <string name="result">Результат с даты сброса</string>
-    <string name="per_day">В день:</string>
-    <string name="input_count">введите номинал</string>
+    <string name="days_pass">Days passed</string>
+    <string name="clear_button">Clear</string>
+    <string name="minus">as expenses</string>
+    <string name="plus">as income</string>
+    <string name="today_is">Today is:</string>
+    <string name="result">From date of clear:</string>
+    <string name="per_day">Per day:</string>
+    <string name="input_count">input count</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="last_date">дата последней операции</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="last_date">Last operation</string>
     <string name="empty_string"></string>
-    <string name="historyText">История операций</string>
-    <string name="calculatorHeader">Калькулятор</string>
-    <string name="historyHeader">История операций</string>
+    <string name="historyText">History</string>
+    <string name="calculatorHeader">Calculator</string>
 </resources>

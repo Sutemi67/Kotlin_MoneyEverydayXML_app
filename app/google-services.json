@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "136647016667",
+    "project_id": "feeling-diary-d52d7",
+    "storage_bucket": "feeling-diary-d52d7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136647016667:android:dadf08d92e58574eea4cfe",
+        "android_client_info": {
+          "package_name": "apc.appcradle.kotlinjc_feelingdiary_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFtzxsTLGcizPbeZNXBEA4AB4_lAiDFRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136647016667:android:50aac22642ec7a26ea4cfe",
+        "android_client_info": {
+          "package_name": "com.example.moneyeverydayxml"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFtzxsTLGcizPbeZNXBEA4AB4_lAiDFRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,6 +8,7 @@ import com.example.moneyeverydayxml.history.data.Database
 import com.example.moneyeverydayxml.history.data.TransactionConverter
 import com.example.moneyeverydayxml.history.domain.model.MainData
 import com.example.moneyeverydayxml.history.domain.model.Transaction
+import androidx.core.content.edit
 
 class Repository(
     private val preferences: SharedPreferences,
@@ -30,12 +31,11 @@ class Repository(
         return d
     }
 
-
     override fun saveMainData(mainFile: MainData) {
-        preferences.edit()
-            .putLong(DAY_OF_CLEAR_PREF_KEY, mainFile.dateOfClear)
-            .putString(SUMMARY_SAVE_KEY, mainFile.summaryAmount.toString())
-            .apply()
+        preferences.edit {
+            putLong(DAY_OF_CLEAR_PREF_KEY, mainFile.dateOfClear)
+                .putString(SUMMARY_SAVE_KEY, mainFile.summaryAmount.toString())
+        }
     }
 
     override fun loadMainData(): MainData {
@@ -43,6 +43,4 @@ class Repository(
         val summary = preferences.getString(SUMMARY_SAVE_KEY, "0.00") ?: "0.00"
         return MainData(dayOfClear, summary.toBigDecimal())
     }
-
-
 }
