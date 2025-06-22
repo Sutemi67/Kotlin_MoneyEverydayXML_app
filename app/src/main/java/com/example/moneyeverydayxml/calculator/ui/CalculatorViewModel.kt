@@ -17,7 +17,7 @@ import java.util.Locale
 class CalculatorViewModel(
     private val interactor: InteractorInterface
 ) : ViewModel() {
-    private val mainData = getMainData()
+    private var mainData = getMainData()
     private var summary = mainData.summaryAmount
     private var clearDate = mainData.dateOfClear
 
@@ -45,7 +45,12 @@ class CalculatorViewModel(
         return interactor.loadMainData()
     }
 
-    private fun currentTimeInMillis(): Long{
+    fun refreshData() {
+        mainData = interactor.loadMainData()
+        _sumAmount.postValue(mainData.summaryAmount.setScale(2, RoundingMode.DOWN).toString())
+    }
+
+    private fun currentTimeInMillis(): Long {
         return Calendar.getInstance().timeInMillis
     }
 
@@ -70,14 +75,13 @@ class CalculatorViewModel(
         summary -= input
         summaryPerDayResult = perDayCalculate()
         viewModelScope.launch {
-            interactor.saveTransaction(
+            interactor.addTransactionAndUpdateSummary(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
                     count = "-$input"
                 )
             )
-            interactor.saveMainData(MainData(clearDate, summary))
         }
     }
 
@@ -85,14 +89,13 @@ class CalculatorViewModel(
         summary += input
         summaryPerDayResult = perDayCalculate()
         viewModelScope.launch {
-            interactor.saveTransaction(
+            interactor.addTransactionAndUpdateSummary(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
                     count = "$input"
                 )
             )
-            interactor.saveMainData(MainData(clearDate, summary))
         }
     }
 
@@ -110,27 +113,7 @@ class CalculatorViewModel(
                 )
             )
             interactor.saveMainData(MainData(clearDate, summary))
-        }
-    }
-
-    /**
-     * Принудительно обновляет данные калькулятора из базы данных
-     * Используется после сохранения транзакций из уведомлений
-     */
-    fun refreshData() {
-        viewModelScope.launch {
-            try {
-                val updatedMainData = interactor.loadMainData()
-                summary = updatedMainData.summaryAmount
-                clearDate = updatedMainData.dateOfClear
-                
-                // Обновляем UI
-                perDayCalculate()
-                getDaysFromClear()
-                
-            } catch (e: Exception) {
-                // Обработка ошибок
-            }
+            interactor.clearAllTransactions()
         }
     }
 }

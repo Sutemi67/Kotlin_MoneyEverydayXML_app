@@ -81,7 +81,7 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
     private fun saveTransaction(transaction: Transaction) {
         scope.launch {
             try {
-                repository.saveTransaction(transaction)
+                repository.addTransactionAndUpdateSummary(transaction)
                 Log.i(
                     TAG,
                     "Сохранена транзакция в БД: ${transaction.count} руб. - ${transaction.date}"
@@ -93,7 +93,7 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
                     putExtra("description", transaction.date)
                     putExtra("date", transaction.date)
                     // Устанавливаем пакет для безопасности
-                    setPackage(packageName)
+                    setPackage(this@NotificationListenerService.packageName)
                 }
                 sendBroadcast(intent)
 

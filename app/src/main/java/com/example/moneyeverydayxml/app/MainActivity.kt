@@ -16,24 +16,24 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.moneyeverydayxml.R
 import com.example.moneyeverydayxml.databinding.ActivityMainBinding
 import com.example.moneyeverydayxml.notification.NotificationListenerService
-import com.example.moneyeverydayxml.notification.NotificationPermissionManager
-import com.example.moneyeverydayxml.notification.parser.NotificationParserTest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var tabLayoutMediator: TabLayoutMediator
-    private val notificationPermissionManager: NotificationPermissionManager by inject()
+    private val viewModel: MainViewModel by viewModel()
 
     private val transactionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == NotificationListenerService.ACTION_TRANSACTION_ADDED) {
                 val amount = intent.getStringExtra("amount") ?: ""
                 val description = intent.getStringExtra("description") ?: ""
-                
+
+                viewModel.onNewTransactionReceived()
+
                 Snackbar.make(
                     binding.root,
                     getString(R.string.transaction_added_auto, amount, description),
@@ -56,6 +56,20 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        setupUI()
+        setupObservers()
+        setupTestButton()
+
+        // Регистрируем receiver для получения уведомлений о транзакциях
+        registerTransactionReceiver()
+
+        // Запускаем тесты парсера в debug режиме
+        if (viewModel.isDebugMode(this)) {
+            runParserTests()
+        }
+    }
+
+    private fun setupUI() {
         binding.pagerLayout.adapter = AdapterFragment(supportFragmentManager, lifecycle)
         tabLayoutMediator =
             TabLayoutMediator(binding.tabLayout, binding.pagerLayout) { tab, position ->
@@ -65,145 +79,95 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         tabLayoutMediator.attach()
+    }
 
-        // Настройка кнопки тестирования
-        setupTestButton()
+    private fun setupObservers() {
+        // Наблюдаем за результатами тестирования уведомлений
+        viewModel.testNotificationResult.observe(this) { result ->
+            when (result) {
+                is MainViewModel.TestNotificationResult.Success -> {
+                    showSnackbar(result.message, Snackbar.LENGTH_LONG) {
+                        setAction(getString(R.string.view_test_results)) {
+                            viewModel.showTestTransactionsInfo()
+                        }
+                    }
+                }
 
-        // Проверяем разрешения на уведомления
-        checkNotificationPermissions()
+                is MainViewModel.TestNotificationResult.Error -> {
+                    showSnackbar(result.message, Snackbar.LENGTH_LONG)
+                }
 
-        // Регистрируем receiver для получения уведомлений о транзакциях
-        val filter = IntentFilter(NotificationListenerService.ACTION_TRANSACTION_ADDED)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(transactionReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
-        } else {
-            registerReceiver(transactionReceiver, filter)
+                is MainViewModel.TestNotificationResult.Info -> {
+                    showSnackbar(result.message, Snackbar.LENGTH_LONG) {
+                        setAction(getString(R.string.clear_test_transactions)) {
+                            viewModel.clearTestTransactions()
+                        }
+                    }
+                }
+            }
         }
 
-        // Запускаем тесты парсера в debug режиме
-        if (isDebugMode()) {
-            runParserTests()
+        // Наблюдаем за обновлением данных калькулятора
+        viewModel.calculatorDataUpdated.observe(this) { updated ->
+            if (updated) {
+                viewModel.onCalculatorDataUpdated() // Сбрасываем флаг
+            }
+        }
+
+        // Наблюдаем за требованиями разрешений
+        viewModel.notificationPermissionRequired.observe(this) { required ->
+            if (required) {
+                showPermissionSnackbar()
+            }
         }
     }
 
     private fun setupTestButton() {
         // Показываем кнопку только в debug режиме
-        if (isDebugMode()) {
+        if (viewModel.isDebugMode(this)) {
             binding.testNotificationButton.visibility = View.VISIBLE
-            
+
             binding.testNotificationButton.setOnClickListener {
-                runNotificationTests()
+                viewModel.runNotificationTests()
             }
         }
     }
 
-    private fun runNotificationTests() {
-        try {
-            val testParser = NotificationParserTest()
-            testParser.testNotificationFormats()
-            
-            Snackbar.make(
-                binding.root,
-                getString(R.string.test_notification_success),
-                Snackbar.LENGTH_LONG
-            ).setAction(getString(R.string.view_test_results)) {
-                // Показываем информацию о сохраненных транзакциях
-                showTestTransactionsInfo()
-            }.show()
-            
-            // Обновляем данные калькулятора после тестов
-            updateCalculatorData()
-            
-            Log.d("MainActivity", "Тесты уведомлений запущены пользователем")
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Ошибка при выполнении тестов уведомлений", e)
-            
-            Snackbar.make(
-                binding.root,
-                getString(R.string.test_notification_error, e.message),
-                Snackbar.LENGTH_LONG
-            ).show()
-        }
+    private fun showSnackbar(
+        message: String,
+        duration: Int,
+        action: (Snackbar.() -> Unit)? = null
+    ) {
+        val snackbar = Snackbar.make(binding.root, message, duration)
+        action?.invoke(snackbar)
+        snackbar.show()
     }
 
-    private fun showTestTransactionsInfo() {
-        // Показываем информацию о тестовых транзакциях
-        Snackbar.make(
-            binding.root,
-            getString(R.string.test_transactions_saved),
+    private fun showPermissionSnackbar() {
+        showSnackbar(
+            getString(R.string.notification_permission_required),
             Snackbar.LENGTH_LONG
-        ).setAction(getString(R.string.clear_test_transactions)) {
-            clearTestTransactions()
-        }.show()
-    }
-    
-    private fun clearTestTransactions() {
-        try {
-            val testParser = NotificationParserTest()
-            testParser.clearTestTransactions()
-            
-            Snackbar.make(
-                binding.root,
-                getString(R.string.test_transactions_cleared),
-                Snackbar.LENGTH_LONG
-            ).show()
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Ошибка при очистке тестовых транзакций", e)
-        }
-    }
-
-    private fun updateCalculatorData() {
-        // Переключаемся на вкладку калькулятора для обновления данных
-        binding.pagerLayout.setCurrentItem(0, true)
-        
-        // Небольшая задержка для обновления UI
-        binding.root.postDelayed({
-            // Обновляем данные калькулятора
-            try {
-                // Получаем ViewModel калькулятора и обновляем данные
-                val calculatorFragment = supportFragmentManager.fragments.firstOrNull { 
-                    it is com.example.moneyeverydayxml.calculator.ui.CalculatorFragment 
-                } as? com.example.moneyeverydayxml.calculator.ui.CalculatorFragment
-                
-                calculatorFragment?.let { fragment ->
-                    // Обновляем данные через ViewModel
-                    fragment.refreshCalculatorData()
-                }
-                
-                Log.d("MainActivity", "Данные калькулятора обновлены после тестов")
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Ошибка при обновлении данных калькулятора", e)
+        ) {
+            setAction(getString(R.string.configure)) {
+                viewModel.requestNotificationPermission()
             }
-        }, 500)
-        
-        // Показываем уведомление об обновлении данных
-        Snackbar.make(
-            binding.root,
-            getString(R.string.calculator_data_updated),
-            Snackbar.LENGTH_SHORT
-        ).show()
-    }
-
-    private fun checkNotificationPermissions() {
-        if (!notificationPermissionManager.isNotificationServiceEnabled()) {
-            Snackbar.make(
-                binding.root,
-                getString(R.string.notification_permission_required),
-                Snackbar.LENGTH_LONG
-            ).setAction(getString(R.string.configure)) {
-                notificationPermissionManager.requestNotificationPermission()
-            }.show()
         }
     }
 
-    private fun isDebugMode(): Boolean {
-        // Используем альтернативный способ проверки debug режима
-        return (applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    private fun registerTransactionReceiver() {
+        val filter = IntentFilter(NotificationListenerService.ACTION_TRANSACTION_ADDED)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(transactionReceiver, filter, RECEIVER_NOT_EXPORTED)
+        } else {
+            registerReceiver(transactionReceiver, filter)
+        }
     }
 
     private fun runParserTests() {
         try {
-            val testParser = NotificationParserTest()
+            val testParser =
+                com.example.moneyeverydayxml.notification.parser.NotificationParserTest()
             testParser.testNotificationFormats()
             Log.d("MainActivity", "Тесты парсера выполнены")
         } catch (e: Exception) {
@@ -220,6 +184,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // Проверяем статус сервиса при возвращении в приложение
-        checkNotificationPermissions()
+        viewModel.checkNotificationPermissions()
     }
 }

@@ -1,6 +1,7 @@
 package com.example.moneyeverydayxml.calculator.data
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.example.moneyeverydayxml.app.DAY_OF_CLEAR_PREF_KEY
 import com.example.moneyeverydayxml.app.SUMMARY_SAVE_KEY
 import com.example.moneyeverydayxml.calculator.domain.RepositoryInterface
@@ -8,7 +9,10 @@ import com.example.moneyeverydayxml.history.data.Database
 import com.example.moneyeverydayxml.history.data.TransactionConverter
 import com.example.moneyeverydayxml.history.domain.model.MainData
 import com.example.moneyeverydayxml.history.domain.model.Transaction
-import androidx.core.content.edit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class Repository(
     private val preferences: SharedPreferences,
@@ -25,16 +29,20 @@ class Repository(
         database.databaseDao().insertOperation(entities)
     }
 
-    override suspend fun loadTransactions():List<Transaction> {
+    override suspend fun loadTransactions(): List<Transaction> {
         val a = database.databaseDao().getTransactionsList()
         val d = converter.mapToTransactionList(a)
         return d
     }
 
+    override suspend fun clearAllTransactions() {
+        database.databaseDao().clearAllTransactions()
+    }
+
     override fun saveMainData(mainFile: MainData) {
         preferences.edit {
             putLong(DAY_OF_CLEAR_PREF_KEY, mainFile.dateOfClear)
-                .putString(SUMMARY_SAVE_KEY, mainFile.summaryAmount.toString())
+            putString(SUMMARY_SAVE_KEY, mainFile.summaryAmount.toString())
         }
     }
 
@@ -42,5 +50,19 @@ class Repository(
         val dayOfClear = preferences.getLong(DAY_OF_CLEAR_PREF_KEY, 0L)
         val summary = preferences.getString(SUMMARY_SAVE_KEY, "0.00") ?: "0.00"
         return MainData(dayOfClear, summary.toBigDecimal())
+    }
+
+    override fun addTransactionAndUpdateSummary(transaction: Transaction) {
+        GlobalScope.launch(Dispatchers.IO) {
+            saveTransaction(transaction)
+            val currentData = loadMainData()
+            val transactionAmount = try {
+                BigDecimal(transaction.count)
+            } catch (e: NumberFormatException) {
+                BigDecimal.ZERO
+            }
+            val newSummary = currentData.summaryAmount + transactionAmount
+            saveMainData(MainData(currentData.dateOfClear, newSummary))
+        }
     }
 }

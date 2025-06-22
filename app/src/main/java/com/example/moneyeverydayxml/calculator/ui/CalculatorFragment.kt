@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.moneyeverydayxml.R
+import com.example.moneyeverydayxml.app.MainViewModel
 import com.example.moneyeverydayxml.calculator.DecimalDigitsInputFilter
 import com.example.moneyeverydayxml.databinding.FragmentCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,6 +20,7 @@ class CalculatorFragment : Fragment() {
 
     private lateinit var binding: FragmentCalculatorBinding
     private val vm: CalculatorViewModel by viewModel()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,6 +79,13 @@ class CalculatorFragment : Fragment() {
         }
         setOnClickListeners()
         vm.getDaysFromClear()
+
+        mainViewModel.calculatorDataUpdated.observe(viewLifecycleOwner) { updated ->
+            if (updated) {
+                vm.refreshData()
+                mainViewModel.onCalculatorDataUpdated()
+            }
+        }
     }
 
     private fun setOnClickListeners() {
@@ -107,11 +117,8 @@ class CalculatorFragment : Fragment() {
         imm.hideSoftInputFromWindow(binding.inputCount.windowToken, 0)
     }
 
-    /**
-     * Обновляет данные калькулятора
-     * Вызывается после сохранения транзакций из уведомлений
-     */
-    fun refreshCalculatorData() {
+    override fun onResume() {
+        super.onResume()
         vm.refreshData()
     }
 

@@ -1,4 +1,5 @@
 import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,20 +8,30 @@ plugins {
     id("com.google.gms.google-services")
 }
 
-val localProperties = Properties()
-localProperties.load(rootProject.file("local.properties").inputStream())
+val keysFile = rootProject.file("keys.properties")
+val properties = Properties()
+
+// Загружаем свойства из файла keys.properties
+if (keysFile.exists()) {
+    properties.load(FileInputStream(keysFile))
+}
 
 android {
+    val storePasswordValue = properties.getProperty("storePassword")
+    val keyAliasValue = properties.getProperty("keyAlias")
+    val keyPasswordValue = properties.getProperty("keyPassword")
+
     signingConfigs {
         create("release") {
             val keystorePath = when {
                 file("/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks").exists() -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
                 else -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
             }
+
             storeFile = file(keystorePath)
-            storePassword = localProperties.getProperty("storePassword")
-            keyAlias = localProperties.getProperty("keyAlias")
-            keyPassword = localProperties.getProperty("keyPassword")
+            storePassword = storePasswordValue
+            keyAlias = keyAliasValue
+            keyPassword = keyPasswordValue
         }
     }
     namespace = "com.example.moneyeverydayxml"
@@ -51,11 +62,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         viewBinding = true
@@ -88,4 +99,13 @@ dependencies {
     //Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+
+    // Testing dependencies
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.koin:koin-test:3.5.0")
+    testImplementation("org.koin:koin-test-junit4:3.5.0")
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("androidx.test.ext:junit:1.1.5")
 }
