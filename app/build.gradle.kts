@@ -8,10 +8,10 @@ plugins {
 android {
     signingConfigs {
         create("release") {
-            val keystorePath = when (System.getProperty("os.name").lowercase()) {
-                "mac os x" -> "/Users/sergeyboykov/YandexDisk/Develop/Keys/keys.jks"
-                "windows" -> "D:\\YandexDisk\\Develop\\Keys\\keys.jks"
-                else -> "/Users/sergeyboykov/YandexDisk/Develop/Keys/keys.jks"
+            val keystorePath = when {
+                file("/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks").exists() -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
+                file("D:\\YandexDisk\\Develop\\Keys\\keys.jks").exists() -> "D:\\YandexDisk\\Develop\\Keys\\keys.jks"
+                else -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
             }
             storeFile = file(keystorePath)
             storePassword = "Uxs5y7rb_"
