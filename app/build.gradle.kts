@@ -1,14 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
+    id("com.google.devtools.ksp") version "2.1.21-2.0.1"
     id("com.google.gms.google-services")
 }
 
 android {
     signingConfigs {
         create("release") {
-            storeFile = file("D:\\YandexDisk\\Develop\\Keys\\keys.jks")
+            val keystorePath = when (System.getProperty("os.name").lowercase()) {
+                "mac os x" -> "/Users/sergeyboykov/YandexDisk/Develop/Keys/keys.jks"
+                "windows" -> "D:\\YandexDisk\\Develop\\Keys\\keys.jks"
+                else -> "/Users/sergeyboykov/YandexDisk/Develop/Keys/keys.jks"
+            }
+            storeFile = file(keystorePath)
             storePassword = "Uxs5y7rb_"
             keyAlias = "money_everyday_fragments"
             keyPassword = "Uxs5y7rb_"
