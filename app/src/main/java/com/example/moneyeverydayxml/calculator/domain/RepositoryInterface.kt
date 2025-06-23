@@ -11,5 +11,5 @@ interface RepositoryInterface {
     fun saveMainData(mainFile: MainData)
     fun loadMainData(): MainData
 
-    fun addTransactionAndUpdateSummary(transaction: Transaction)
+    suspend fun addTransactionAndUpdateSummary(transaction: Transaction)
 }

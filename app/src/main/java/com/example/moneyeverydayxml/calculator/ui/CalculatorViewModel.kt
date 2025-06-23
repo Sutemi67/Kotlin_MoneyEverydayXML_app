@@ -20,7 +20,6 @@ class CalculatorViewModel(
     private var mainData = getMainData()
     private var summary = mainData.summaryAmount
     private var clearDate = mainData.dateOfClear
-
     private val currentDate = currentTimeInMillis()
     private val formatter = SimpleDateFormat("dd MMM, EEEE, HH:mm", Locale("ru"))
 
@@ -50,9 +49,7 @@ class CalculatorViewModel(
         _sumAmount.postValue(mainData.summaryAmount.setScale(2, RoundingMode.DOWN).toString())
     }
 
-    private fun currentTimeInMillis(): Long {
-        return Calendar.getInstance().timeInMillis
-    }
+    private fun currentTimeInMillis(): Long = Calendar.getInstance().timeInMillis
 
     fun currentTimeFormattedString(): String {
         return formatter.format(currentDate)

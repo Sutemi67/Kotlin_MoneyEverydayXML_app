@@ -9,9 +9,6 @@ import com.example.moneyeverydayxml.history.data.Database
 import com.example.moneyeverydayxml.history.data.TransactionConverter
 import com.example.moneyeverydayxml.history.domain.model.MainData
 import com.example.moneyeverydayxml.history.domain.model.Transaction
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class Repository(
@@ -52,17 +49,20 @@ class Repository(
         return MainData(dayOfClear, summary.toBigDecimal())
     }
 
-    override fun addTransactionAndUpdateSummary(transaction: Transaction) {
-        GlobalScope.launch(Dispatchers.IO) {
-            saveTransaction(transaction)
-            val currentData = loadMainData()
-            val transactionAmount = try {
-                BigDecimal(transaction.count)
-            } catch (e: NumberFormatException) {
-                BigDecimal.ZERO
-            }
-            val newSummary = currentData.summaryAmount + transactionAmount
-            saveMainData(MainData(currentData.dateOfClear, newSummary))
+    override suspend fun addTransactionAndUpdateSummary(transaction: Transaction) {
+        saveTransaction(transaction)
+        val currentData = loadMainData()
+        val transactionAmount = try {
+            BigDecimal(transaction.count)
+        } catch (e: NumberFormatException) {
+            BigDecimal.ZERO
         }
+        val newSummary = currentData.summaryAmount + transactionAmount
+        saveMainData(
+            MainData(
+                dateOfClear = currentData.dateOfClear,
+                summaryAmount = newSummary
+            )
+        )
     }
 }

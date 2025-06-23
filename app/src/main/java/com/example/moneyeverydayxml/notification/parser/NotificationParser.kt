@@ -1,35 +1,30 @@
 package com.example.moneyeverydayxml.notification.parser
 
+import android.util.Log
 import java.math.BigDecimal
 import java.util.regex.Pattern
 
 class NotificationParser {
 
     companion object {
-        // Регулярные выражения для поиска сумм в разных форматах
         private val AMOUNT_PATTERNS = listOf(
-            // Основные паттерны для рублей
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*₽"), // 1 000 ₽
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*руб"), // 1 000 руб
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*рубл"), // 1 000 рублей
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*RUB"), // 1 000 RUB
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*р"), // 1 000 р
 
-            // Паттерны для долларов
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*\\$"), // 1 000 $
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*USD"), // 1 000 USD
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*долл"), // 1 000 долларов
 
-            // Паттерны для евро
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*€"), // 1 000 €
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*EUR"), // 1 000 EUR
             Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*евро"), // 1 000 евро
 
-            // Простые числовые паттерны (если валюта не указана, считаем рубли)
             Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\b")
         )
 
-        // Ключевые слова для определения финансовых транзакций
         private val FINANCIAL_KEYWORDS = setOf(
             // Доходы
             "зачислен", "зачисление", "пополнение", "входящий", "получен", "начислен",
@@ -61,9 +56,6 @@ class NotificationParser {
         )
     }
 
-    /**
-     * Проверяет, содержит ли уведомление информацию о финансовой транзакции
-     */
     fun isFinancialTransaction(title: String, text: String): Boolean {
         val fullText = "$title $text".lowercase()
 
@@ -77,9 +69,6 @@ class NotificationParser {
         return hasAmount && hasFinancialKeywords
     }
 
-    /**
-     * Извлекает сумму из текста уведомления
-     */
     fun extractAmount(title: String, text: String): BigDecimal? {
         val fullText = "$title $text".lowercase()
 
@@ -96,6 +85,7 @@ class NotificationParser {
                         return if (isExpense) amount.negate() else amount
 
                     } catch (e: NumberFormatException) {
+                        Log.e("erorr", "${e.message}")
                         continue
                     }
                 }

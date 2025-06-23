@@ -25,7 +25,7 @@ class Interactor(
         return repository.loadMainData()
     }
 
-    override fun addTransactionAndUpdateSummary(transaction: Transaction) {
+    override suspend fun addTransactionAndUpdateSummary(transaction: Transaction) {
         repository.addTransactionAndUpdateSummary(transaction)
     }
 }

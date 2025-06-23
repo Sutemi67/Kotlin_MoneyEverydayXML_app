@@ -15,6 +15,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class NotificationListenerService : NotificationListenerService(), KoinComponent {
 
@@ -41,14 +42,14 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
         // Анализируем все уведомления на предмет финансовых транзакций
         Log.d(TAG, "Получено уведомление от: $packageName")
 
-        val transaction = parseNotification(notification, packageName)
+        val transaction = parseNotification(notification)
         if (transaction != null) {
             Log.d(TAG, "Обнаружена финансовая транзакция: ${transaction.count} руб.")
             saveTransaction(transaction)
         }
     }
 
-    private fun parseNotification(notification: Notification, packageName: String): Transaction? {
+    private fun parseNotification(notification: Notification): Transaction? {
         val title = notification.extras.getString(Notification.EXTRA_TITLE) ?: ""
         val text = notification.extras.getString(Notification.EXTRA_TEXT) ?: ""
 
@@ -65,7 +66,9 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
         val amount = parser.extractAmount(title, text)
         if (amount != null) {
             val currentTime = LocalDateTime.now()
-            val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+            val formattedTime =
+                currentTime.format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
+//            val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
             val timeInMillis = System.currentTimeMillis()
 
             return Transaction(
@@ -74,11 +77,11 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
                 count = amount.toString()
             )
         }
-
         return null
     }
 
     private fun saveTransaction(transaction: Transaction) {
+
         scope.launch {
             try {
                 repository.addTransactionAndUpdateSummary(transaction)
@@ -101,10 +104,5 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
                 Log.e(TAG, "Ошибка при сохранении транзакции", e)
             }
         }
-    }
-
-    override fun onNotificationRemoved(sbn: StatusBarNotification) {
-        super.onNotificationRemoved(sbn)
-        // Можно добавить логику для обработки удаленных уведомлений
     }
 } 
