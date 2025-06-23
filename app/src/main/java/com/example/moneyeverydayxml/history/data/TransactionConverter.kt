@@ -1,6 +1,6 @@
 package com.example.moneyeverydayxml.history.data
 
-import com.example.moneyeverydayxml.history.domain.model.Transaction
+import com.example.moneyeverydayxml.core.domain.model.Transaction
 
 class TransactionConverter {
     fun mapToTransactionList(list: List<TransactionEntity>): List<Transaction> {

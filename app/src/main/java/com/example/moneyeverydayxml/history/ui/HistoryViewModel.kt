@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moneyeverydayxml.calculator.domain.InteractorInterface
-import com.example.moneyeverydayxml.history.domain.model.Transaction
+import com.example.moneyeverydayxml.core.domain.RepositoryInterface
+import com.example.moneyeverydayxml.core.domain.model.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
-    private val interactor: InteractorInterface
+    private val repository: RepositoryInterface
 ) : ViewModel() {
 
     private var _transactions: MutableLiveData<List<Transaction>> = MutableLiveData()
@@ -18,7 +18,7 @@ class HistoryViewModel(
 
     fun loadTransactions(){
         viewModelScope.launch(Dispatchers.IO) {
-            _transactions.postValue(interactor.loadTransactions())
+            _transactions.postValue(repository.loadTransactions())
         }
     }
 }

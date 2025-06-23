@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.ListAdapter
 import com.example.moneyeverydayxml.R
-import com.example.moneyeverydayxml.history.domain.model.Transaction
+import com.example.moneyeverydayxml.core.domain.model.Transaction
 
 class TransactionListAdapter :
     ListAdapter<Transaction, TransactionListViewHolder>(DiffUtilCallback()) {

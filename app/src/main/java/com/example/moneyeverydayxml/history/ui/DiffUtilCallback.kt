@@ -1,7 +1,7 @@
 package com.example.moneyeverydayxml.history.ui
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.moneyeverydayxml.history.domain.model.Transaction
+import com.example.moneyeverydayxml.core.domain.model.Transaction
 
 class DiffUtilCallback : DiffUtil.ItemCallback<Transaction>() {
     override fun areItemsTheSame(

@@ -1,6 +1,0 @@
-# Пример файла конфигурации ключей для подписи приложения
-# Скопируйте этот файл в keys.properties и заполните реальными значениями
-
-storePassword=your_keystore_password
-keyAlias=your_key_alias
-keyPassword=your_key_password 

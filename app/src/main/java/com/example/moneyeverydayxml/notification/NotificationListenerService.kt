@@ -5,8 +5,8 @@ import android.content.Intent
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import com.example.moneyeverydayxml.calculator.domain.RepositoryInterface
-import com.example.moneyeverydayxml.history.domain.model.Transaction
+import com.example.moneyeverydayxml.core.domain.RepositoryInterface
+import com.example.moneyeverydayxml.core.domain.model.Transaction
 import com.example.moneyeverydayxml.notification.parser.NotificationParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

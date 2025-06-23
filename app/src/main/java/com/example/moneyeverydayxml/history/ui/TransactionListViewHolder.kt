@@ -6,7 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyeverydayxml.R
-import com.example.moneyeverydayxml.history.domain.model.Transaction
+import com.example.moneyeverydayxml.core.domain.model.Transaction
 
 class TransactionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

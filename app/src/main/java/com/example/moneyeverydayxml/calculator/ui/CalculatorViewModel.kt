@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moneyeverydayxml.calculator.domain.InteractorInterface
-import com.example.moneyeverydayxml.history.domain.model.MainData
-import com.example.moneyeverydayxml.history.domain.model.Transaction
+import com.example.moneyeverydayxml.core.domain.RepositoryInterface
+import com.example.moneyeverydayxml.core.domain.model.MainData
+import com.example.moneyeverydayxml.core.domain.model.Transaction
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -15,7 +15,7 @@ import java.util.Calendar
 import java.util.Locale
 
 class CalculatorViewModel(
-    private val interactor: InteractorInterface
+    private val repository: RepositoryInterface
 ) : ViewModel() {
     private var mainData = getMainData()
     private var summary = mainData.summaryAmount
@@ -41,11 +41,11 @@ class CalculatorViewModel(
     }
 
     private fun getMainData(): MainData {
-        return interactor.loadMainData()
+        return repository.loadMainData()
     }
 
     fun refreshData() {
-        mainData = interactor.loadMainData()
+        mainData = repository.loadMainData()
         _sumAmount.postValue(mainData.summaryAmount.setScale(2, RoundingMode.DOWN).toString())
     }
 
@@ -72,7 +72,7 @@ class CalculatorViewModel(
         summary -= input
         summaryPerDayResult = perDayCalculate()
         viewModelScope.launch {
-            interactor.addTransactionAndUpdateSummary(
+            repository.addTransactionAndUpdateSummary(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
@@ -86,7 +86,7 @@ class CalculatorViewModel(
         summary += input
         summaryPerDayResult = perDayCalculate()
         viewModelScope.launch {
-            interactor.addTransactionAndUpdateSummary(
+            repository.addTransactionAndUpdateSummary(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
@@ -102,15 +102,15 @@ class CalculatorViewModel(
         clearDate = currentDate
         _daysFromClearPassedLiveData.postValue("День сброса сегодня")
         viewModelScope.launch {
-            interactor.saveTransaction(
+            repository.saveTransaction(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
                     count = "Сброс статистики"
                 )
             )
-            interactor.saveMainData(MainData(clearDate, summary))
-            interactor.clearAllTransactions()
+            repository.saveMainData(MainData(clearDate, summary))
+            repository.clearAllTransactions()
         }
     }
 }

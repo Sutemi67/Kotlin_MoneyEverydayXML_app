@@ -17,21 +17,19 @@ if (keysFile.exists()) {
 }
 
 android {
+    val storeFileValue = properties.getProperty("storeFile")
     val storePasswordValue = properties.getProperty("storePassword")
     val keyAliasValue = properties.getProperty("keyAlias")
     val keyPasswordValue = properties.getProperty("keyPassword")
 
     signingConfigs {
         create("release") {
-            val keystorePath = when {
-                file("/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks").exists() -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
-                else -> "/Users/sergeyboykov/Yandex.Disk.localized/Develop/Keys/keys.jks"
+            if (storeFileValue != null) {
+                storeFile = file(storeFileValue)
+                storePassword = storePasswordValue
+                keyAlias = keyAliasValue
+                keyPassword = keyPasswordValue
             }
-
-            storeFile = file(keystorePath)
-            storePassword = storePasswordValue
-            keyAlias = keyAliasValue
-            keyPassword = keyPasswordValue
         }
     }
     namespace = "com.example.moneyeverydayxml"
@@ -81,8 +79,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.protolite.well.known.types)
     implementation(libs.koin.android)
     testImplementation(libs.junit)

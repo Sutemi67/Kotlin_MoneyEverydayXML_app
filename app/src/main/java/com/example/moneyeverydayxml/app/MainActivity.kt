@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -62,11 +61,6 @@ class MainActivity : AppCompatActivity() {
 
         // Регистрируем receiver для получения уведомлений о транзакциях
         registerTransactionReceiver()
-
-        // Запускаем тесты парсера в debug режиме
-        if (viewModel.isDebugMode(this)) {
-            runParserTests()
-        }
     }
 
     private fun setupUI() {
@@ -100,7 +94,6 @@ class MainActivity : AppCompatActivity() {
                 is MainViewModel.TestNotificationResult.Info -> {
                     showSnackbar(result.message, Snackbar.LENGTH_LONG) {
                         setAction(getString(R.string.clear_test_transactions)) {
-                            viewModel.clearTestTransactions()
                         }
                     }
                 }
@@ -128,7 +121,6 @@ class MainActivity : AppCompatActivity() {
             binding.testNotificationButton.visibility = View.VISIBLE
 
             binding.testNotificationButton.setOnClickListener {
-                viewModel.runNotificationTests()
             }
         }
     }
@@ -161,17 +153,6 @@ class MainActivity : AppCompatActivity() {
             registerReceiver(transactionReceiver, filter, RECEIVER_NOT_EXPORTED)
         } else {
             registerReceiver(transactionReceiver, filter)
-        }
-    }
-
-    private fun runParserTests() {
-        try {
-            val testParser =
-                com.example.moneyeverydayxml.notification.parser.NotificationParserTest()
-            testParser.testNotificationFormats()
-            Log.d("MainActivity", "Тесты парсера выполнены")
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Ошибка при выполнении тестов парсера", e)
         }
     }
 

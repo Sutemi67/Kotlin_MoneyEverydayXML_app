@@ -3,8 +3,8 @@ package com.example.moneyeverydayxml.app.di
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.room.Room
-import com.example.moneyeverydayxml.calculator.data.Repository
-import com.example.moneyeverydayxml.calculator.domain.RepositoryInterface
+import com.example.moneyeverydayxml.core.data.Repository
+import com.example.moneyeverydayxml.core.domain.RepositoryInterface
 import com.example.moneyeverydayxml.history.data.Database
 import com.example.moneyeverydayxml.history.data.TransactionConverter
 import org.koin.android.ext.koin.androidContext
