@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
+import com.example.moneyeverydayxml.core.domain.model.MainData
 
 @Dao
 interface DatabaseDao {
@@ -21,4 +23,10 @@ interface DatabaseDao {
 
     @Query("DELETE FROM transactions")
     suspend fun clearAllTransactions()
+
+    @Upsert
+    suspend fun upsertMainData(mainData: MainData)
+
+    @Query("SELECT * FROM MainData WHERE id = 0")
+    suspend fun getMainData(): MainData?
 }

@@ -9,12 +9,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.moneyeverydayxml.R
 import com.example.moneyeverydayxml.app.MainViewModel
 import com.example.moneyeverydayxml.calculator.DecimalDigitsInputFilter
 import com.example.moneyeverydayxml.databinding.FragmentCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.math.BigDecimal
+import kotlinx.coroutines.launch
 
 class CalculatorFragment : Fragment() {
 
@@ -82,7 +84,9 @@ class CalculatorFragment : Fragment() {
 
         mainViewModel.calculatorDataUpdated.observe(viewLifecycleOwner) { updated ->
             if (updated) {
-                vm.refreshData()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    vm.refreshData()
+                }
                 mainViewModel.onCalculatorDataUpdated()
             }
         }
@@ -119,7 +123,9 @@ class CalculatorFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        vm.refreshData()
+        viewLifecycleOwner.lifecycleScope.launch {
+            vm.refreshData()
+        }
     }
 
     companion object {

@@ -17,36 +17,48 @@ import java.util.Locale
 class CalculatorViewModel(
     private val repository: RepositoryInterface
 ) : ViewModel() {
-    private var mainData = getMainData()
-    private var summary = mainData.summaryAmount
-    private var clearDate = mainData.dateOfClear
+    private lateinit var mainData: MainData
+    private lateinit var summary: BigDecimal
+    private var clearDate: Long = 0L
+
     private val currentDate = currentTimeInMillis()
     private val formatter = SimpleDateFormat("dd MMM, EEEE, HH:mm", Locale("ru"))
 
-    private val _sumAmount: MutableLiveData<String> =
-        MutableLiveData(summary.setScale(2, RoundingMode.DOWN).toString())
+    private val _sumAmount: MutableLiveData<String> = MutableLiveData()
     private val _daysFromClearPassedLiveData: MutableLiveData<String> = MutableLiveData("")
     private val _byDayAmount: MutableLiveData<String> = MutableLiveData("")
-    private var summaryPerDayResult = perDayCalculate()
+    private lateinit var summaryPerDayResult: BigDecimal
 
     val byDay: LiveData<String> = _byDayAmount
     val sumAmount: LiveData<String> = _sumAmount
     val daysFromClearPassedLiveData: LiveData<String> = _daysFromClearPassedLiveData
 
-    private fun perDayCalculate(): BigDecimal {
-        val r = summary / getDaysFromClear().toBigDecimal()
-        _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
-        _byDayAmount.postValue(r.setScale(2, RoundingMode.DOWN).toString())
-        return r
+    init {
+        viewModelScope.launch {
+            refreshData()
+        }
     }
 
-    private fun getMainData(): MainData {
+    private fun perDayCalculate(): BigDecimal {
+        val days = getDaysFromClear()
+        if (days > 0) {
+            val r = summary.divide(days.toBigDecimal(), 2, RoundingMode.DOWN)
+            _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
+            _byDayAmount.postValue(r.setScale(2, RoundingMode.DOWN).toString())
+            return r
+        }
+        return BigDecimal.ZERO
+    }
+
+    suspend fun getMainData(): MainData {
         return repository.loadMainData()
     }
 
-    fun refreshData() {
-        mainData = repository.loadMainData()
-        _sumAmount.postValue(mainData.summaryAmount.setScale(2, RoundingMode.DOWN).toString())
+    suspend fun refreshData() {
+        mainData = getMainData()
+        summary = mainData.summaryAmount
+        clearDate = mainData.dateOfClear
+        summaryPerDayResult = perDayCalculate()
     }
 
     private fun currentTimeInMillis(): Long = Calendar.getInstance().timeInMillis
@@ -98,10 +110,12 @@ class CalculatorViewModel(
 
     fun clearAction() {
         summary = BigDecimal(0.0)
-        perDayCalculate()
         clearDate = currentDate
+        perDayCalculate()
         _daysFromClearPassedLiveData.postValue("День сброса сегодня")
         viewModelScope.launch {
+            repository.clearAllTransactions()
+            repository.saveMainData(MainData(dateOfClear = clearDate, summaryAmount = summary))
             repository.saveTransaction(
                 Transaction(
                     time = currentTimeInMillis(),
@@ -109,8 +123,6 @@ class CalculatorViewModel(
                     count = "Сброс статистики"
                 )
             )
-            repository.saveMainData(MainData(clearDate, summary))
-            repository.clearAllTransactions()
         }
     }
 }
