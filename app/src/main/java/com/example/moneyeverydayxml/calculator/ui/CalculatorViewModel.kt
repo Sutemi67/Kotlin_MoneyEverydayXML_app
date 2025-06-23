@@ -76,7 +76,7 @@ class CalculatorViewModel(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "-$input"
+                    count = "- $input"
                 )
             )
         }
@@ -90,7 +90,7 @@ class CalculatorViewModel(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "$input"
+                    count = "+ $input"
                 )
             )
         }
@@ -106,7 +106,7 @@ class CalculatorViewModel(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "Сброс"
+                    count = "Сброс статистики"
                 )
             )
             interactor.saveMainData(MainData(clearDate, summary))

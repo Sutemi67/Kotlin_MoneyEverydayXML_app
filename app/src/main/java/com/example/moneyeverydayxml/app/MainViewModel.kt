@@ -102,14 +102,7 @@ class MainViewModel : ViewModel() {
             }
         }
     }
-    
-    /**
-     * Обновляет данные калькулятора
-     */
-    fun updateCalculatorData() {
-        _calculatorDataUpdated.postValue(true)
-    }
-    
+
     /**
      * Сбрасывает флаг обновления данных калькулятора
      */
@@ -124,14 +117,7 @@ class MainViewModel : ViewModel() {
         _historyDataUpdated.postValue(true)
         _calculatorDataUpdated.postValue(true)
     }
-    
-    /**
-     * Сбрасывает флаг обновления истории
-     */
-    fun onHistoryDataRefreshed() {
-        _historyDataUpdated.value = false
-    }
-    
+
     /**
      * Проверяет, находится ли приложение в debug режиме
      */

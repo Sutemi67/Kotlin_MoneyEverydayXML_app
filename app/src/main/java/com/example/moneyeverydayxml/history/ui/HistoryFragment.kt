@@ -10,6 +10,7 @@ import com.example.moneyeverydayxml.app.MainViewModel
 import com.example.moneyeverydayxml.databinding.FragmentHistoryBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.RecyclerView
 
 class HistoryFragment : Fragment() {
 
@@ -31,12 +32,19 @@ class HistoryFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0) {
+                    binding.recyclerView.scrollToPosition(0)
+                }
+            }
+        })
+
         vm.transactions.observe(viewLifecycleOwner) { adapter.setData(it) }
 
         mainViewModel.historyDataUpdated.observe(viewLifecycleOwner) { updated ->
             if (updated) {
                 vm.loadTransactions()
-                mainViewModel.onHistoryDataRefreshed()
             }
         }
     }

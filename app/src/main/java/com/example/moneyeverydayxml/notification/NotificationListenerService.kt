@@ -68,7 +68,6 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
             val currentTime = LocalDateTime.now()
             val formattedTime =
                 currentTime.format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
-//            val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
             val timeInMillis = System.currentTimeMillis()
 
             return Transaction(

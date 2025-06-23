@@ -17,14 +17,9 @@ class TransactionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
     fun bind(model: Transaction) {
         date.text = model.date
         count.text = formatTransactionText(model.count)
-        
-        // Добавляем Tooltip для тестовых транзакций
         setupTooltip(model.count)
     }
-    
-    /**
-     * Форматирует текст транзакции для отображения
-     */
+
     private fun formatTransactionText(transactionText: String): String {
         return when {
             // Тестовые транзакции в формате "сумма - описание"
@@ -41,10 +36,7 @@ class TransactionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
             else -> transactionText
         }
     }
-    
-    /**
-     * Настраивает Tooltip для тестовых транзакций
-     */
+
     private fun setupTooltip(transactionText: String) {
         if (transactionText.contains("[ТЕСТ]")) {
             itemView.setOnLongClickListener {
