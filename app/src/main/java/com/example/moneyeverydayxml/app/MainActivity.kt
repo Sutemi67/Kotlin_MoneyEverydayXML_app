@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,16 +28,9 @@ class MainActivity : AppCompatActivity() {
     private val transactionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == NotificationListenerService.ACTION_TRANSACTION_ADDED) {
-                val amount = intent.getStringExtra("amount") ?: ""
-                val description = intent.getStringExtra("description") ?: ""
-
                 viewModel.onNewTransactionReceived()
-
-                Snackbar.make(
-                    binding.root,
-                    getString(R.string.transaction_added_auto, amount, description),
-                    Snackbar.LENGTH_LONG
-                ).show()
+                val message = getString(R.string.transaction_added_auto)
+                showSnackbar(message)
             }
         }
     }
@@ -92,6 +86,9 @@ class MainActivity : AppCompatActivity() {
         action: (Snackbar.() -> Unit)? = null
     ) {
         val snackbar = Snackbar.make(binding.root, message, SNACKBAR_DURATION)
+        val textView =
+            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        textView.maxLines = 5
         action?.invoke(snackbar)
         snackbar.show()
     }
@@ -129,6 +126,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val SNACKBAR_DURATION = 5
+        const val SNACKBAR_DURATION = 5000
     }
 }

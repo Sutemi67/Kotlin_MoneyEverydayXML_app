@@ -21,6 +21,9 @@ class MainViewModel : ViewModel() {
     private val _historyDataUpdated = MutableLiveData<Boolean>()
     val historyDataUpdated: LiveData<Boolean> = _historyDataUpdated
 
+    private val _mainDataUpdated = MutableLiveData<Boolean>()
+    val mainDataUpdated: LiveData<Boolean> = _mainDataUpdated
+
     init {
         checkNotificationPermissions()
     }
@@ -32,6 +35,10 @@ class MainViewModel : ViewModel() {
 
     fun requestNotificationPermission() {
         notificationPermissionManager.requestNotificationPermission()
+    }
+
+    fun notifyMainDataUpdated(){
+        _mainDataUpdated.postValue(true)
     }
 
     fun onCalculatorDataUpdated() {

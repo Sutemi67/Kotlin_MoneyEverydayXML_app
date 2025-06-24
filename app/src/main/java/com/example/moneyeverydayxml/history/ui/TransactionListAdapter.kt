@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.moneyeverydayxml.R
 import com.example.moneyeverydayxml.core.domain.model.Transaction
 
-class TransactionListAdapter :
+class TransactionListAdapter(
+    private val onDeleteClick: (Transaction) -> Unit,
+    private val onEditClick: (Transaction) -> Unit
+) :
     ListAdapter<Transaction, TransactionListViewHolder>(DiffUtilCallback()) {
     private val difUtil = DiffUtilCallback()
     private val asyncListDiffer = AsyncListDiffer(this, difUtil)
@@ -23,7 +26,7 @@ class TransactionListAdapter :
     ): TransactionListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.history_element, parent, false)
-        return TransactionListViewHolder(view)
+        return TransactionListViewHolder(view, onDeleteClick, onEditClick)
     }
 
     override fun onBindViewHolder(

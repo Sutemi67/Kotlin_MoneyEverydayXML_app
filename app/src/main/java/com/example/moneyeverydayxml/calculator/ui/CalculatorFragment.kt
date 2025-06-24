@@ -82,6 +82,14 @@ class CalculatorFragment : Fragment() {
         setOnClickListeners()
         vm.getDaysFromClear()
 
+        mainViewModel.mainDataUpdated.observe(viewLifecycleOwner) { updated ->
+            if (updated) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    vm.refreshData()
+                }
+            }
+        }
+
         mainViewModel.calculatorDataUpdated.observe(viewLifecycleOwner) { updated ->
             if (updated) {
                 viewLifecycleOwner.lifecycleScope.launch {

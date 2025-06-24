@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Money Everyday</string>
-    <!-- Strings used for fragments for navigation -->
 
     <string name="days_pass">Days passed</string>
     <string name="clear_button">Clear</string>
@@ -12,17 +11,11 @@
     <string name="input_count">input count</string>
 
     <string name="last_date">last transaction date</string>
-    <string name="empty_string" />
+    <string name="empty_string" translatable="false" />
     <string name="historyText">Transactions History</string>
     <string name="calculatorHeader">Calculator</string>
 
-    <!-- Notification testing -->
-    <string name="test_notification_button">Test notification</string>
     <string name="notification_permission_required">For automatic transaction adding, enable notification access</string>
-    <string name="configure">Настроить</string>
-    <string name="transaction_added_auto">Автоматически добавлена транзакция: %1$s руб. - %2$s</string>
-    
-    <!-- Test transactions -->
-    <string name="view_test_results">Просмотреть</string>
-    <string name="clear_test_transactions">Очистить тесты</string>
+    <string name="configure">Configure</string>
+    <string name="transaction_added_auto">Automatically added transaction</string>
 </resources>

@@ -7,6 +7,8 @@ interface RepositoryInterface {
     suspend fun saveTransaction(transaction: Transaction)
     suspend fun loadTransactions():List<Transaction>
     suspend fun clearAllTransactions()
+    suspend fun deleteTransaction(transaction: Transaction)
+    suspend fun updateTransaction(transaction: Transaction)
 
     suspend fun saveMainData(mainData: MainData)
     suspend fun loadMainData(): MainData

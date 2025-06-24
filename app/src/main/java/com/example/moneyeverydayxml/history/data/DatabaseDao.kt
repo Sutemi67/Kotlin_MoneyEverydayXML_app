@@ -1,9 +1,11 @@
 package com.example.moneyeverydayxml.history.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import androidx.room.Upsert
 import com.example.moneyeverydayxml.core.domain.model.MainData
 
@@ -11,6 +13,12 @@ import com.example.moneyeverydayxml.core.domain.model.MainData
 interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOperation(transaction: TransactionEntity): Long
+
+    @Delete
+    suspend fun deleteTransaction(transaction: TransactionEntity)
+
+    @Update
+    suspend fun updateTransaction(transaction: TransactionEntity)
 
     @Query("select*from transactions order by time desc")
     suspend fun getTransactionsList(): List<TransactionEntity>

@@ -13,7 +13,9 @@
     <string name="input_count">введите номинал</string>
 
     <string name="last_date">дата последней операции</string>
-    <string name="empty_string"></string>
     <string name="historyText">История операций</string>
     <string name="calculatorHeader">Калькулятор</string>
+    <string name="notification_permission_required">Для автоматического учета ваших транзакций разрешите приложению прослушавать ваши уведомления</string>
+    <string name="configure">Настроить</string>
+    <string name="transaction_added_auto">Автоматически добавлена транзакция: %1$s руб. - %2$s</string>
 </resources>

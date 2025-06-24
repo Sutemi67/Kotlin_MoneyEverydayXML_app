@@ -3,12 +3,16 @@ package com.example.moneyeverydayxml.history.ui
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyeverydayxml.R
+import com.example.moneyeverydayxml.app.AppComponents
 import com.example.moneyeverydayxml.core.domain.model.Transaction
 
-class TransactionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class TransactionListViewHolder(
+    itemView: View,
+    private val onDeleteClick: (Transaction) -> Unit,
+    private val onEditClick: (Transaction) -> Unit
+) : RecyclerView.ViewHolder(itemView) {
 
     private val date: TextView = itemView.findViewById<TextView>(R.id.transaction_date)
     private val count: TextView = itemView.findViewById<TextView>(R.id.transaction_count)
@@ -17,7 +21,7 @@ class TransactionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
     fun bind(model: Transaction) {
         date.text = model.date
         count.text = formatTransactionText(model.count)
-        setupTooltip(model.description)
+        setupDialog(model)
     }
 
     private fun formatTransactionText(transactionText: String): String {
@@ -35,13 +39,14 @@ class TransactionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
         }
     }
 
-    private fun setupTooltip(descriptionText: String) {
+    private fun setupDialog(model: Transaction) {
         itemView.setOnLongClickListener {
-            Toast.makeText(
-                itemView.context,
-                descriptionText,
-                Toast.LENGTH_LONG
-            ).show()
+            AppComponents.transactionDialog(
+                itemView,
+                model,
+                onDelete = { onDeleteClick(model) },
+                onEdit = { onEditClick(model) }
+            )
             true
         }
     }

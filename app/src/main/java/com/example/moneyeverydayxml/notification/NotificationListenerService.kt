@@ -71,6 +71,7 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
             val timeInMillis = System.currentTimeMillis()
 
             return Transaction(
+                id = null,
                 time = timeInMillis,
                 date = formattedTime,
                 count = amount.toString(),
