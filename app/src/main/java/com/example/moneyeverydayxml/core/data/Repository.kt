@@ -7,6 +7,7 @@ import com.example.moneyeverydayxml.core.domain.model.Transaction
 import com.example.moneyeverydayxml.history.data.Database
 import com.example.moneyeverydayxml.history.data.TransactionConverter
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 class Repository(
     private val database: Database,
@@ -31,6 +32,27 @@ class Repository(
 
     override suspend fun clearAllTransactions() {
         dao.clearAllTransactions()
+    }
+
+    override suspend fun deleteTransaction(transaction: Transaction) {
+        database.withTransaction {
+            val currentData = loadMainData()
+            val transactionAmount = try {
+                BigDecimal(transaction.count.replace("+", ""))
+            } catch (e: NumberFormatException) {
+                BigDecimal.ZERO
+            }
+            val newSummary = currentData.summaryAmount.subtract(transactionAmount)
+            val newMainData = currentData.copy(summaryAmount = newSummary)
+            saveMainData(newMainData)
+            val entity = converter.mapToTransactionEntity(transaction)
+            dao.deleteTransaction(entity)
+        }
+    }
+
+    override suspend fun updateTransaction(transaction: Transaction) {
+        val entity = converter.mapToTransactionEntity(transaction)
+        dao.updateTransaction(entity)
     }
 
     override suspend fun saveMainData(mainData: MainData) {

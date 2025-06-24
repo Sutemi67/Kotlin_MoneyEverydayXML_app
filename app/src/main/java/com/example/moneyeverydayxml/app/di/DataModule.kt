@@ -14,7 +14,7 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(androidContext(), Database::class.java, "database.db")
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(false)
             .build()
     }
     single { TransactionConverter() }

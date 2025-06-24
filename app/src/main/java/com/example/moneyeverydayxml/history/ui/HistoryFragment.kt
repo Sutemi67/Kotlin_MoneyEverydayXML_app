@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moneyeverydayxml.app.MainViewModel
@@ -17,7 +18,15 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
     private val vm: HistoryViewModel by viewModel()
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val adapter = TransactionListAdapter()
+    private val adapter = TransactionListAdapter(
+        onDeleteClick = { transaction ->
+            vm.deleteTransaction(transaction)
+            mainViewModel.notifyMainDataUpdated()
+        },
+        onEditClick = {
+            Toast.makeText(requireContext(), "Редактирование в разработке", Toast.LENGTH_SHORT).show()
+        }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

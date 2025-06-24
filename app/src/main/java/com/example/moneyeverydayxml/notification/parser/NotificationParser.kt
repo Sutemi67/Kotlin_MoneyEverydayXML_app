@@ -42,7 +42,6 @@ class NotificationParser {
             "операция", "транзакция", "деньги", "средства", "валюта"
         )
 
-        // Ключевые слова для определения типа транзакции
         private val INCOME_KEYWORDS = setOf(
             "зачислен", "зачисление", "пополнение", "входящий", "получен", "начислен",
             "income", "received", "credited", "deposit", "transfer received",
@@ -58,14 +57,8 @@ class NotificationParser {
 
     fun isFinancialTransaction(title: String, text: String): Boolean {
         val fullText = "$title $text".lowercase()
-
-        // Проверяем наличие суммы
         val hasAmount = AMOUNT_PATTERNS.any { it.matcher(fullText).find() }
-
-        // Проверяем наличие финансовых ключевых слов
         val hasFinancialKeywords = FINANCIAL_KEYWORDS.any { fullText.contains(it) }
-
-        // Уведомление считается финансовым, если содержит сумму И финансовые ключевые слова
         return hasAmount && hasFinancialKeywords
     }
 
@@ -80,7 +73,6 @@ class NotificationParser {
                     try {
                         val amount = BigDecimal(amountStr)
 
-                        // Определяем знак суммы на основе контекста
                         val isExpense = isExpenseTransaction(title, text)
                         return if (isExpense) amount.negate() else amount
 
@@ -95,35 +87,12 @@ class NotificationParser {
         return null
     }
 
-    /**
-     * Извлекает описание транзакции
-     */
-    fun extractDescription(title: String, text: String): String? {
-        // Убираем сумму из текста и возвращаем оставшуюся часть
-        val fullText = "$title $text"
-        var cleanText = fullText
-
-        // Удаляем суммы из текста
-        for (pattern in AMOUNT_PATTERNS) {
-            cleanText = pattern.matcher(cleanText).replaceAll("")
-        }
-
-        // Удаляем лишние пробелы и символы
-        cleanText = cleanText.trim().replace("\\s+".toRegex(), " ")
-
-        return if (cleanText.isNotEmpty()) cleanText else null
-    }
-
-    /**
-     * Определяет, является ли транзакция расходом
-     */
     private fun isExpenseTransaction(title: String, text: String): Boolean {
         val fullText = "$title $text".lowercase()
 
         val incomeCount = INCOME_KEYWORDS.count { fullText.contains(it) }
         val expenseCount = EXPENSE_KEYWORDS.count { fullText.contains(it) }
 
-        // Если больше ключевых слов расходов - считаем расходом
         return expenseCount > incomeCount
     }
 } 

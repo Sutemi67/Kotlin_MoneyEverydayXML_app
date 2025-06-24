@@ -7,7 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,16 +28,9 @@ class MainActivity : AppCompatActivity() {
     private val transactionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == NotificationListenerService.ACTION_TRANSACTION_ADDED) {
-                val amount = intent.getStringExtra("amount") ?: ""
-                val description = intent.getStringExtra("description") ?: ""
-
                 viewModel.onNewTransactionReceived()
-
-                Snackbar.make(
-                    binding.root,
-                    getString(R.string.transaction_added_auto, amount, description),
-                    Snackbar.LENGTH_LONG
-                ).show()
+                val message = getString(R.string.transaction_added_auto)
+                showSnackbar(message)
             }
         }
     }
@@ -57,9 +50,6 @@ class MainActivity : AppCompatActivity() {
 
         setupUI()
         setupObservers()
-        setupTestButton()
-
-        // Регистрируем receiver для получения уведомлений о транзакциях
         registerTransactionReceiver()
     }
 
@@ -76,38 +66,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        // Наблюдаем за результатами тестирования уведомлений
-        viewModel.testNotificationResult.observe(this) { result ->
-            when (result) {
-                is MainViewModel.TestNotificationResult.Success -> {
-                    showSnackbar(result.message, Snackbar.LENGTH_LONG) {
-                        setAction(getString(R.string.view_test_results)) {
-                            viewModel.showTestTransactionsInfo()
-                        }
-                    }
-                }
-
-                is MainViewModel.TestNotificationResult.Error -> {
-                    showSnackbar(result.message, Snackbar.LENGTH_LONG)
-                }
-
-                is MainViewModel.TestNotificationResult.Info -> {
-                    showSnackbar(result.message, Snackbar.LENGTH_LONG) {
-                        setAction(getString(R.string.clear_test_transactions)) {
-                        }
-                    }
-                }
-            }
-        }
-
-        // Наблюдаем за обновлением данных калькулятора
         viewModel.calculatorDataUpdated.observe(this) { updated ->
             if (updated) {
-                viewModel.onCalculatorDataUpdated() // Сбрасываем флаг
+                viewModel.onCalculatorDataUpdated()
             }
         }
-
-        // Наблюдаем за требованиями разрешений
         viewModel.notificationPermissionRequired.observe(this) { required ->
             if (required) {
                 showPermissionSnackbar()
@@ -115,35 +78,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTestButton() {
-        // Показываем кнопку только в debug режиме
-        if (viewModel.isDebugMode(this)) {
-            binding.testNotificationButton.visibility = View.VISIBLE
-
-            binding.testNotificationButton.setOnClickListener {
-            }
-        }
-    }
-
     private fun showSnackbar(
         message: String,
-        duration: Int,
         action: (Snackbar.() -> Unit)? = null
     ) {
-        val snackbar = Snackbar.make(binding.root, message, duration)
+        val snackbar = Snackbar.make(binding.root, message, SNACKBAR_DURATION)
+        val textView =
+            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        textView.maxLines = 5
         action?.invoke(snackbar)
         snackbar.show()
     }
 
     private fun showPermissionSnackbar() {
         showSnackbar(
-            getString(R.string.notification_permission_required),
-            Snackbar.LENGTH_LONG
-        ) {
-            setAction(getString(R.string.configure)) {
-                viewModel.requestNotificationPermission()
+            message = getString(R.string.notification_permission_required),
+            action = {
+                setAction(getString(R.string.configure)) {
+                    viewModel.requestNotificationPermission()
+                }
             }
-        }
+        )
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
@@ -164,7 +119,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Проверяем статус сервиса при возвращении в приложение
         viewModel.checkNotificationPermissions()
+    }
+
+    companion object {
+        const val SNACKBAR_DURATION = 5000
     }
 }

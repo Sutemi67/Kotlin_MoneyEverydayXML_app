@@ -86,9 +86,11 @@ class CalculatorViewModel(
         viewModelScope.launch {
             repository.addTransactionAndUpdateSummary(
                 Transaction(
+                    id = null,
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "-$input"
+                    count = "-$input",
+                    description = "Ручной ввод"
                 )
             )
         }
@@ -100,9 +102,11 @@ class CalculatorViewModel(
         viewModelScope.launch {
             repository.addTransactionAndUpdateSummary(
                 Transaction(
+                    id = null,
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "+$input"
+                    count = "+$input",
+                    description = "Ручной ввод"
                 )
             )
         }
@@ -118,9 +122,11 @@ class CalculatorViewModel(
             repository.saveMainData(MainData(dateOfClear = clearDate, summaryAmount = summary))
             repository.saveTransaction(
                 Transaction(
+                    id = null,
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "Сброс статистики"
+                    count = "Сброс статистики",
+                    description = "Произведен сброс статистики"
                 )
             )
         }

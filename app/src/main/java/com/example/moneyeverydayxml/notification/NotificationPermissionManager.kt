@@ -26,7 +26,6 @@ class NotificationPermissionManager(private val context: Context) {
             context.startActivity(intent)
         } catch (e: Exception) {
             Log.e(TAG, "Ошибка при открытии настроек уведомлений", e)
-            // Fallback - открываем общие настройки
             val intent = Intent(Settings.ACTION_SETTINGS)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)

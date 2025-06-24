@@ -7,7 +7,10 @@ import androidx.room.TypeConverters
 import com.example.moneyeverydayxml.core.domain.model.MainData
 import java.math.BigDecimal
 
-@Database(entities = [TransactionEntity::class, MainData::class], version = 4)
+@Database(
+    entities = [TransactionEntity::class, MainData::class],
+    version = 6
+)
 @TypeConverters(Converters::class)
 abstract class Database : RoomDatabase() {
     abstract fun databaseDao(): DatabaseDao

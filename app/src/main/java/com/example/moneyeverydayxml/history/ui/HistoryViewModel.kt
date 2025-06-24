@@ -21,4 +21,18 @@ class HistoryViewModel(
             _transactions.postValue(repository.loadTransactions())
         }
     }
+
+    fun deleteTransaction(transaction: Transaction){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteTransaction(transaction)
+            loadTransactions()
+        }
+    }
+
+    fun updateTransaction(transaction: Transaction){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.updateTransaction(transaction)
+            loadTransactions()
+        }
+    }
 }
