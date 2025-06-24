@@ -66,14 +66,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        // Наблюдаем за обновлением данных калькулятора
         viewModel.calculatorDataUpdated.observe(this) { updated ->
             if (updated) {
-                viewModel.onCalculatorDataUpdated() // Сбрасываем флаг
+                viewModel.onCalculatorDataUpdated()
             }
         }
-
-        // Наблюдаем за требованиями разрешений
         viewModel.notificationPermissionRequired.observe(this) { required ->
             if (required) {
                 showPermissionSnackbar()

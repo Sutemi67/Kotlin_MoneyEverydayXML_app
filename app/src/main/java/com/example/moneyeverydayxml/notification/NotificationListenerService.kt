@@ -23,9 +23,13 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
     private val scope = CoroutineScope(Dispatchers.IO)
     private val repository: RepositoryInterface by inject()
 
+    private var lastTransactionTime: Long = 0
+    private var lastTransactionAmount: String = ""
+
     companion object {
         private const val TAG = "NotificationListener"
         const val ACTION_TRANSACTION_ADDED = "com.example.moneyeverydayxml.TRANSACTION_ADDED"
+        private const val DEBOUNCE_PERIOD_MS = 1000 // 5 секунд
     }
 
     override fun onCreate() {
@@ -38,47 +42,44 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
 
         val packageName = sbn.packageName
         val notification = sbn.notification
-
-        // Анализируем все уведомления на предмет финансовых транзакций
-        Log.d(TAG, "Получено уведомление от: $packageName")
-
-        val transaction = parseNotification(notification)
-        if (transaction != null) {
-            Log.d(TAG, "Обнаружена финансовая транзакция: ${transaction.count} руб.")
-            saveTransaction(transaction)
-        }
-    }
-
-    private fun parseNotification(notification: Notification): Transaction? {
         val title = notification.extras.getString(Notification.EXTRA_TITLE) ?: ""
         val text = notification.extras.getString(Notification.EXTRA_TEXT) ?: ""
 
+        Log.d(TAG, "Получено уведомление от: $packageName")
         Log.d(TAG, "Заголовок: $title")
         Log.d(TAG, "Текст: $text")
 
-        // Проверяем, содержит ли уведомление информацию о финансовой транзакции
         if (!parser.isFinancialTransaction(title, text)) {
             Log.d(TAG, "Уведомление не содержит финансовой информации")
-            return null
+            return
         }
 
-        // Пытаемся извлечь сумму из уведомления
         val amount = parser.extractAmount(title, text)
+
         if (amount != null) {
-            val currentTime = LocalDateTime.now()
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastTransactionTime < DEBOUNCE_PERIOD_MS && amount.toString() == lastTransactionAmount) {
+                Log.d(TAG, "Обнаружен дубликат транзакции по сумме, игнорируем.")
+                return
+            }
+
+            lastTransactionTime = currentTime
+            lastTransactionAmount = amount.toString()
+
             val formattedTime =
-                currentTime.format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
             val timeInMillis = System.currentTimeMillis()
 
-            return Transaction(
+            val transaction = Transaction(
                 id = null,
                 time = timeInMillis,
                 date = formattedTime,
                 count = amount.toString(),
                 description = "$title\n$text"
             )
+            Log.d(TAG, "Обнаружена финансовая транзакция: ${transaction.count} руб.")
+            saveTransaction(transaction)
         }
-        return null
     }
 
     private fun saveTransaction(transaction: Transaction) {
@@ -91,7 +92,6 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
                     "Сохранена транзакция в БД: ${transaction.count} руб. - ${transaction.date}"
                 )
 
-                // Отправляем broadcast для обновления UI
                 val intent = Intent(ACTION_TRANSACTION_ADDED).apply {
                     putExtra("amount", transaction.count)
                     putExtra("description", transaction.date)
