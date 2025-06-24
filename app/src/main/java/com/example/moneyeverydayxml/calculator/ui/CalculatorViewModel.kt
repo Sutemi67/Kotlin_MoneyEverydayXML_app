@@ -88,7 +88,8 @@ class CalculatorViewModel(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "-$input"
+                    count = "-$input",
+                    description = "Ручной ввод"
                 )
             )
         }
@@ -102,7 +103,8 @@ class CalculatorViewModel(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "+$input"
+                    count = "+$input",
+                    description = "Ручной ввод"
                 )
             )
         }
@@ -120,7 +122,8 @@ class CalculatorViewModel(
                 Transaction(
                     time = currentTimeInMillis(),
                     date = currentTimeFormattedString(),
-                    count = "Сброс статистики"
+                    count = "Сброс статистики",
+                    description = "Произведен сброс статистики"
                 )
             )
         }

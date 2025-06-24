@@ -17,38 +17,32 @@ class TransactionListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
     fun bind(model: Transaction) {
         date.text = model.date
         count.text = formatTransactionText(model.count)
-        setupTooltip(model.count)
+        setupTooltip(model.description)
     }
 
     private fun formatTransactionText(transactionText: String): String {
         return when {
-            // Тестовые транзакции в формате "сумма - описание"
             transactionText.contains(" - ") -> {
                 val parts = transactionText.split(" - ", limit = 2)
                 if (parts.size == 2) {
-                    // Показываем только сумму для краткости
                     parts[0]
                 } else {
                     transactionText
                 }
             }
-            // Обычные транзакции
+
             else -> transactionText
         }
     }
 
-    private fun setupTooltip(transactionText: String) {
-        if (transactionText.contains("[ТЕСТ]")) {
-            itemView.setOnLongClickListener {
-                Toast.makeText(
-                    itemView.context,
-                    transactionText,
-                    Toast.LENGTH_LONG
-                ).show()
-                true
-            }
-        } else {
-            itemView.setOnLongClickListener(null)
+    private fun setupTooltip(descriptionText: String) {
+        itemView.setOnLongClickListener {
+            Toast.makeText(
+                itemView.context,
+                descriptionText,
+                Toast.LENGTH_LONG
+            ).show()
+            true
         }
     }
 }

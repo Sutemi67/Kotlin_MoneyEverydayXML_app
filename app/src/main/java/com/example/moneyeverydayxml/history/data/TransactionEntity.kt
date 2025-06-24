@@ -9,5 +9,6 @@ data class TransactionEntity(
     @PrimaryKey(autoGenerate = true) var id: Long? = null,
     @ColumnInfo(name = "time") val time: Long,
     @ColumnInfo(name = "date") val date: String,
-    @ColumnInfo(name = "count") val count: String
+    @ColumnInfo(name = "count") val count: String,
+    @ColumnInfo(name = "description") val description: String
 )

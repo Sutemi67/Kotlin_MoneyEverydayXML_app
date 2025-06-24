@@ -73,7 +73,8 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
             return Transaction(
                 time = timeInMillis,
                 date = formattedTime,
-                count = amount.toString()
+                count = amount.toString(),
+                description = "$title\n$text"
             )
         }
         return null

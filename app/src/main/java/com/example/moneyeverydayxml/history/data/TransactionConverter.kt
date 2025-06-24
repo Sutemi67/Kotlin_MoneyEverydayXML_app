@@ -8,7 +8,8 @@ class TransactionConverter {
             Transaction(
                 it.time,
                 it.date,
-                it.count
+                it.count,
+                it.description
             )
         }
     }
@@ -17,7 +18,8 @@ class TransactionConverter {
         return TransactionEntity(
             time = item.time,
             date = item.date,
-            count = item.count
+            count = item.count,
+            description = item.description
         )
     }
 }

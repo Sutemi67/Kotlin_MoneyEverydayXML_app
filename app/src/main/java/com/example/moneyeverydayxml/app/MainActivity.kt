@@ -72,30 +72,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        // Наблюдаем за результатами тестирования уведомлений
-        viewModel.testNotificationResult.observe(this) { result ->
-            when (result) {
-                is MainViewModel.TestNotificationResult.Success -> {
-                    showSnackbar(result.message, Snackbar.LENGTH_LONG) {
-                        setAction(getString(R.string.view_test_results)) {
-                            viewModel.showTestTransactionsInfo()
-                        }
-                    }
-                }
-
-                is MainViewModel.TestNotificationResult.Error -> {
-                    showSnackbar(result.message, Snackbar.LENGTH_LONG)
-                }
-
-                is MainViewModel.TestNotificationResult.Info -> {
-                    showSnackbar(result.message, Snackbar.LENGTH_LONG) {
-                        setAction(getString(R.string.clear_test_transactions)) {
-                        }
-                    }
-                }
-            }
-        }
-
         // Наблюдаем за обновлением данных калькулятора
         viewModel.calculatorDataUpdated.observe(this) { updated ->
             if (updated) {
@@ -113,10 +89,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSnackbar(
         message: String,
-        duration: Int,
         action: (Snackbar.() -> Unit)? = null
     ) {
-        val snackbar = Snackbar.make(binding.root, message, duration)
+        val snackbar = Snackbar.make(binding.root, message, SNACKBAR_DURATION)
         action?.invoke(snackbar)
         snackbar.show()
     }
@@ -124,12 +99,12 @@ class MainActivity : AppCompatActivity() {
     private fun showPermissionSnackbar() {
         showSnackbar(
             message = getString(R.string.notification_permission_required),
-            duration = SNACKBAR_DURATION
-        ) {
-            setAction(getString(R.string.configure)) {
-                viewModel.requestNotificationPermission()
+            action = {
+                setAction(getString(R.string.configure)) {
+                    viewModel.requestNotificationPermission()
+                }
             }
-        }
+        )
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
