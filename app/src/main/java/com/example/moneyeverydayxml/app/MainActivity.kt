@@ -116,10 +116,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupTestButton() {
-        // Показываем кнопку только в debug режиме
         if (viewModel.isDebugMode(this)) {
             binding.testNotificationButton.visibility = View.VISIBLE
-
             binding.testNotificationButton.setOnClickListener {
             }
         }
@@ -137,8 +135,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showPermissionSnackbar() {
         showSnackbar(
-            getString(R.string.notification_permission_required),
-            Snackbar.LENGTH_LONG
+            message = getString(R.string.notification_permission_required),
+            duration = SNACKBAR_DURATION
         ) {
             setAction(getString(R.string.configure)) {
                 viewModel.requestNotificationPermission()
@@ -166,5 +164,9 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         // Проверяем статус сервиса при возвращении в приложение
         viewModel.checkNotificationPermissions()
+    }
+
+    companion object {
+        const val SNACKBAR_DURATION = 5
     }
 }
