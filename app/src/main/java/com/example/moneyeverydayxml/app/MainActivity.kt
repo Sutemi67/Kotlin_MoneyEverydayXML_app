@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -57,9 +56,6 @@ class MainActivity : AppCompatActivity() {
 
         setupUI()
         setupObservers()
-        setupTestButton()
-
-        // Регистрируем receiver для получения уведомлений о транзакциях
         registerTransactionReceiver()
     }
 
@@ -115,14 +111,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTestButton() {
-        if (viewModel.isDebugMode(this)) {
-            binding.testNotificationButton.visibility = View.VISIBLE
-            binding.testNotificationButton.setOnClickListener {
-            }
-        }
-    }
-
     private fun showSnackbar(
         message: String,
         duration: Int,
@@ -162,7 +150,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Проверяем статус сервиса при возвращении в приложение
         viewModel.checkNotificationPermissions()
     }
 
