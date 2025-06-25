@@ -6,4 +6,10 @@
     <color name="summary_neutral">#B31F81AB</color>
     <color name="summary_positive">#B366BB6A</color>
     <color name="transparent">#00FFFFFF</color>
+    
+    <!-- Новые цвета для фона -->
+    <color name="background_light">#F8F9FA</color>
+    <color name="background_dark">#1A1A1A</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_dark">#2D2D2D</color>
 </resources>

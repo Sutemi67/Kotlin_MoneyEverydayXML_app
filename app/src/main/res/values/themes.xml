@@ -3,6 +3,13 @@
     <style name="Base.Theme.MoneyEverydayXML" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        
+        <!-- Цвета фона для элементов -->
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="colorSurface">@color/surface_light</item>
+        <item name="colorSurfaceVariant">@color/surface_light</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorOnBackground">@color/black</item>
     </style>
 
     <style name="Theme.MoneyEverydayXML" parent="Base.Theme.MoneyEverydayXML" />
