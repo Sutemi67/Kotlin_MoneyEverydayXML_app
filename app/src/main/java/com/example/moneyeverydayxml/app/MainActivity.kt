@@ -1,11 +1,11 @@
 package com.example.moneyeverydayxml.app
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.moneyeverydayxml.R
@@ -21,8 +22,6 @@ import com.example.moneyeverydayxml.notification.NotificationListenerService
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import androidx.core.net.toUri
-import android.content.ActivityNotFoundException
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         setupUI()
         setupObservers()
         registerTransactionReceiver()
-        
+
         // Инициализация ThemeManager и применение сохраненной темы
         themeManager = ThemeManager(this)
         AppCompatDelegate.setDefaultNightMode(themeManager.getCurrentThemeMode())
@@ -94,6 +93,11 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.action_about -> {
                     AppComponents.aboutAppDialog(this)
+                    true
+                }
+
+                R.id.action_connect -> {
+                    openTelegramLink()
                     true
                 }
 
@@ -168,17 +172,40 @@ class MainActivity : AppCompatActivity() {
         try {
             val donateUrl = "https://pay.cloudtips.ru/p/2d71d3e5"
             val intent = Intent(Intent.ACTION_VIEW, donateUrl.toUri())
-            
-            // Проверяем, есть ли приложение для открытия ссылок
             if (intent.resolveActivity(packageManager) != null) {
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Не найдено приложение для открытия ссылок", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Не найдено приложение для открытия ссылок",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, "Не найдено приложение для открытия ссылок", Toast.LENGTH_SHORT).show()
+        } catch (_: ActivityNotFoundException) {
+            Toast.makeText(this, "Не найдено приложение для открытия ссылок", Toast.LENGTH_SHORT)
+                .show()
         } catch (e: Exception) {
-            Toast.makeText(this, "Ошибка при открытии ссылки: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Ошибка при открытии ссылки: ${e.message}", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    private fun openTelegramLink() {
+        try {
+            val telegramUrl = "https://t.me/appcradle"
+            val intent = Intent(Intent.ACTION_VIEW, telegramUrl.toUri())
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Не найдено приложение для открытия ссылки",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Ошибка при открытии ссылки: ${e.message}", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

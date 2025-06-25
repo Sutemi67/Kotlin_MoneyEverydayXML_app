@@ -14,9 +14,13 @@
         android:id="@+id/action_about"
         android:title="@string/action_about"
         app:showAsAction="never" />
-    
+    <item
+        android:id="@+id/action_connect"
+        android:title="@string/action_connect"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_donate"
+        android:icon="@drawable/outline_volunteer_activism_24"
         android:title="@string/action_donate"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu> 
