@@ -18,4 +18,13 @@
     <string name="notification_permission_required">For automatic transaction adding, enable notification access</string>
     <string name="configure">Configure</string>
     <string name="transaction_added_auto">Automatically added transaction</string>
+
+    <string name="action_settings">Toggle Theme</string>
+    <string name="action_share">Share</string>
+    <string name="action_about">About</string>
+    <string name="action_donate">Donate</string>
+
+    <string name="about_app_title">About Money Everyday</string>
+    <string name="about_app_message">MoneyEveryday is a personal finance tracking app that helps you control your daily expenses and income. \n\nIn order for the app to automatically intercept transaction notifications, you need to allow it to do so via the link that pops up in the main menu when you launch it. \n\nAlso, I would appreciate your support via the "thank you" button.</string>
+    <string name="about_app_ok_button">Got it</string>
 </resources>

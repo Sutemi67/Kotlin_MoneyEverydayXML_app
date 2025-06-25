@@ -13,9 +13,17 @@
     <string name="input_count">введите номинал</string>
 
     <string name="last_date">дата последней операции</string>
-    <string name="historyText">История операций</string>
+    <string name="historyText">История транзакций</string>
     <string name="calculatorHeader">Калькулятор</string>
     <string name="notification_permission_required">Для автоматического учета ваших транзакций разрешите приложению прослушавать ваши уведомления</string>
     <string name="configure">Настроить</string>
     <string name="transaction_added_auto">Автоматически добавлена транзакция: %1$s руб. - %2$s</string>
+    <string name="action_settings">Сменить тему</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_about">О приложении</string>
+    <string name="action_donate">Поблагодарить разработчика</string>
+    
+    <string name="about_app_title">О приложении Учет финансов</string>
+    <string name="about_app_message">Учет финансов - это приложение для отслеживания личных финансов, которое помогает контролировать ежедневные расходы и доходы. \n\nДля того чтобы приложение автоматически перехватывало уведомления о транзакциях, вам нужно позволить ему это делать по ссылке, всплывающей в главном меню при запуске. \n\nТак же, я буду признателен Вам за поддержку через кнопку \"поблагодарить\".</string>
+    <string name="about_app_ok_button">Понятно</string>
 </resources>
