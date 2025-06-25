@@ -5,12 +5,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.moneyeverydayxml.R
@@ -19,12 +21,15 @@ import com.example.moneyeverydayxml.notification.NotificationListenerService
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.core.net.toUri
+import android.content.ActivityNotFoundException
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var tabLayoutMediator: TabLayoutMediator
     private val viewModel: MainViewModel by viewModel()
+    private lateinit var themeManager: ThemeManager
 
     private val transactionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -52,6 +57,10 @@ class MainActivity : AppCompatActivity() {
         setupUI()
         setupObservers()
         registerTransactionReceiver()
+        
+        // Инициализация ThemeManager и применение сохраненной темы
+        themeManager = ThemeManager(this)
+        AppCompatDelegate.setDefaultNightMode(themeManager.getCurrentThemeMode())
     }
 
     private fun setupUI() {
@@ -67,8 +76,13 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_settings -> {
-                    // TODO: Navigate to settings screen.
-                    Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
+                    themeManager.toggleTheme()
+                    val themeMessage = if (themeManager.isDarkTheme()) {
+                        "Темная тема включена"
+                    } else {
+                        "Светлая тема включена"
+                    }
+                    Toast.makeText(this, themeMessage, Toast.LENGTH_SHORT).show()
                     true
                 }
 
@@ -79,8 +93,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.action_about -> {
-                    // TODO: Show about screen
-                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
+                    AppComponents.aboutAppDialog(this)
+                    true
+                }
+
+                R.id.action_donate -> {
+                    openDonateLink()
                     true
                 }
 
@@ -144,6 +162,24 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.checkNotificationPermissions()
+    }
+
+    private fun openDonateLink() {
+        try {
+            val donateUrl = "https://pay.cloudtips.ru/p/2d71d3e5"
+            val intent = Intent(Intent.ACTION_VIEW, donateUrl.toUri())
+            
+            // Проверяем, есть ли приложение для открытия ссылок
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Не найдено приложение для открытия ссылок", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, "Не найдено приложение для открытия ссылок", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Ошибка при открытии ссылки: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {

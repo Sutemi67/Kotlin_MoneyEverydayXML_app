@@ -18,8 +18,12 @@
     <string name="notification_permission_required">Для автоматического учета ваших транзакций разрешите приложению прослушавать ваши уведомления</string>
     <string name="configure">Настроить</string>
     <string name="transaction_added_auto">Автоматически добавлена транзакция: %1$s руб. - %2$s</string>
-    <string name="action_theme">Сменить тему</string>
-    <string name="action_share">Поделиться приложением</string>
-    <string name="action_about">Руководство по использованию</string>
+    <string name="action_settings">Сменить тему</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_about">О приложении</string>
     <string name="action_donate">Поблагодарить разработчика</string>
+    
+    <string name="about_app_title">О приложении Учет финансов</string>
+    <string name="about_app_message">Учет финансов - это приложение для отслеживания личных финансов, которое помогает контролировать ежедневные расходы и доходы.\n\nОсновные возможности:\n• Калькулятор для быстрых финансовых расчетов\n• История транзакций с детальными записями\n• Автоматическое определение транзакций из уведомлений\n• Поддержка темной/светлой темы\n• Простой и удобный интерфейс\n\nОтслеживайте свои деньги, контролируйте расходы!</string>
+    <string name="about_app_ok_button">Понятно</string>
 </resources>
