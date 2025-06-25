@@ -1,8 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.MoneyEverydayXML" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:actionMenuTextAppearance">@style/regularTextStyle</item>
+        <item name="actionMenuTextAppearance">@style/regularTextStyle</item>
     </style>
 
     <style name="Theme.MoneyEverydayXML" parent="Base.Theme.MoneyEverydayXML" />

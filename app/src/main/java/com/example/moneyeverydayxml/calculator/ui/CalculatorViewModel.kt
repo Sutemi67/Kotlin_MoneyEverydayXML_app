@@ -10,6 +10,7 @@ import com.example.moneyeverydayxml.core.domain.model.Transaction
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -39,19 +40,17 @@ class CalculatorViewModel(
         }
     }
 
-    private fun perDayCalculate(): BigDecimal {
-        val days = getDaysFromClear()
-        if (days > 0) {
-            val r = summary.divide(days.toBigDecimal(), 2, RoundingMode.DOWN)
-            _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
-            _byDayAmount.postValue(r.setScale(2, RoundingMode.DOWN).toString())
-            return r
-        }
-        return BigDecimal.ZERO
+    private fun formatNumberWithCommas(number: BigDecimal): String {
+        val numberFormatter = DecimalFormat("#,##0.00")
+        return numberFormatter.format(number)
     }
 
-    suspend fun getMainData(): MainData {
-        return repository.loadMainData()
+    private fun perDayCalculate(): BigDecimal {
+        val days = getDaysFromClear()
+        val result = summary.divide(days.toBigDecimal(), 2, RoundingMode.DOWN)
+        _sumAmount.postValue(formatNumberWithCommas(summary.setScale(2, RoundingMode.DOWN)))
+        _byDayAmount.postValue(formatNumberWithCommas(result.setScale(2, RoundingMode.DOWN)))
+        return result
     }
 
     suspend fun refreshData() {
@@ -61,15 +60,13 @@ class CalculatorViewModel(
         summaryPerDayResult = perDayCalculate()
     }
 
+    suspend fun getMainData(): MainData = repository.loadMainData()
     private fun currentTimeInMillis(): Long = Calendar.getInstance().timeInMillis
-
-    fun currentTimeFormattedString(): String {
-        return formatter.format(currentDate)
-    }
+    fun currentTimeFormattedString(): String = formatter.format(currentDate)
 
     fun getDaysFromClear(): Long {
         if (clearDate == 0L) {
-            _daysFromClearPassedLiveData.postValue("Сброса не было")
+            _daysFromClearPassedLiveData.postValue("Сброса не было - день первый")
             return 1
 
         } else {

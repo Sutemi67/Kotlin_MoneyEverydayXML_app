@@ -20,7 +20,8 @@
         style="@style/tabBuilder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorFullWidth="true" />
+        app:tabIndicatorFullWidth="true"
+        app:tabTextAppearance="@style/tabsTextStyle" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pagerLayout"
