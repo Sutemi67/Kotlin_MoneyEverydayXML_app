@@ -22,10 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:translationZ="-10dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/inputCount"
@@ -74,8 +74,7 @@
         android:backgroundTint="@color/summary_negative"
         android:text="@string/minus"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputCount"
-        tools:ignore="TextSizeCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/inputCount"/>
 
     <Button
         android:id="@+id/increaseButton"
@@ -94,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#2196F3"
+        android:backgroundTint="@color/summary_neutral"
         android:text="@string/clear_button"
         app:layout_constraintEnd_toEndOf="@+id/increaseButton"
         app:layout_constraintTop_toBottomOf="@+id/increaseButton" />

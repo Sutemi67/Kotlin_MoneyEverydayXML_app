@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="summary_negative">#B13737</color>
-    <color name="summary_positive">#43B137</color>
+    <color name="summary_negative">#B3CB4A46</color>
+    <color name="summary_neutral">#B31F81AB</color>
+    <color name="summary_positive">#B366BB6A</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>

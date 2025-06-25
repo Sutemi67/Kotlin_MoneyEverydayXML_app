@@ -3,6 +3,7 @@ package com.example.moneyeverydayxml.history.ui
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyeverydayxml.R
 import com.example.moneyeverydayxml.app.AppComponents
@@ -22,6 +23,7 @@ class TransactionListViewHolder(
         date.text = model.date
         count.text = formatTransactionText(model.count)
         setupDialog(model)
+        imageChooser()
     }
 
     private fun formatTransactionText(transactionText: String): String {
@@ -47,7 +49,31 @@ class TransactionListViewHolder(
                 onDelete = { onDeleteClick(model) },
                 onEdit = { onEditClick(model) }
             )
-//            true
         }
+    }
+
+    private fun imageChooser() {
+        val imageRes: Pair<Int, Int> = when {
+            count.text.contains("-") -> Pair(
+                R.color.summary_negative,
+                R.drawable.outline_keyboard_double_arrow_up_24
+            )
+
+            count.text.contains(" ") -> Pair(
+                R.color.summary_neutral,
+                R.drawable.outline_keyboard_double_arrow_left_24
+            )
+
+            else -> Pair(
+                R.color.summary_positive,
+                R.drawable.outline_keyboard_double_arrow_down_24
+            )
+        }
+        imageView.setColorFilter(
+            ContextCompat.getColor(itemView.context, imageRes.first)
+        )
+        imageView.setImageDrawable(
+            ContextCompat.getDrawable(itemView.context, imageRes.second)
+        )
     }
 }
