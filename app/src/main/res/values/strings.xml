@@ -25,6 +25,6 @@
     <string name="action_donate">Donate</string>
 
     <string name="about_app_title">About Money Everyday</string>
-    <string name="about_app_message">Money Everyday is a personal finance tracking app that helps you monitor your daily expenses and income.\n\nKey features:\n• Calculator for quick financial calculations\n• Transaction history with detailed records\n• Automatic transaction detection from notifications\n• Dark/Light theme support\n• Easy-to-use interface\n\nTrack your money, control your spending!</string>
+    <string name="about_app_message">MoneyEveryday is a personal finance tracking app that helps you control your daily expenses and income. \n\nIn order for the app to automatically intercept transaction notifications, you need to allow it to do so via the link that pops up in the main menu when you launch it. \n\nAlso, I would appreciate your support via the "thank you" button.</string>
     <string name="about_app_ok_button">Got it</string>
 </resources>
