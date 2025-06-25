@@ -25,6 +25,36 @@ class NotificationParser {
             Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\b")
         )
 
+        // Ключевые слова для исключения нефинансовых уведомлений
+        private val EXCLUDE_KEYWORDS = setOf(
+            // Звонки и телефонные уведомления
+            "звонок", "вызов", "call", "incoming call", "outgoing call", "missed call",
+            "входящий звонок", "исходящий звонок", "пропущенный звонок",
+            "набирает", "dialing", "calling", "phone", "телефон",
+            
+            // SMS и сообщения
+            "sms", "сообщение", "message", "mms", "текст",
+            
+            // Время и дата
+            "минут", "часов", "дней", "недель", "месяцев", "лет",
+            "minutes", "hours", "days", "weeks", "months", "years",
+            
+            // Процентные ставки и другие нефинансовые числа
+            "процент", "процентов", "percent", "проц", "%",
+            
+            // Номера телефонов (могут содержать цифры)
+            "номер", "number", "тел", "tel", "phone number",
+            
+            // Время разговора
+            "длительность", "duration", "время разговора", "call duration",
+            
+            // Батарея и другие системные уведомления
+            "батарея", "battery", "заряд", "charge", "разряд", "discharge",
+            
+            // Погода и другие сервисы
+            "погода", "weather", "температура", "temperature", "градус", "degree"
+        )
+
         private val FINANCIAL_KEYWORDS = setOf(
             // Доходы
             "зачислен", "зачисление", "пополнение", "входящий", "получен", "начислен",
@@ -57,8 +87,23 @@ class NotificationParser {
 
     fun isFinancialTransaction(title: String, text: String): Boolean {
         val fullText = "$title $text".lowercase()
+        
+        // Проверяем, содержит ли уведомление ключевые слова для исключения
+        if (EXCLUDE_KEYWORDS.any { fullText.contains(it) }) {
+            Log.d("NotificationParser", "Уведомление содержит исключающие ключевые слова: $fullText")
+            return false
+        }
+        
         val hasAmount = AMOUNT_PATTERNS.any { it.matcher(fullText).find() }
         val hasFinancialKeywords = FINANCIAL_KEYWORDS.any { fullText.contains(it) }
+        
+        // Дополнительная проверка: если есть сумма, но нет финансовых ключевых слов,
+        // проверяем, не является ли это просто числом без контекста
+        if (hasAmount && !hasFinancialKeywords) {
+            Log.d("NotificationParser", "Найдена сумма без финансового контекста: $fullText")
+            return false
+        }
+        
         return hasAmount && hasFinancialKeywords
     }
 

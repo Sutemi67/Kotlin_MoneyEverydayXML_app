@@ -29,7 +29,7 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
     companion object {
         private const val TAG = "NotificationListener"
         const val ACTION_TRANSACTION_ADDED = "com.example.moneyeverydayxml.TRANSACTION_ADDED"
-        private const val DEBOUNCE_PERIOD_MS = 1000 // 5 секунд
+        private const val DEBOUNCE_PERIOD_MS = 1000 // 1 секунда
     }
 
     override fun onCreate() {
@@ -83,7 +83,6 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
     }
 
     private fun saveTransaction(transaction: Transaction) {
-
         scope.launch {
             try {
                 repository.addTransactionAndUpdateSummary(transaction)
@@ -91,7 +90,6 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
                     TAG,
                     "Сохранена транзакция в БД: ${transaction.count} руб. - ${transaction.date}"
                 )
-
                 val intent = Intent(ACTION_TRANSACTION_ADDED).apply {
                     putExtra("amount", transaction.count)
                     putExtra("description", transaction.description)
