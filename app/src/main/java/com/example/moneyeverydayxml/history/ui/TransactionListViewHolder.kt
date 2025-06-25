@@ -40,14 +40,14 @@ class TransactionListViewHolder(
     }
 
     private fun setupDialog(model: Transaction) {
-        itemView.setOnLongClickListener {
+        itemView.setOnClickListener {
             AppComponents.transactionDialog(
                 itemView,
                 model,
                 onDelete = { onDeleteClick(model) },
                 onEdit = { onEditClick(model) }
             )
-            true
+//            true
         }
     }
 }

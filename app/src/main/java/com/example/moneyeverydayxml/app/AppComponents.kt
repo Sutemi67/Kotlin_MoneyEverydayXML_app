@@ -12,9 +12,9 @@ object AppComponents {
         onEdit: () -> Unit
     ) {
         AlertDialog.Builder(itemView.context).apply {
-            setTitle(model.description)
+            setTitle("Выберите действие для транзакции")
             if (!model.description.lowercase().contains("сброс")) {
-                setMessage("Выберите действие для транзакции")
+                setMessage(model.description)
                 setPositiveButton("Удалить") { _, _ ->
                     onDelete()
                 }

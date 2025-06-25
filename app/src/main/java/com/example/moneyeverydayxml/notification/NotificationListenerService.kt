@@ -94,9 +94,8 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
 
                 val intent = Intent(ACTION_TRANSACTION_ADDED).apply {
                     putExtra("amount", transaction.count)
-                    putExtra("description", transaction.date)
+                    putExtra("description", transaction.description)
                     putExtra("date", transaction.date)
-                    // Устанавливаем пакет для безопасности
                     setPackage(this@NotificationListenerService.packageName)
                 }
                 sendBroadcast(intent)

@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -63,6 +64,29 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         tabLayoutMediator.attach()
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_settings -> {
+                    // TODO: Navigate to settings screen.
+                    Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.action_share -> {
+                    // TODO: Share something
+                    Toast.makeText(this, "Share clicked", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.action_about -> {
+                    // TODO: Show about screen
+                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
     private fun setupObservers() {
