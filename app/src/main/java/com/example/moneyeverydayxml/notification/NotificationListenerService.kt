@@ -49,7 +49,7 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
         Log.d(TAG, "Заголовок: $title")
         Log.d(TAG, "Текст: $text")
 
-        if (!parser.isFinancialTransaction(title, text)) {
+        if (!parser.isFinancialTransaction(title, text, packageName)) {
             Log.d(TAG, "Уведомление не содержит финансовой информации")
             return
         }
@@ -67,7 +67,8 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
             lastTransactionAmount = amount.toString()
 
             val formattedTime =
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
+                LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
             val timeInMillis = System.currentTimeMillis()
 
             val transaction = Transaction(

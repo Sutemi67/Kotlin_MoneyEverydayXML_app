@@ -8,53 +8,68 @@ class NotificationParser {
 
     companion object {
         private val AMOUNT_PATTERNS = listOf(
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*₽"), // 1 000 ₽
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*руб"), // 1 000 руб
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*рубл"), // 1 000 рублей
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*RUB"), // 1 000 RUB
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*р"), // 1 000 р
+            // Десятичные числа с валютой (высший приоритет)
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*₽\\b"), // 163.23 ₽
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*руб\\b"), // 163.23 руб
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*рубл\\b"), // 163.23 рублей
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*RUB\\b"), // 163.23 RUB
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*р\\b"), // 163.23 р
 
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*\\$"), // 1 000 $
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*USD"), // 1 000 USD
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*долл"), // 1 000 долларов
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*\\$\\b"), // 163.23 $
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*USD\\b"), // 163.23 USD
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*долл\\b"), // 163.23 долларов
 
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*€"), // 1 000 €
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*EUR"), // 1 000 EUR
-            Pattern.compile("(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*евро"), // 1 000 евро
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*€\\b"), // 163.23 €
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*EUR\\b"), // 163.23 EUR
+            Pattern.compile("\\b(\\d+\\.\\d{2})\\s*евро\\b"), // 163.23 евро
 
+            // Целые числа с валютой
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*₽\\b"), // 1 000 ₽
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*руб\\b"), // 1 000 руб
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*рубл\\b"), // 1 000 рублей
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*RUB\\b"), // 1 000 RUB
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*р\\b"), // 1 000 р
+
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*\\$\\b"), // 1 000 $
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*USD\\b"), // 1 000 USD
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*долл\\b"), // 1 000 долларов
+
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*€\\b"), // 1 000 €
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*EUR\\b"), // 1 000 EUR
+            Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*евро\\b"), // 1 000 евро
+
+            // Общий паттерн для чисел (используется в последнюю очередь)
             Pattern.compile("\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\b")
         )
 
-        // Ключевые слова для исключения нефинансовых уведомлений
         private val EXCLUDE_KEYWORDS = setOf(
             // Звонки и телефонные уведомления
             "звонок", "вызов", "call", "incoming call", "outgoing call", "missed call",
             "входящий звонок", "исходящий звонок", "пропущенный звонок",
             "набирает", "dialing", "calling", "phone", "телефон",
-            
+
             // SMS и сообщения
             "sms", "сообщение", "message", "mms", "текст",
-            
+
             // Время и дата
             "минут", "часов", "дней", "недель", "месяцев", "лет",
             "minutes", "hours", "days", "weeks", "months", "years",
-            
+
             // Процентные ставки и другие нефинансовые числа
             "процент", "процентов", "percent", "проц", "%",
-            
+
             // Номера телефонов (могут содержать цифры)
             "номер", "number", "тел", "tel", "phone number",
-            
+
             // Время разговора
             "длительность", "duration", "время разговора", "call duration",
-            
+
             // Батарея и другие системные уведомления
             "батарея", "battery", "заряд", "charge", "разряд", "discharge",
-            
+
             // Погода и другие сервисы
             "погода", "weather", "температура", "temperature", "градус", "degree"
         )
-
         private val FINANCIAL_KEYWORDS = setOf(
             // Доходы
             "зачислен", "зачисление", "пополнение", "входящий", "получен", "начислен",
@@ -69,62 +84,128 @@ class NotificationParser {
             // Общие финансовые термины
             "баланс", "счет", "карта", "банк", "банковский", "финанс",
             "balance", "account", "card", "bank", "financial", "transaction",
-            "операция", "транзакция", "деньги", "средства", "валюта"
-        )
+            "операция", "транзакция", "деньги", "средства", "валюта",
 
+            // Облигации и инвестиции
+            "облигация", "облигации", "bond", "bonds", "погашение", "выплата",
+            "купон", "coupon", "дивиденд", "dividend", "инвестиция", "investment"
+        )
         private val INCOME_KEYWORDS = setOf(
-            "зачислен", "зачисление", "пополнение", "входящий", "получен", "начислен",
-            "income", "received", "credited", "deposit", "transfer received",
-            "поступил", "поступление", "начисление", "пополнен", "зачислено"
+            "зачислен",
+            "зачисление",
+            "пополнение",
+            "входящий",
+            "получен",
+            "начислен",
+            "income",
+            "received",
+            "credited",
+            "deposit",
+            "transfer received",
+            "поступил",
+            "поступление",
+            "начисление",
+            "пополнен",
+            "зачислено",
+            "погашение",
+            "выплатил",
+            "выплата",
+            "выплачено"
         )
-
         private val EXPENSE_KEYWORDS = setOf(
             "списан", "списание", "платеж", "перевод", "оплата", "покупка", "расход",
             "expense", "payment", "purchase", "transfer sent", "withdrawal",
             "списано", "платеж", "оплачено", "потрачено", "израсходовано"
         )
+        private val EXCLUDE_PACKAGES = setOf(
+            "org.telegram", "com.whatsapp", "com.vk"
+        )
     }
 
-    fun isFinancialTransaction(title: String, text: String): Boolean {
+    fun isFinancialTransaction(title: String, text: String, packName: String): Boolean {
         val fullText = "$title $text".lowercase()
-        
-        // Проверяем, содержит ли уведомление ключевые слова для исключения
-        if (EXCLUDE_KEYWORDS.any { fullText.contains(it) }) {
-            Log.d("NotificationParser", "Уведомление содержит исключающие ключевые слова: $fullText")
-            return false
+//        val hasAmount = AMOUNT_PATTERNS.any { it.matcher(fullText).find() }
+//        val hasFinancialKeywords = FINANCIAL_KEYWORDS.any { fullText.contains(it) }
+        when {
+            EXCLUDE_KEYWORDS.any { fullText.contains(it) } -> {
+                Log.d(
+                    "NotificationParser",
+                    "Уведомление содержит исключающие ключевые слова: $fullText"
+                )
+                return false
+            }
+
+//            EXCLUDE_PACKAGES.any { packName.contains(it) } -> {
+//                Log.d(
+//                    "NotificationParser",
+//                    "Уведомление содержит исключающие приложения: $packName"
+//                )
+//                return false
+//            }
         }
-        
-        val hasAmount = AMOUNT_PATTERNS.any { it.matcher(fullText).find() }
+        // Ищем суммы с валютой (более точные паттерны)
+        val hasAmountWithCurrency = AMOUNT_PATTERNS.take(AMOUNT_PATTERNS.size - 1).any {
+            it.matcher(fullText).find()
+        }
+
+        // Ищем числа с десятичными знаками (суммы)
+        val hasDecimalAmount = Pattern.compile("\\b(\\d+\\.\\d{2})\\b").matcher(fullText).find()
+
+        val hasAmount = hasAmountWithCurrency || hasDecimalAmount
         val hasFinancialKeywords = FINANCIAL_KEYWORDS.any { fullText.contains(it) }
-        
-        // Дополнительная проверка: если есть сумма, но нет финансовых ключевых слов,
-        // проверяем, не является ли это просто числом без контекста
-        if (hasAmount && !hasFinancialKeywords) {
-            Log.d("NotificationParser", "Найдена сумма без финансового контекста: $fullText")
-            return false
+
+        // Если есть сумма с валютой или десятичная сумма, считаем это финансовой транзакцией
+        if (hasAmount) {
+            Log.d("NotificationParser", "Найдена финансовая транзакция: $fullText")
+            return true
         }
-        
-        return hasAmount && hasFinancialKeywords
+
+        // Если есть финансовые ключевые слова, но нет суммы, логируем для отладки
+        if (hasFinancialKeywords) {
+            Log.d("NotificationParser", "Найдены финансовые ключевые слова без суммы: $fullText")
+        }
+
+        return false
     }
 
     fun extractAmount(title: String, text: String): BigDecimal? {
-        val fullText = "$title $text".lowercase()
+        val fullText = "$title $text"
 
-        for (pattern in AMOUNT_PATTERNS) {
+        // Ищем суммы по всем паттернам в порядке приоритета
+        for (i in 0 until AMOUNT_PATTERNS.size - 1) { // Исключаем последний общий паттерн
+            val pattern = AMOUNT_PATTERNS[i]
             val matcher = pattern.matcher(fullText)
+            
+            // Ищем первое совпадение для каждого паттерна
             if (matcher.find()) {
                 val amountStr = matcher.group(1)?.replace("\\s".toRegex(), "")?.replace(",", "")
                 if (amountStr != null) {
                     try {
                         val amount = BigDecimal(amountStr)
-
                         val isExpense = isExpenseTransaction(title, text)
+                        Log.d("NotificationParser", "Найдена сумма: $amount (паттерн $i)")
                         return if (isExpense) amount.negate() else amount
-
                     } catch (e: NumberFormatException) {
-                        Log.e("erorr", "${e.message}")
+                        Log.e("NotificationParser", "Ошибка парсинга суммы: ${e.message}")
                         continue
                     }
+                }
+            }
+        }
+
+        // В последнюю очередь используем общий паттерн для чисел
+        val generalPattern = AMOUNT_PATTERNS.last()
+        val generalMatcher = generalPattern.matcher(fullText)
+        if (generalMatcher.find()) {
+            val amountStr = generalMatcher.group(1)?.replace("\\s".toRegex(), "")?.replace(",", "")
+            if (amountStr != null) {
+                try {
+                    val amount = BigDecimal(amountStr)
+                    val isExpense = isExpenseTransaction(title, text)
+                    Log.d("NotificationParser", "Найдена общая сумма: $amount")
+                    return if (isExpense) amount.negate() else amount
+                } catch (e: NumberFormatException) {
+                    Log.e("NotificationParser", "Ошибка парсинга общей суммы: ${e.message}")
                 }
             }
         }
@@ -140,4 +221,4 @@ class NotificationParser {
 
         return expenseCount > incomeCount
     }
-} 
+}

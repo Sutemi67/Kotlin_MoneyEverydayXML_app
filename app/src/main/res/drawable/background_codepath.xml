@@ -2,5 +2,5 @@
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
     android:src="@drawable/codepath"
     android:gravity="center"
-    android:alpha="0.05"
+    android:alpha="0.03"
     android:scaleType="centerCrop" /> 
