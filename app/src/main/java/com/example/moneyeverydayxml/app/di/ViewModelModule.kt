@@ -7,9 +7,9 @@ import com.example.moneyeverydayxml.patterns.ui.PatternsViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
-val appModule = module {
-    viewModel<MainViewModel> { MainViewModel() }
-    viewModel<CalculatorViewModel> { CalculatorViewModel(get()) }
-    viewModel<HistoryViewModel> { HistoryViewModel(get()) }
-    viewModel<PatternsViewModel> { PatternsViewModel(get()) }
-}
+val viewModelModule = module {
+    viewModel { MainViewModel() }
+    viewModel { CalculatorViewModel(get()) }
+    viewModel { HistoryViewModel(get()) }
+    viewModel { PatternsViewModel(get()) }
+} 

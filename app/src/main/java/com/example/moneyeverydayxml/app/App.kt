@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.moneyeverydayxml.app.di.appModule
 import com.example.moneyeverydayxml.app.di.dataModule
 import com.example.moneyeverydayxml.app.di.notificationModule
+import com.example.moneyeverydayxml.app.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 

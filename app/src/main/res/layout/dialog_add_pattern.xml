@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_pattern"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/pattern_keywords">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaction_type"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButtonIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:checked="true"
+            android:text="@string/income" />
+
+        <RadioButton
+            android:id="@+id/radioButtonExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/expense" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@android:string/cancel" />
+
+        <Button
+            android:id="@+id/buttonAddPattern"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_pattern" />
+
+    </LinearLayout>
+
+</LinearLayout> 

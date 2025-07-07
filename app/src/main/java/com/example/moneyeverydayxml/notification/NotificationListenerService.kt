@@ -7,7 +7,7 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 import com.example.moneyeverydayxml.core.domain.RepositoryInterface
 import com.example.moneyeverydayxml.core.domain.model.Transaction
-import com.example.moneyeverydayxml.notification.parser.NotificationParser
+import com.example.moneyeverydayxml.notification.parser.CustomNotificationParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ import java.util.Locale
 
 class NotificationListenerService : NotificationListenerService(), KoinComponent {
 
-    private val parser = NotificationParser()
+    private val parser: CustomNotificationParser by inject()
     private val scope = CoroutineScope(Dispatchers.IO)
     private val repository: RepositoryInterface by inject()
 
@@ -49,37 +49,39 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
         Log.d(TAG, "Заголовок: $title")
         Log.d(TAG, "Текст: $text")
 
-        if (!parser.isFinancialTransaction(title, text, packageName)) {
-            Log.d(TAG, "Уведомление не содержит финансовой информации")
-            return
-        }
-
-        val amount = parser.extractAmount(title, text)
-
-        if (amount != null) {
-            val currentTime = System.currentTimeMillis()
-            if (currentTime - lastTransactionTime < DEBOUNCE_PERIOD_MS && amount.toString() == lastTransactionAmount) {
-                Log.d(TAG, "Обнаружен дубликат транзакции по сумме, игнорируем.")
-                return
+        scope.launch {
+            if (!parser.isFinancialTransaction(title, text, packageName)) {
+                Log.d(TAG, "Уведомление не содержит финансовой информации")
+                return@launch
             }
 
-            lastTransactionTime = currentTime
-            lastTransactionAmount = amount.toString()
+            val amount = parser.extractAmount(title, text)
 
-            val formattedTime =
-                LocalDateTime.now()
-                    .format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
-            val timeInMillis = System.currentTimeMillis()
+            if (amount != null) {
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastTransactionTime < DEBOUNCE_PERIOD_MS && amount.toString() == lastTransactionAmount) {
+                    Log.d(TAG, "Обнаружен дубликат транзакции по сумме, игнорируем.")
+                    return@launch
+                }
 
-            val transaction = Transaction(
-                id = null,
-                time = timeInMillis,
-                date = formattedTime,
-                count = amount.toString(),
-                description = "$title\n$text"
-            )
-            Log.d(TAG, "Обнаружена финансовая транзакция: ${transaction.count} руб.")
-            saveTransaction(transaction)
+                lastTransactionTime = currentTime
+                lastTransactionAmount = amount.toString()
+
+                val formattedTime =
+                    LocalDateTime.now()
+                        .format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
+                val timeInMillis = System.currentTimeMillis()
+
+                val transaction = Transaction(
+                    id = null,
+                    time = timeInMillis,
+                    date = formattedTime,
+                    count = amount.toString(),
+                    description = "$title\n$text"
+                )
+                Log.d(TAG, "Обнаружена финансовая транзакция: ${transaction.count} руб.")
+                saveTransaction(transaction)
+            }
         }
     }
 
