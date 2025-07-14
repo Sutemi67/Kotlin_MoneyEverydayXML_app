@@ -2,8 +2,12 @@ package com.example.moneyeverydayxml.app
 
 import android.app.AlertDialog
 import android.view.View
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import com.example.moneyeverydayxml.R
 import com.example.moneyeverydayxml.core.domain.model.Transaction
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 object AppComponents {
     fun transactionDialog(
@@ -37,5 +41,38 @@ object AppComponents {
                 dialog.dismiss()
             }
         }.create().show()
+    }
+
+    fun addPatternDialog(
+        context: android.content.Context,
+        onPatternAdded: (String, Boolean) -> Unit
+    ) {
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setTitle(context.getString(R.string.add_pattern))
+            .setView(R.layout.dialog_add_pattern_content)
+            .setPositiveButton(context.getString(R.string.add_pattern), null) // Устанавливаем null, чтобы предотвратить закрытие
+            .setNegativeButton(android.R.string.cancel, null)
+            .create()
+
+        dialog.setOnShowListener {
+            val editText = dialog.findViewById<EditText>(R.id.editTextPattern)
+            val radioGroup = dialog.findViewById<RadioGroup>(R.id.radioGroupType)
+            val radioButtonIncome = dialog.findViewById<RadioButton>(R.id.radioButtonIncome)
+            
+            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            positiveButton.setOnClickListener {
+                val keywords = editText?.text?.toString()?.trim() ?: ""
+                val isIncome = radioGroup?.checkedRadioButtonId == radioButtonIncome?.id
+                
+                if (keywords.isNotEmpty()) {
+                    onPatternAdded(keywords, isIncome)
+                    dialog.dismiss()
+                } else {
+                    editText?.error = context.getString(R.string.enter_keywords)
+                }
+            }
+        }
+        
+        dialog.show()
     }
 }

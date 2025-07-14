@@ -12,7 +12,7 @@
 
     <string name="last_date">last transaction date</string>
     <string name="empty_string" translatable="false" />
-    <string name="historyText">Transactions History</string>
+    <string name="historyText">Transactions</string>
     <string name="calculatorHeader">Calculator</string>
 
     <string name="notification_permission_required">For automatic transaction adding, enable notification access</string>
@@ -30,19 +30,21 @@
     <string name="action_connect">Connect with me in Telegram</string>
     
     <!-- Шаблоны уведомлений -->
-    <string name="patterns_tab">Шаблоны</string>
-    <string name="no_patterns">Нет шаблонов</string>
-    <string name="add_patterns_hint">Добавьте шаблоны для отслеживания уведомлений</string>
-    <string name="add_pattern">Добавить шаблон</string>
-    <string name="pattern_keywords">Ключевые слова (через запятую)</string>
-    <string name="transaction_type">Тип транзакции:</string>
-    <string name="income">Доход</string>
-    <string name="expense">Расход</string>
-    <string name="active">Активен</string>
-    <string name="delete_pattern">Удалить шаблон</string>
-    <string name="delete_pattern_confirmation">Вы уверены, что хотите удалить шаблон</string>
-    <string name="pattern_added">Шаблон добавлен</string>
-    <string name="pattern_deleted">Шаблон удален</string>
-    <string name="enter_keywords">Введите ключевые слова</string>
+    <string name="patterns_tab">Patterns</string>
+    <string name="no_patterns">No patterns</string>
+    <string name="add_patterns_hint">Add patterns of notifications for search transactions</string>
+    <string name="add_pattern">Add pattern</string>
+    <string name="pattern_keywords">Key words:</string>
+    <string name="transaction_type">Transaction type:</string>
+    <string name="income">Income</string>
+    <string name="expense">expense</string>
+    <string name="active">active</string>
+    <string name="delete_pattern">Delete pattern</string>
+    <string name="delete_pattern_confirmation">Are you sure?</string>
+    <string name="pattern_added">Pattern added</string>
+    <string name="pattern_deleted">Pattern deleted</string>
+    <string name="enter_keywords">Enter keywords</string>
+    <string name="menu_button">Menu button</string>
+    <string name="fab_action">add pattern button</string>
 
 </resources>

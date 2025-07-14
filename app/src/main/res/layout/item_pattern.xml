@@ -1,62 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="3dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    app:cardElevation="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textPatternDescription"
+            style="@style/regularTextStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginStart="10.dp"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Описание шаблона" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPatternType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="6.dp"
+            android:textAppearance="@style/regularTextStyle"
+            app:chipBackgroundColor="@color/transparent"
+            app:chipStrokeColor="@color/black"
+            app:chipStrokeWidth="0dp"
+            tools:text="Доход" />
 
-                <TextView
-                    android:id="@+id/textPatternDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Описание шаблона"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPatternType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Доход"
-                app:chipBackgroundColor="@color/transparent"
-                app:chipStrokeColor="@color/black"
-                app:chipStrokeWidth="1dp" />
-
-            <ImageButton
-                android:id="@+id/buttonDeletePattern"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Удалить шаблон"
-                android:padding="8dp"
-                android:rotation="45"
-                android:src="@drawable/ic_more_vert" />
-        </LinearLayout>
-
-
+        <ImageButton
+            android:id="@+id/buttonDeletePattern"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/menu_button"
+            android:src="@drawable/ic_more_vert" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView> 

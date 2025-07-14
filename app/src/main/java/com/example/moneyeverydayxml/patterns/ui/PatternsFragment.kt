@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moneyeverydayxml.R
+import com.example.moneyeverydayxml.app.AppComponents
 import com.example.moneyeverydayxml.databinding.FragmentPatternsBinding
 import com.example.moneyeverydayxml.patterns.ui.adapter.PatternsAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -70,13 +71,11 @@ class PatternsFragment : Fragment() {
     }
 
     private fun showAddPatternDialog() {
-        val dialog = AddPatternDialogFragment()
-        dialog.setOnPatternAddedListener { keywords, isIncome ->
+        AppComponents.addPatternDialog(requireContext()) { keywords, isIncome ->
             viewModel.addPattern(keywords, isIncome)
             Snackbar.make(binding.root, getString(R.string.pattern_added), Snackbar.LENGTH_SHORT)
                 .show()
         }
-        dialog.show(childFragmentManager, "add_pattern_dialog")
     }
 
     private fun showDeleteConfirmationDialog(pattern: com.example.moneyeverydayxml.core.domain.model.NotificationPattern) {

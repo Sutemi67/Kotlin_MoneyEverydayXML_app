@@ -13,7 +13,7 @@
     <string name="input_count">введите номинал</string>
 
     <string name="last_date">дата последней операции</string>
-    <string name="historyText">История транзакций</string>
+    <string name="historyText">История</string>
     <string name="calculatorHeader">Калькулятор</string>
     <string name="notification_permission_required">Для автоматического учета ваших транзакций разрешите приложению прослушавать ваши уведомления</string>
     <string name="configure">Настроить</string>
@@ -27,4 +27,20 @@
     <string name="about_app_message">Учет финансов - это приложение для отслеживания личных финансов, которое помогает контролировать ежедневные расходы и доходы. \n\nДля того чтобы приложение автоматически перехватывало уведомления о транзакциях, вам нужно позволить ему это делать по ссылке, всплывающей в главном меню при запуске. \n\nТак же, я буду признателен Вам за поддержку через кнопку \"поблагодарить\".</string>
     <string name="about_app_ok_button">Понятно</string>
     <string name="action_connect">Написать мне в Telegram</string>
+    <string name="patterns_tab">Шаблоны</string>
+    <string name="no_patterns">Нет шаблонов</string>
+    <string name="add_patterns_hint">Добавьте шаблоны для отслеживания уведомлений</string>
+    <string name="add_pattern">Добавить шаблон</string>
+    <string name="pattern_keywords">Ключевые слова (через запятую)</string>
+    <string name="transaction_type">Тип транзакции:</string>
+    <string name="income">Доход</string>
+    <string name="expense">Расход</string>
+    <string name="active">Активен</string>
+    <string name="delete_pattern">Удалить шаблон</string>
+    <string name="delete_pattern_confirmation">Вы уверены, что хотите удалить шаблон</string>
+    <string name="pattern_added">Шаблон добавлен</string>
+    <string name="pattern_deleted">Шаблон удален</string>
+    <string name="enter_keywords">Введите ключевые слова</string>
+    <string name="menu_button">Меню</string>
+    <string name="fab_action">кнопка добавления шаблона</string>
 </resources>
