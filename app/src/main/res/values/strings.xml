@@ -28,4 +28,21 @@
     <string name="about_app_message">MoneyEveryday is a personal finance tracking app that helps you control your daily expenses and income. \n\nIn order for the app to automatically intercept transaction notifications, you need to allow it to do so via the link that pops up in the main menu when you launch it. \n\nAlso, I would appreciate your support via the "thank you" button.</string>
     <string name="about_app_ok_button">Got it</string>
     <string name="action_connect">Connect with me in Telegram</string>
+    
+    <!-- Шаблоны уведомлений -->
+    <string name="patterns_tab">Шаблоны</string>
+    <string name="no_patterns">Нет шаблонов</string>
+    <string name="add_patterns_hint">Добавьте шаблоны для отслеживания уведомлений</string>
+    <string name="add_pattern">Добавить шаблон</string>
+    <string name="pattern_keywords">Ключевые слова (через запятую)</string>
+    <string name="transaction_type">Тип транзакции:</string>
+    <string name="income">Доход</string>
+    <string name="expense">Расход</string>
+    <string name="active">Активен</string>
+    <string name="delete_pattern">Удалить шаблон</string>
+    <string name="delete_pattern_confirmation">Вы уверены, что хотите удалить шаблон</string>
+    <string name="pattern_added">Шаблон добавлен</string>
+    <string name="pattern_deleted">Шаблон удален</string>
+    <string name="enter_keywords">Введите ключевые слова</string>
+
 </resources>

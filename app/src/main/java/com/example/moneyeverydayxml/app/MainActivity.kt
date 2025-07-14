@@ -67,8 +67,9 @@ class MainActivity : AppCompatActivity() {
         tabLayoutMediator =
             TabLayoutMediator(binding.tabLayout, binding.pagerLayout) { tab, position ->
                 when (position) {
-                    0 -> tab.text = "Калькулятор"
-                    else -> tab.text = "История операций"
+                    0 -> tab.text = getString(R.string.calculatorHeader)
+                    1 -> tab.text = getString(R.string.historyText)
+                    else -> tab.text = getString(R.string.patterns_tab)
                 }
             }
         tabLayoutMediator.attach()

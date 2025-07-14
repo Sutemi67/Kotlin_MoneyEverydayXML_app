@@ -2,6 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="summary_negative">#B13737</color>
-    <color name="summary_positive">#43B137</color>
+    <color name="summary_negative">#B3CB4A46</color>
+    <color name="summary_neutral">#B31F81AB</color>
+    <color name="summary_positive">#B366BB6A</color>
+    <color name="transparent">#00FFFFFF</color>
+    
+    <!-- Новые цвета для фона -->
+    <color name="background_light">#E1E1DB</color>
+    <color name="background_dark">#1A1A1A</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_dark">#2D2D2D</color>
 </resources>

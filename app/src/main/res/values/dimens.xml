@@ -1,4 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="header_big_text_size">16sp</dimen>
+    <dimen name="counter_text_size">20sp</dimen>
 </resources>

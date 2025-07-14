@@ -2,30 +2,23 @@
 <resources>
 
     <style name="regularTextStyle">
-        <item name="android:gravity">center</item>
-        <item name="android:shadowColor">#46000000</item>
-        <item name="android:shadowRadius">2</item>
-        <item name="android:shadowDx">2</item>
-        <item name="android:shadowDy">2</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/jura_variable_font_wght</item>
     </style>
 
     <style name="buttonStyle">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/jura_variable_font_wght</item>
+        <item name="android:shadowColor">@color/black</item>
+        <item name="android:shadowDy">4.0</item>
+        <item name="android:shadowRadius">5.0</item>
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="buttonTextStyle">
-        <item name="android:textSize">16sp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:shadowColor">#46000000</item>
-        <item name="android:shadowRadius">2</item>
-        <item name="android:shadowDx">2</item>
-        <item name="android:shadowDy">2</item>
     </style>
 
     <style name="headerTextStyle">
         <item name="android:textSize">@dimen/header_big_text_size</item>
+        <item name="android:fontFamily">@font/jura_variable_font_wght</item>
         <item name="android:gravity">center</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
@@ -35,12 +28,41 @@
         <item name="android:shadowDy">2</item>
     </style>
 
+    <style name="tabsTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/jura_variable_font_wght</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="counterTextStyle">
+        <item name="android:textSize">@dimen/counter_text_size</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/jura_variable_font_wght</item>
+        <item name="android:shadowColor">#7C000000</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+    </style>
+
+    <style name="counterHistoryTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/jura_variable_font_wght</item>
+        <item name="android:shadowColor">#7C000000</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:shadowDx">2</item>
+    </style>
+
     <style name="tabBuilder">
         <item name="tabIndicatorColor">@color/black</item>
         <item name="tabTextColor">@color/black</item>
+        <item name="android:fontFamily">@font/jura_variable_font_wght</item>
     </style>
 
     <style name="header_shadow">
         <item name="android:background">@drawable/shadow_of_header_light</item>
     </style>
+
 </resources>

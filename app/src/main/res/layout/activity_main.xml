@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_codepath"
     android:orientation="vertical"
     tools:context=".app.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +21,9 @@
         style="@style/tabBuilder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorFullWidth="true" />
+        android:backgroundTint="@color/transparent"
+        app:tabIndicatorFullWidth="true"
+        app:tabTextAppearance="@style/tabsTextStyle" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pagerLayout"

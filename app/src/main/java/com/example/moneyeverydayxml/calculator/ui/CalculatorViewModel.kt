@@ -41,17 +41,10 @@ class CalculatorViewModel(
 
     private fun perDayCalculate(): BigDecimal {
         val days = getDaysFromClear()
-        if (days > 0) {
-            val r = summary.divide(days.toBigDecimal(), 2, RoundingMode.DOWN)
-            _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
-            _byDayAmount.postValue(r.setScale(2, RoundingMode.DOWN).toString())
-            return r
-        }
-        return BigDecimal.ZERO
-    }
-
-    suspend fun getMainData(): MainData {
-        return repository.loadMainData()
+        val result = summary.divide(days.toBigDecimal(), 2, RoundingMode.DOWN)
+        _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
+        _byDayAmount.postValue(result.setScale(2, RoundingMode.DOWN).toString())
+        return result
     }
 
     suspend fun refreshData() {
@@ -61,15 +54,13 @@ class CalculatorViewModel(
         summaryPerDayResult = perDayCalculate()
     }
 
+    suspend fun getMainData(): MainData = repository.loadMainData()
     private fun currentTimeInMillis(): Long = Calendar.getInstance().timeInMillis
-
-    fun currentTimeFormattedString(): String {
-        return formatter.format(currentDate)
-    }
+    fun currentTimeFormattedString(): String = formatter.format(currentDate)
 
     fun getDaysFromClear(): Long {
         if (clearDate == 0L) {
-            _daysFromClearPassedLiveData.postValue("Сброса не было")
+            _daysFromClearPassedLiveData.postValue("Сброса не было - день первый")
             return 1
 
         } else {

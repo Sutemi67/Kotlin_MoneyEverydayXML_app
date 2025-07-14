@@ -4,7 +4,9 @@ import androidx.room.Room
 import com.example.moneyeverydayxml.core.data.Repository
 import com.example.moneyeverydayxml.core.domain.RepositoryInterface
 import com.example.moneyeverydayxml.history.data.Database
+import com.example.moneyeverydayxml.history.data.NotificationPatternDao
 import com.example.moneyeverydayxml.history.data.TransactionConverter
+import com.example.moneyeverydayxml.notification.parser.CustomNotificationParser
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -18,4 +20,6 @@ val dataModule = module {
             .build()
     }
     single { TransactionConverter() }
+    single { get<Database>().notificationPatternDao() }
+    single { CustomNotificationParser(get()) }
 }
