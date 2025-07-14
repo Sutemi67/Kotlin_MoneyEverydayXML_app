@@ -74,4 +74,3 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 /app/src/test/java/com/example/moneyeverydayxml/app/
-/.idea/
