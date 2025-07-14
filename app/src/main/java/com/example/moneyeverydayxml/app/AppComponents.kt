@@ -1,6 +1,7 @@
 package com.example.moneyeverydayxml.app
 
 import android.app.AlertDialog
+import android.content.Context
 import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
@@ -32,8 +33,8 @@ object AppComponents {
             }
         }.create().show()
     }
-    
-    fun aboutAppDialog(context: android.content.Context) {
+
+    fun aboutAppDialog(context: Context) {
         AlertDialog.Builder(context).apply {
             setTitle(context.getString(R.string.about_app_title))
             setMessage(context.getString(R.string.about_app_message))
@@ -44,13 +45,16 @@ object AppComponents {
     }
 
     fun addPatternDialog(
-        context: android.content.Context,
+        context: Context,
         onPatternAdded: (String, Boolean) -> Unit
     ) {
         val dialog = MaterialAlertDialogBuilder(context)
             .setTitle(context.getString(R.string.add_pattern))
             .setView(R.layout.dialog_add_pattern_content)
-            .setPositiveButton(context.getString(R.string.add_pattern), null) // Устанавливаем null, чтобы предотвратить закрытие
+            .setPositiveButton(
+                context.getString(R.string.add_pattern),
+                null
+            ) // Устанавливаем null, чтобы предотвратить закрытие
             .setNegativeButton(android.R.string.cancel, null)
             .create()
 
@@ -58,12 +62,12 @@ object AppComponents {
             val editText = dialog.findViewById<EditText>(R.id.editTextPattern)
             val radioGroup = dialog.findViewById<RadioGroup>(R.id.radioGroupType)
             val radioButtonIncome = dialog.findViewById<RadioButton>(R.id.radioButtonIncome)
-            
+
             val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             positiveButton.setOnClickListener {
                 val keywords = editText?.text?.toString()?.trim() ?: ""
                 val isIncome = radioGroup?.checkedRadioButtonId == radioButtonIncome?.id
-                
+
                 if (keywords.isNotEmpty()) {
                     onPatternAdded(keywords, isIncome)
                     dialog.dismiss()
@@ -72,7 +76,7 @@ object AppComponents {
                 }
             }
         }
-        
+
         dialog.show()
     }
 }
