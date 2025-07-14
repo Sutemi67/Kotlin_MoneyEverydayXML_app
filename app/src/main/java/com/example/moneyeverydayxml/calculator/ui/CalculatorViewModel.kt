@@ -10,7 +10,6 @@ import com.example.moneyeverydayxml.core.domain.model.Transaction
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -40,16 +39,11 @@ class CalculatorViewModel(
         }
     }
 
-    private fun formatNumberWithCommas(number: BigDecimal): String {
-        val numberFormatter = DecimalFormat("#,##0.00")
-        return numberFormatter.format(number)
-    }
-
     private fun perDayCalculate(): BigDecimal {
         val days = getDaysFromClear()
         val result = summary.divide(days.toBigDecimal(), 2, RoundingMode.DOWN)
-        _sumAmount.postValue(formatNumberWithCommas(summary.setScale(2, RoundingMode.DOWN)))
-        _byDayAmount.postValue(formatNumberWithCommas(result.setScale(2, RoundingMode.DOWN)))
+        _sumAmount.postValue(summary.setScale(2, RoundingMode.DOWN).toString())
+        _byDayAmount.postValue(result.setScale(2, RoundingMode.DOWN).toString())
         return result
     }
 
