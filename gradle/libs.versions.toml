@@ -22,6 +22,7 @@ koinAndroid = "4.0.4"
 roomRuntime = "2.7.2"
 roomCompiler = "2.7.2"
 roomKtx = "2.7.2"
+truth = "1.4.4"
 
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
@@ -34,8 +35,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-koin-test = { module = "org.koin:koin-test", version.ref = "koinTest" }
-koin-test-junit4 = { module = "org.koin:koin-test-junit4", version.ref = "koinTestJunit4" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koinTest" }
+koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koinTestJunit4" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
@@ -46,6 +47,7 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
