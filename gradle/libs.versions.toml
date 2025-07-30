@@ -13,9 +13,11 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.1"
 kotlinxCoroutinesTest = "1.10.2"
+kotlinxCoroutinesTestVersion = "1.8.0"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
+mockitoKotlin = "6.0.0"
 mockk = "1.13.8"
 protoliteWellKnownTypes = "18.0.1"
 koinAndroid = "4.0.4"
@@ -38,9 +40,11 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koinTest" }
 koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koinTestJunit4" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+kotlinx-coroutines-test-v180 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTestVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 protolite-well-known-types = { group = "com.google.firebase", name = "protolite-well-known-types", version.ref = "protoliteWellKnownTypes" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }

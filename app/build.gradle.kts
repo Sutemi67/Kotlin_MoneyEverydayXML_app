@@ -106,4 +106,5 @@ dependencies {
     testImplementation(libs.androidx.core)
     testImplementation(kotlin("test"))
     testImplementation(libs.truth)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
 }

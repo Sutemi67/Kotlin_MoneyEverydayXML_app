@@ -50,37 +50,42 @@ class NotificationListenerService : NotificationListenerService(), KoinComponent
         Log.d(TAG, "Текст: $text")
 
         scope.launch {
-            if (!parser.isFinancialTransaction(title, text, packageName)) {
-                Log.d(TAG, "Уведомление не содержит финансовой информации")
-                return@launch
-            }
+            when (val result = parser.parseNotification(title, text)) {
+                is CustomNotificationParser.ParseResult.Success -> {
+                    val amount = result.amount
+                    val currentTime = System.currentTimeMillis()
 
-            val amount = parser.extractAmount(title, text)
+                    if (currentTime - lastTransactionTime < DEBOUNCE_PERIOD_MS && amount.toString() == lastTransactionAmount) {
+                        Log.d(TAG, "Обнаружен дубликат транзакции, игнорируем.")
+                        return@launch
+                    }
 
-            if (amount != null) {
-                val currentTime = System.currentTimeMillis()
-                if (currentTime - lastTransactionTime < DEBOUNCE_PERIOD_MS && amount.toString() == lastTransactionAmount) {
-                    Log.d(TAG, "Обнаружен дубликат транзакции по сумме, игнорируем.")
-                    return@launch
-                }
+                    lastTransactionTime = currentTime
+                    lastTransactionAmount = amount.toString()
 
-                lastTransactionTime = currentTime
-                lastTransactionAmount = amount.toString()
-
-                val formattedTime =
-                    LocalDateTime.now()
+                    val formattedTime = LocalDateTime.now()
                         .format(DateTimeFormatter.ofPattern("dd MMM, EEEE, HH:mm", Locale("ru")))
-                val timeInMillis = System.currentTimeMillis()
+                    val timeInMillis = System.currentTimeMillis()
 
-                val transaction = Transaction(
-                    id = null,
-                    time = timeInMillis,
-                    date = formattedTime,
-                    count = amount.toString(),
-                    description = "$title\n$text"
-                )
-                Log.d(TAG, "Обнаружена финансовая транзакция: ${transaction.count} руб.")
-                saveTransaction(transaction)
+                    val transaction = Transaction(
+                        id = null,
+                        time = timeInMillis,
+                        date = formattedTime,
+                        count = amount.toString(),
+                        description = "$title\n$text"
+                    )
+                    Log.d(TAG, "Обнаружена финансовая транзакция: ${transaction.count} руб.")
+                    saveTransaction(transaction)
+                }
+                is CustomNotificationParser.ParseResult.NoAmount -> {
+                    Log.d(TAG, "Уведомление соответствует шаблону, но сумма не найдена")
+                }
+                is CustomNotificationParser.ParseResult.NoMatch -> {
+                    Log.d(TAG, "Уведомление не соответствует ни одному шаблону")
+                }
+                is CustomNotificationParser.ParseResult.NoPatterns -> {
+                    Log.d(TAG, "Нет пользовательских шаблонов")
+                }
             }
         }
     }

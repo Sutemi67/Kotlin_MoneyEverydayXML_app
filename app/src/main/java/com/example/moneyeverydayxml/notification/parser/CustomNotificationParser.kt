@@ -11,51 +11,45 @@ class CustomNotificationParser(
     private val patternDao: NotificationPatternDao
 ) {
 
-    suspend fun isFinancialTransaction(title: String, text: String, packName: String): Boolean {
-        val fullText = "$title $text".lowercase()
-        
-        // Получаем все пользовательские шаблоны
-        val patterns = patternDao.getAllPatterns().first()
-        
-        if (patterns.isEmpty()) {
-            Log.d("CustomNotificationParser", "Нет пользовательских шаблонов")
-            return false
-        }
-
-        // Проверяем каждый шаблон по ключевым словам
-        for (pattern in patterns) {
-            if (containsKeywords(fullText, pattern.keywords)) {
-                Log.d("CustomNotificationParser", "Найдено совпадение с шаблоном: ${pattern.keywords}")
-                return true
-            }
-        }
-        
-        return false
+    sealed class ParseResult {
+        data class Success(val amount: BigDecimal, val pattern: NotificationPattern) : ParseResult()
+        data class NoAmount(val pattern: NotificationPattern) : ParseResult()
+        object NoMatch : ParseResult()
+        object NoPatterns : ParseResult()
     }
 
-    suspend fun extractAmount(title: String, text: String): BigDecimal? {
+    suspend fun parseNotification(title: String, text: String): ParseResult {
         val fullText = "$title $text"
-        
-        // Получаем все пользовательские шаблоны
+        val fullTextLower = fullText.lowercase()
+
         val patterns = patternDao.getAllPatterns().first()
-        
+
         if (patterns.isEmpty()) {
-            return null
+            Log.d("CustomNotificationParser", "Нет пользовательских шаблонов")
+            return ParseResult.NoPatterns
         }
 
-        // Ищем сумму по пользовательским шаблонам
+        Log.d("CustomNotificationParser", "Проверяем уведомление: '$title' - '$text'")
+        Log.d("CustomNotificationParser", "Доступно шаблонов: ${patterns.size}")
+
         for (pattern in patterns) {
-            if (containsKeywords(fullText.lowercase(), pattern.keywords)) {
-                // Извлекаем сумму из текста после ключевых слов
+            if (containsKeywords(fullTextLower, pattern.keywords)) {
+                Log.d("CustomNotificationParser", "Найден подходящий шаблон: '${pattern.keywords}' (${if (pattern.isIncome) "доход" else "расход"})")
+
                 val amount = extractAmountFromText(fullText)
-                if (amount != null) {
-                    Log.d("CustomNotificationParser", "Найдена сумма: $amount по шаблону: ${pattern.keywords}")
-                    return if (pattern.isIncome) amount else amount.negate()
+                return if (amount != null) {
+                    val finalAmount = if (pattern.isIncome) amount else amount.negate()
+                    Log.d("CustomNotificationParser", "✓ Извлечена сумма: $finalAmount (исходная: $amount) по шаблону: '${pattern.keywords}'")
+                    ParseResult.Success(finalAmount, pattern)
+                } else {
+                    Log.d("CustomNotificationParser", "✗ Сумма не найдена в тексте, соответствующем шаблону: '${pattern.keywords}'")
+                    ParseResult.NoAmount(pattern)
                 }
             }
         }
 
-        return null
+        Log.d("CustomNotificationParser", "✗ Уведомление не соответствует ни одному шаблону")
+        return ParseResult.NoMatch
     }
 
     private fun containsKeywords(text: String, keywords: String): Boolean {
@@ -64,12 +58,7 @@ class CustomNotificationParser(
     }
 
     private fun extractAmountFromText(text: String): BigDecimal? {
-        Log.e("CustomNotificationParser", "=== НАЧАЛО ПОИСКА СУММЫ ===")
-        Log.e("CustomNotificationParser", "Текст для поиска: $text")
-        
-        // Паттерны для поиска сумм с валютой (в порядке приоритета)
         val amountPatterns = listOf(
-            // Сначала ищем суммы с валютой (более точные)
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*\\.\\d{2})\\s*₽\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*\\.\\d{2})\\s*руб\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*\\.\\d{2})\\s*RUB\\b",
@@ -77,8 +66,6 @@ class CustomNotificationParser(
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*\\.\\d{2})\\s*USD\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*\\.\\d{2})\\s*€\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*\\.\\d{2})\\s*EUR\\b",
-            
-            // Затем суммы с валютой без десятичных
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*₽\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*руб\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*RUB\\b",
@@ -86,31 +73,24 @@ class CustomNotificationParser(
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*USD\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*€\\b",
             "\\b(\\d+[\\s,]*\\d*[\\s,]*\\d*)\\s*EUR\\b",
-            
-            // В последнюю очередь простые десятичные числа
             "\\b(\\d+\\.\\d{2})\\b"
         )
-        
+
         for ((index, pattern) in amountPatterns.withIndex()) {
             val regex = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE)
             val matcher = regex.matcher(text)
             if (matcher.find()) {
                 val amountStr = matcher.group(1)?.replace("\\s".toRegex(), "")?.replace(",", "")
-                Log.e("CustomNotificationParser", "ПАТТЕРН $index ($pattern) НАШЕЛ: $amountStr")
                 if (amountStr != null) {
                     try {
-                        val amount = BigDecimal(amountStr)
-                        Log.e("CustomNotificationParser", "УСПЕШНО ИЗВЛЕЧЕНА СУММА: $amount")
-                        return amount
+                        return BigDecimal(amountStr)
                     } catch (e: NumberFormatException) {
-                        Log.e("CustomNotificationParser", "Ошибка парсинга суммы: ${e.message}")
+                        Log.e("CustomNotificationParser", "Ошибка парсинга суммы '$amountStr': ${e.message}")
                         continue
                     }
                 }
             }
         }
-        
-        Log.e("CustomNotificationParser", "СУММА НЕ НАЙДЕНА")
         return null
     }
 } 

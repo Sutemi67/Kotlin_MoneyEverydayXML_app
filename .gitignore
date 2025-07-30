@@ -13,6 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/keys.properties
 keys.properties
 
 # Keystore files
@@ -42,11 +43,8 @@ captures/
 
 # Keystore files
 # Uncomment the following lines if you do not want to check your keystore files in.
-*.jks
-*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
 .cxx/
 
 # Google Services (e.g. APIs or Firebase)

@@ -44,7 +44,6 @@ class PatternsFragment : Fragment() {
                 showDeleteConfirmationDialog(pattern)
             }
         )
-
         binding.recyclerViewPatterns.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = this@PatternsFragment.adapter
