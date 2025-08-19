@@ -8,7 +8,13 @@
 - считать «в день» на основе даты последнего сброса;
 - переключать светлую/тёмную тему.
 
-![](https://drive.google.com/uc?export=view&id=1EfWEugJRi92VB9_lomgX_YX9suXmYYAw) ![](https://drive.google.com/uc?export=view&id=1ZUV9De-JYLErtiooaAw3Wk6CItY3LS7P)
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+<img width="200" style="height: auto" alt="Screenshot_Money Everyday XML_2025-08-19_12" src="https://github.com/user-attachments/assets/6de16afd-e58a-49a9-9b70-666ed6008b9c" />
+<img width="200" style="height: auto" alt="Screenshot_Money Everyday XML_2025-08-19_13" src="https://github.com/user-attachments/assets/bfce84cd-26ec-480e-9686-ad7478744829" />
+<img width="200" style="height: auto" alt="Screenshot_Money Everyday XML_2025-08-19_15" src="https://github.com/user-attachments/assets/4ab53ebe-e44b-4ce5-8ea4-820995bc24a2" />
+<img width="200" style="height: auto" alt="Screenshot_Money Everyday XML_2025-08-19_16" src="https://github.com/user-attachments/assets/7a3baeba-60a6-4974-85f1-72bfc6a10922" />
+</div>
+
 
 ### Основные возможности
 
